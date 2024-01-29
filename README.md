@@ -65,6 +65,9 @@ This app will provide a safe space for them to put themselves out there and meet
 > * Icebreakers
 > * Non-functional Secure Authentication
 
+### Architecture Design
+![img](Documents/Architecture.png)
+
 ## Collaboration Tools
 
 - **Github**: Our team primarily uses github for the following:
