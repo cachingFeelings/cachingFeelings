@@ -1,5 +1,22 @@
 # COMP4350
 
+## About Us
+
+###  Team Members
+
+| Name | GitHub Username | Email
+| --- | --- | --- |
+| Breanna Brown | bre9425 | millettb@myumanitoba.ca
+| Oluwademilade Akinsola | Demi-AK | akinsol2@myumanitoba.ca
+| Heejeong Kim | Heejoy | kimh4@myumanitoba.ca
+| Rahul Kumar | bochacho | kumarr7@myumanitoba.ca
+| Dingyuan Zhang | AllNEWAREAS | zhangd7@myumanitoba.ca
+
+###  Team Leader:
+
+| Name | GitHub Username | Email
+| --- | --- | --- |
+| Breanna Brown | bre9425 | millettb@myumanitoba.ca
 
 ## Collaboration Tools
 
