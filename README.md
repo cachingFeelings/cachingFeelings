@@ -11,7 +11,7 @@
 | Rahul Kumar | bochacho | kumarr7@myumanitoba.ca
 | Dingyuan Zhang | AllNEWAREAS | zhangd7@myumanitoba.ca
 
-###  Team Leader:
+###  Team Leader
 | Name | GitHub Username | Email
 | --- | --- | --- |
 | Breanna Brown | bre9425 | millettb@myumanitoba.ca
