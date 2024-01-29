@@ -18,6 +18,15 @@
 | --- | --- | --- |
 | Breanna Brown | bre9425 | millettb@myumanitoba.ca
 
+## Core Features
+
+> * User account creation
+> * User account management
+> * Match users with other users with similar interests and are nearby
+> * Messaging service to communicate with other users
+> * Ability to modify profile/settings
+> * Non functional → Secure Authentication
+
 ## Collaboration Tools
 
 - **Github**: Our team primarily uses github for the following:
@@ -30,8 +39,6 @@
 - **Whatsapp & Email**: To organize meeitngs with our TA
 - **Miro**: A whiteboard tool to brainstorm ideas and design the architecture of the software
 - **Google Docs**: To collectively edit a document before we write the final version on RMD in g
-
-
 
 ## Meeting Notes
 
