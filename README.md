@@ -67,47 +67,40 @@ This app will provide a safe space for them to put themselves out there and meet
 
 ### User stories for each feature
 
-#### Feature 1: Account Creation
-> Users can create their accounts and dating profiles
+#### Feature 1: Account Creation: users can create their accounts and dating profiles
 > - As a user, I want to sign up, so that I can have my own account
-> - As a user, I want to be able to manage my account 
->     - Toggle between private and non-private modes 
->     - Update profile information
->     - Delete, modify or add photos 
->     - Change password 
->     - Delete profile 
-> - As a user, I want to be able to share my interests and preferences 
-> - As a user, I want to be able to add photos to my profile
-> - As a user, I want to be able to access the account that I created.
+> - As a user, I want my profile to be public or private, so that I can be in control of my account
+> - As a user, I want to be able to update profile information, so that I can show latest information to others
+> - As a user, I want to be able to delete, modify or add photos, so that I can show best profile phott to others
+> - As a user, I want to be able to change password, so that I can use new password to login
+> - As a user, I want to be able to delete profile, so that others will be no longer to see my profile
+> - As a user, I want to be able to share my interests and preferences, so that other people can see them
+> - As a user, I want to be able to add photos to my profile, so that I can show my favorite photo to others
+> - As a user, I want to be able to login, so that I can access the account that I created
 
-#### Feature 2: Student (Soul) Matching
-> Users will be able to find matches 
-> - As a user, I want to be able to find people that match my interests and preferences
+#### Feature 2: Student (Soul) Matching: users will be able to find matches 
+> - As a user, I want to be able to find people that match my interests and preferences, so that I can get to know them
 > - As a user, I want to match by distance, so that I can find people nearby
-> - As a user, I want to be able to view my matches
-> - As a user, I want to be able to view my favourite matches 
+> - As a user, I want to be able to view my matches, so that I can interact with them and know my matches better
+> - As a user, I want to be able to view my favourite matches, so that I can interact with them and know my matches better
 
-#### Feature 3: Interact with Matches 
-> Users will be able to interact with matches 
+#### Feature 3: Interact with Matches: users will be able to interact with matches 
 > - As a user, I want to send and receive messages with my matches, so that we can get to know each other more
 > - As a user, I want to send read after burn message, so that others can only see it for a certain time 
 > - As a user, I want to be able to view all chats with different students, so that I can continue to chat with them later
 > - As a user, I want to block matches, so that I will no longer receive messages from them
-> - As a user, I want to send images in messages to make conversations more fun.
+> - As a user, I want to send images in messages, so that the conversations between matches will become more fun.
 
-#### Feature 4: Community Discovery
-> Users will be able to view all profiles on the app 
-> - As a user, I want to discover people by browsing thoughts in community where everyone can post thoughts, so that I can
-find people I am interested in
+#### Feature 4: Community Discovery: users will be able to view all profiles on the app 
+> - As a user, I want to discover people in the community where everyone can post thoughts, so that I can find interesting people
 > - As a user, I want to post my own thoughts to community, so that everyone can see my thoughts
 > - As a user, I want to like and dislike thoughts, so that I can express my attitude to that thought
 > - As a user, I want to delete my own thought, so that others will not see that thought
-> - As a user, I want the ability to report inappropriate or offensive content in the community.
+> - As a user, I want to report inappropriate or offensive content in the community, so that the community can stay in peace and love
 
-#### Feature 5: Icebreakers
-> Users will be given icebreakers to help get conversations started 
-> - As a user, I want to have a bank of icebreakers that I can choose from
-> - As a user, I want icebreakers that are tailored to my matches interests 
+#### Feature 5: Icebreakers: users will be given icebreakers to help get conversations started 
+> - As a user, I want to have a bank of icebreakers that I can choose from, so that I can start the conversation with matches easier
+> - As a user, I want icebreakers that are tailored to my matches interests, so that I can better to chat with my matches
 
 #### Non Functional Feature: Secure Authentication
 > User passwords will not be stored in the database and the app will use secure authentication token provided by JSON Web Token
