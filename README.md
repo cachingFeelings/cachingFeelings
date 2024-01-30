@@ -58,12 +58,59 @@ This app will provide a safe space for them to put themselves out there and meet
 > * Three.JS
 
 ### Core Features
-> * Account Creation
-> * Student (Soul) Matching
-> * Interact with Matches
-> * Community Discovery
-> * Icebreakers
-> * Non-functional Secure Authentication
+> * Account Creation: users can create their accounts and dating profiles
+> * Student (Soul) Matching: users will be able to find matches
+> * Interact with Matches: users will be able to interact with matches
+> * Community Discovery: users will be able to view all profiles on the app
+> * Icebreakers: users will be given icebreakers to help get conversation started
+> * Non-functional Secure Authentication: user passwords will not be stored in the database
+
+### User stories for each feature
+
+#### Feature 1: Account Creation
+> Users can create their accounts and dating profiles
+> - As a user, I want to sign up, so that I can have my own account
+> - As a user, I want to be able to manage my account 
+>     - Toggle between private and non-private modes 
+>     - Update profile information
+>     - Delete, modify or add photos 
+>     - Change password 
+>     - Delete profile 
+> - As a user, I want to be able to share my interests and preferences 
+> - As a user, I want to be able to add photos to my profile
+> - As a user, I want to be able to access the account that I created.
+
+#### Feature 2: Student (Soul) Matching
+> Users will be able to find matches 
+> - As a user, I want to be able to find people that match my interests and preferences
+> - As a user, I want to match by distance, so that I can find people nearby
+> - As a user, I want to be able to view my matches
+> - As a user, I want to be able to view my favourite matches 
+
+#### Feature 3: Interact with Matches 
+> Users will be able to interact with matches 
+> - As a user, I want to send and receive messages with my matches, so that we can get to know each other more
+> - As a user, I want to send read after burn message, so that others can only see it for a certain time 
+> - As a user, I want to be able to view all chats with different students, so that I can continue to chat with them later
+> - As a user, I want to block matches, so that I will no longer receive messages from them
+> - As a user, I want to send images in messages to make conversations more fun.
+
+#### Feature 4: Community Discovery
+> Users will be able to view all profiles on the app 
+> - As a user, I want to discover people by browsing thoughts in community where everyone can post thoughts, so that I can
+find people I am interested in
+> - As a user, I want to post my own thoughts to community, so that everyone can see my thoughts
+> - As a user, I want to like and dislike thoughts, so that I can express my attitude to that thought
+> - As a user, I want to delete my own thought, so that others will not see that thought
+> - As a user, I want the ability to report inappropriate or offensive content in the community.
+
+#### Feature 5: Icebreakers
+> Users will be given icebreakers to help get conversations started 
+> - As a user, I want to have a bank of icebreakers that I can choose from
+> - As a user, I want icebreakers that are tailored to my matches interests 
+
+#### Non Functional Feature: Secure Authentication
+> User passwords will not be stored in the database and the app will use secure authentication token provided by JSON Web Token
 
 ### Architecture Design
 ![img](Documents/Architecture.png)
