@@ -5,7 +5,7 @@ import express from 'express'
 dotenv.config()
 const app = express()
 
-const appUrl = process.env.APP_URL || 'localhost'
+const appUrl = process.env.APP_URL
 const port = process.env.PORT || 8080
 
 
