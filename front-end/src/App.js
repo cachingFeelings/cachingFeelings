@@ -1,14 +1,9 @@
 import './App.css';
-import HeartAnimation from './components/HeartAnimation/HeartAnimation';
+import React from 'react'; 
+import Container from './components/landingpage/HomePage';
 
 function App() {
-  return (
-    <div className="App">
-      <HeartAnimation />
-      {/* <button className="login-button">Log In</button>
-      <button className="signup-button">Sign Up</button> */}
-    </div>
-  );
+  return <Container />; 
 }
 
 export default App;
