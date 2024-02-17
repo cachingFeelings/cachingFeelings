@@ -6,7 +6,7 @@ dotenv.config()
 const app = express()
 
 const appUrl = process.env.APP_URL
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 42069
 
 
 app.get('/', (req, res) => {
