@@ -1,0 +1,137 @@
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh; 
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  align-items: center;
+  z-index: 3;  
+  height: 100vh;
+}
+
+button, .link-button {
+  margin: 10px; 
+  background-color: transparent; 
+  border: 1px solid rgba(255, 255, 255, 0.7); 
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px 20px;
+  display: inline-block;
+  font-size: 18px; 
+  font-family: 'Space Grotesk', sans-serif;
+  text-decoration: none;
+}
+
+h2 {
+  z-index: 4; 
+  position: fixed;
+  left: 50px; 
+  bottom: 70px;  
+  color: white;
+}
+.header {
+  display: flex;
+  justify-content: center;
+  z-index: 3;
+  height: 0px;
+}
+
+h3 {
+  z-index: 2; 
+  position: relative; 
+  color: white;
+}
+.app-logo {
+  width: 20px; 
+  height: auto; 
+  margin-right: 10px; 
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  align-items: center;
+  z-index: 3;  
+  height: 100vh;
+  color: white; 
+}
+
+label {
+color: white; 
+}
+
+/* form input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+} */
+
+form input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #9a92d7;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+input:hover {
+box-shadow: 0 4px 6px rgba(154, 228, 235, 0.818);
+animation: border-color-change 4s infinite;
+}
+
+@keyframes border-color-change {
+0% { border-color: #9a92d7; }
+50% { border-color: rgb(213, 243, 251); }
+100% { border-color: #9a92d7; }
+}
+
+
+/*Code below is the intro animation*/
+
+/* .homepage-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.logo-container {
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  transform: translateY(-50%);
+  transition: left 2s ease-out;
+}
+
+.login-form {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: 0;
+  transition: top 2s ease-out, opacity 2s ease-out;
+}
+
+.revealed {
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+  top: 50%;
+} */
+
+  
