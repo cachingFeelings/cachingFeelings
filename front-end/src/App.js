@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import LoginForm from './components/landingpage/LoginForm'
 import SignupForm from './components/landingpage/SignupForm'
 import { SignUpProvider } from './context/SignUpContext'
-import { AboveNavigationBar, NavigationBar, TryContent } from './context/homepage/try/TryPage'
+import { AboveNavigationBar, NavigationBar, TryContent } from './components/homepage/try/TryPage'
 
 function App() {
   return (

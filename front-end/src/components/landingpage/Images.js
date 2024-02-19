@@ -5,9 +5,16 @@ const Images = () => {
 
     const { data, handleChange } = useSignUpContext()
 
+
+
     const content = (
         <div>
-            <h3>**Add Content**</h3>
+            <h3>Upload a picture!</h3>
+            <input 
+                type="file" 
+                name="image" 
+                onChange={handleChange} 
+            />
         </div>
 
     )

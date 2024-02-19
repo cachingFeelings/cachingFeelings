@@ -19,40 +19,50 @@ export const SignUpProvider = ({ children }) => {
         username: "",
         birthday: "",
         postalCode: "",
-        genderIdentity: {
-            selected: "",
-            custom: ""
-        },
+        genderIdentity: "",
         showUsersLookingFor: "",
         matchWith: "",
         bio: "",
         OS: [],
+        progLang: [], 
         csInterests: [],
-        noncsInterests: []
+        noncsInterests: [],
+        profilePhoto: ""
     })
 
     const handleChange = e => {
         const name = e.target.name
-        const value = e.target.value
+        const value = e.target.value === 'file'  ? e.target.files[0] : e.target.value;
 
-        setData(prevData => ({
-            ...prevData, [name]: value
-        }))
-    }
+        setData(prevData => {
+            if (Array.isArray(prevData[name])) {
+                if (prevData[name].includes(value)) {
+                    return { ...prevData, [name]: prevData[name].filter(item => item !== value) };
+                } else {
+                    return { ...prevData, [name]: [...prevData[name], value] };
+                }
+            } else { 
+                return {...prevData, [name]: value}; 
+            }
+        }); 
+    }; 
 
     const { ...requiredInputs } = data
     //will check to make sure none of the values in data are an empty string
-    const canSubmit = [...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1
+    const canSubmit = page === Object.keys(title).length - 1//[...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1
 
-    const canNextPage1 = Object.keys(data)
-        .filter(key => key.startsWith('bill') && key !== 'billAddress2')
-        .map(key => data[key])
-        .every(Boolean)
+    const canNextPage1 = true // Object.keys(data)
+        // .slice(0, 5)
+        // .map(key => data[key])
+        // .every(Boolean)
 
-    const canNextPage2 = Object.keys(data)
-        .filter(key => key.startsWith('ship') && key !== 'shipAddress2')
-        .map(key => data[key])
-        .every(Boolean)
+    const canNextPage2 = true //Object.keys(data)
+        // .slice(5, 8)
+        // .map(key => data[key])
+        // .every(Boolean)
+
+    const canNextPage3 = true //Object.keys(data)
+
 
     const disablePrev = page === 0
 
@@ -60,12 +70,13 @@ export const SignUpProvider = ({ children }) => {
         (page === Object.keys(title).length - 1)
         || (page === 0 && !canNextPage1)
         || (page === 1 && !canNextPage2)
+        || (page === 2 && !canNextPage3)
 
     const prevHide = page === 0 && "remove-button"
 
     const nextHide = page === Object.keys(title).length - 1 && "remove-button"
 
-    const submitHide = page !== Object.keys(title).length - 1 && "remove-button"
+    const submitHide = page !== Object.keys(title).length - 1 //&& "remove-button"
 
     return (
         <SignUpContext.Provider value={{ title, page, setPage, data, setData, canSubmit, handleChange, disablePrev, disableNext, prevHide, nextHide, submitHide }}>

@@ -24,27 +24,33 @@ const SignupForm = () => {
 
   const handleNext = () => setPage(prev => prev + 1)
 
-  const handleSubmit = e => {
+  const handleSignUp = e => {
     e.preventDefault() //remove later
     console.log(JSON.stringify(data))
+    console.log("handle submit is working")
   }
 
   return (
     <div>
-    <TwinklingBackground />
-    <div className="form-container" data-page="signup">
-      <form onSubmit={handleSubmit}>
-        <header className="form-header">
-          <h3>{title[page]}</h3> 
-          <FormInputs />
-          <div className="button-container">
-            <button type="button" className={`button ${prevHide}`} onClick={handlePrev} disabled={disablePrev}>Prev</button>
-            <button type="button" className={`button ${nextHide}`} onClick={handleNext} disabled={disableNext}>Next</button>
-            <button type="submit" className={`button ${submitHide}`} disabled={!canSubmit}>Submit</button>
-          </div>
-        </header>
-      </form>
-    </div>
+      <TwinklingBackground />
+      <div className="form-container" data-page="signup">
+        <h3>{title[page]}</h3> 
+        <form>
+            <FormInputs />
+        </form>
+      <div style={{marginTop: "20px", display: "flex", justifyContent: "space-between"}}className="button-container">
+              <button type="button" className={`form-button ${prevHide} `} onClick={handlePrev} disabled={disablePrev}>Prev</button>
+              <button type="button" className={`form-button ${nextHide}`} onClick={handleNext} disabled={disableNext}>Next</button>
+      </div>
+        <button 
+              style={{marginTop: "20px"}}
+              type="submit" 
+              className={`form-button ${submitHide ? 'offscreen' : ''}`} 
+              disabled={!canSubmit} 
+              onClick={handleSignUp}>
+                Submit
+        </button>
+        </div>
     </div>
   );
 }; 

@@ -7,7 +7,6 @@ import './LandingPage'
 
 const FormInputs = () => {
 
-    //get the current value of page (ie what page the user is on) from the context
     const { page } = useSignUpContext()
 
     const display = {
@@ -17,7 +16,6 @@ const FormInputs = () => {
         3: <Images />
     }
 
-    //insert the component that corresponds to the page 
     const content = (
         <div className="form-inputs flex-col">
             {display[page]}
