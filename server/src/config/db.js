@@ -1,17 +1,11 @@
 import mongoose from 'mongoose';
 
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-const mongoURI = process.env.MONGODB_URI;
+const mongoURI = process.env.MONGO_URI;
 
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  };
-
-mongoose.connect(mongoURI, options)
+mongoose.connect(mongoURI)
 .then(() => console.log('MongoDB connection established'))
 .catch(err => console.error('MongoDB connection error:', err));
 

@@ -8,3 +8,4 @@ const convoSchema = new Schema({
   });
 
 const Convo = model('Convo', convoSchema);
+export default Convo;

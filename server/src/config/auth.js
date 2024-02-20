@@ -1,7 +1,7 @@
 import { verify } from 'jsonwebtoken';
 import { findOne } from '../models/userModel';
-require('dotenv').config();
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 const secretKey = process.env.JWT_SECRET;
 
