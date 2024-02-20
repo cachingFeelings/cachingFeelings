@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import './config/db.js';
 
+import userRouter from './routes/userRouter.js';
 
 
 dotenv.config()
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
   return res.status(200).json(response)
 })
 
+app.use('/api/user', userRouter);
 
 // app.post('/sign-up', (req, res) => {
 //   // const { email, password } = req.body;
