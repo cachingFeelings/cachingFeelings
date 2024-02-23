@@ -30,13 +30,13 @@ const Basics = () => {
     }, [pwd, matchPwd])
 
     const content = (
-        <div className="flex-col">
-            <label htmlFor="username">Display Name</label>
+        <div className="basics-div">
             <input
+                className="basic-input"
                 type="text"
                 id="username"
                 name="username"
-                placeholder=""
+                placeholder="Username"
                 pattern="([A-Z])[\w+.]{1,}"
                 value={data.username}
                 onChange={e => {handleChange(e); setUser(e.target.value); }}
@@ -48,12 +48,23 @@ const Basics = () => {
                 Must begin with a letter.<br />
                 Letters, numbers, underscores, hyphens allowed.
             </p> */}
-            <label htmlFor="email">Email</label>
+            <label className="basic-label" htmlFor="birthday">Birthday</label>
             <input
+                className="basic-input"
+                type="date"
+                id="birthday"
+                name="birthday"
+                placeholder="Birthday (MM/DD/YYYY)"
+                pattern="\d{2}\/\d{2}\/\d{4}"
+                value={data.birthday}
+                onChange={handleChange}
+            />
+            <input
+                className="basic-input"
                 type="text"
                 id="email"
                 name="email"
-                placeholder=""
+                placeholder="Email"
                 pattern="[\w\d\s.#]{2,}"
                 value={data.email}
                 onChange={handleChange}
@@ -61,6 +72,7 @@ const Basics = () => {
 
             <label htmlFor="password" className="offscreen">Password</label>
             <input
+                className="basic-input"
                 type="password"
                 id="password"
                 name="password"
@@ -71,28 +83,19 @@ const Basics = () => {
             />
             <label htmlFor="confirmpassword" className="offscreen">Confirm Password</label>
             <input
+                className="basic-input"
                 type="password"
                 id="confirmpassword"
                 name="password"
                 placeholder="Confirm Password"
                 pattern="[\w\d\s.#]{2,}"
             />
-            <label htmlFor="birthday">Birthday</label>
             <input
-                type="text"
-                id="birthday"
-                name="birthday"
-                placeholder="MM/DD/YYYY"
-                pattern="([A-Z])[\w+.]{1,}"
-                value={data.birthday}
-                onChange={handleChange}
-            />
-            <label htmlFor="postalCode">Postal Code</label>
-            <input
+                className="basic-input"
                 type="text"
                 id="postalCode"
                 name="postalCode"
-                placeholder=""
+                placeholder="Postal Code"
                 pattern="([A-Z])[\w\s.]{1,}"
                 value={data.postalCode}
                 onChange={handleChange}

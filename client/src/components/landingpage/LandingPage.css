@@ -16,7 +16,22 @@ button, .link-button {
   margin: 5px; 
   padding: 5px 10px;
 }
+.basics-div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
 
+.basic-input {
+  min-width: 200px;
+  padding: 6px;
+  margin: 5px 
+}
+
+.basic-label {
+  min-width: 200px;
+  margin: 5px; 
+}
 .landingpage-buttons {
   display: flex;
   justify-content: center;
@@ -81,13 +96,6 @@ label {
 color: white; 
 }
 
-/* form input {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-} */
-
 form input {
   display: block;
   width: 100%;
@@ -127,7 +135,11 @@ animation: border-color-change 4s infinite;
 
 .span-container .active {
   background-color: white !important;
-  color: black;
+  color: black; 
+}
+
+textarea {
+  width: 100%; 
 }
 
 
@@ -167,5 +179,3 @@ animation: border-color-change 4s infinite;
   opacity: 1;
   top: 50%;
 } */
-
-  
