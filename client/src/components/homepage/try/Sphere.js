@@ -1,14 +1,40 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 const Sphere = () => {
+  const [matches, setMatches] = useState([]);
+
+  useEffect(() => {
+    const retrieveMatches = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch("http://localhost:42069/api/user/getMatches/", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+        const userIds = data.listUsers.map(user => user._id);
+        setMatches(userIds);
+      } catch (err) {
+        console.error("Error retrieving matches:", err);
+      }
+    };
+
+    retrieveMatches();
+  }, []);
+
+  console.log(`the matchs are: ${matches}`); 
   const mountRef = useRef(null);
-  
+
   useEffect(() => {
     var aboveNavBar = document.querySelector('.above-navigation-bar');
     var navBar = document.querySelector('.navigation-bar');
     var totalHeight = aboveNavBar.offsetHeight + navBar.offsetHeight;
     var sphereHeight = window.innerHeight - totalHeight + 1;
+
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera(75, window.innerWidth / sphereHeight, 0.1, 1000);
     let renderer = new THREE.WebGLRenderer();
@@ -23,6 +49,29 @@ const Sphere = () => {
 
     const nodeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     const labels = [];
+
+    console.log(Array.isArray(matches))
+
+    // matches.forEach((match, index) => {
+    //   const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
+    //   const node = new THREE.Mesh(nodeGeometry, material);
+    //   const phi = Math.acos(-1 + (2 * index) / matches.length);
+    //   const theta = Math.sqrt(matches.length * Math.PI) * phi;
+    //   node.position.x = 4.5 * Math.cos(theta) * Math.sin(phi);
+    //   node.position.y = 4.5 * Math.sin(theta) * Math.sin(phi);
+    //   node.position.z = 4.5 * Math.cos(phi);
+    //   group.add(node);
+
+    //   const spriteMaterial = new THREE.SpriteMaterial({
+    //     map: new THREE.CanvasTexture(generateSpriteCanvas(`User ${index + 1}`)),
+    //     depthTest: false
+    //   });
+    //   const sprite = new THREE.Sprite(spriteMaterial);
+    //   sprite.position.copy(node.position).add(new THREE.Vector3(0, -0.25, 0));
+    //   sprite.scale.set(1, 0.5, 1);
+    //   group.add(sprite);
+    //   labels.push(sprite);
+    // });
     
     for (let i = 0; i < 30; i++) {
       const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });

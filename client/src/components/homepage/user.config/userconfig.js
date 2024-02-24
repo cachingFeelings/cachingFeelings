@@ -2,28 +2,10 @@ import React, { useState } from 'react';
 import './userconfig.css'; // Make sure the path matches where you save the CSS file
 import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBackground';
 import { Link } from "react-router-dom";
+import NavBar from '../fixedcomponents/NavBar';
+import Header from '../fixedcomponents/Header';
 
-const AboveNavigationBar = () => (
-  <div className='above-navigation-bar'>
-    <p className='title'>Caching Feelings</p>
-    <div className='button-group'>
-      <button className='community-button'>Community</button>
-      <button className='signout-button'>Sign Out</button>
-    </div>
-  </div>
-);
-
-const NavigationBar = () => (
-  <div className="navigation-bar">
-    <button className='try-button'>Try</button>
-    <button className='catch-button'>Catch</button>
-    <button className='finally-button'>Finally</button>
-    {/* Link component for the "User.config" button */}
-    <Link to="/userconfig" className='user-config-button'>User.config</Link>
-  </div>
-);
-
-const ConfigForm = () => {
+const UserConfig = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [profilePic, setProfilePic] = useState('');
@@ -52,6 +34,8 @@ const ConfigForm = () => {
 
   return (
     <div className="config-page">
+      <Header />
+      <NavBar />
       <TwinklingBackground/>
       <div className="container">
         <form className="form-container" onSubmit={handleSubmit}>
@@ -75,5 +59,4 @@ const ConfigForm = () => {
   );
 };
 
-export default ConfigForm;
-export { AboveNavigationBar, NavigationBar, ConfigForm };
+export default UserConfig 

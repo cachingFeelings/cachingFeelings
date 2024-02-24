@@ -26,19 +26,21 @@
     background-color: #333;
     color: white;
   }
-  
-  .navigation-bar button {
+
+  .navigation-bar a {
     border-style:ridge;
     border-color: #7f7f8083;
     color:white;
     background-color: black;
     padding: 1% 10%;
-    min-width: 100px;
     white-space: nowrap;
+    margin: 0; 
+    text-align: center;
   }
   
   .above-navigation-bar button:hover,
-  .navigation-bar button:hover {
+  .navigation-bar button:hover,
+  .navigation-bar a:hover {
     cursor: pointer;
     box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
     animation: border-color-change 1s infinite;
@@ -64,7 +66,7 @@
       padding: 1% 0%;
     }
   
-    .navigation-bar button {
+    .navigation-bar button a {
       padding: 2.5% 1%;
       margin: 1% 1.8%;
     }
