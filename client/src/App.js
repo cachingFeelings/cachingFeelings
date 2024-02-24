@@ -1,6 +1,7 @@
 import React from 'react'
 import Container from './components/landingpage/LandingPage'
 import { Routes, Route } from 'react-router-dom'
+import Example from './components/example'
 import LoginForm from './components/landingpage/LoginForm'
 import SignupForm from './components/landingpage/SignupForm'
 import { SignUpProvider } from './context/SignUpContext'
@@ -11,6 +12,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Container />} />
+      <Route path="/example" element={<Example />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/signup" element={<SignUpProvider><SignupForm /></SignUpProvider>} />
       <Route path="/try" element={<><AboveNavigationBar /><NavigationBar /><TryContent /></>} />
