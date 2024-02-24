@@ -9,14 +9,15 @@
   .above-navigation-bar p {
     margin-left: 10px;
   }
-  
-  .above-navigation-bar button {
+
+  .above-navigation-bar a {
     border-style:ridge;
     border-color: #7f7f8083;
     color:white;
     background-color: black;
     padding: 3% 10px;
     margin-right: 10px;
+    text-decoration: none;
   }
   
   .navigation-bar {

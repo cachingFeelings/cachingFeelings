@@ -1,13 +1,19 @@
 import './fixedcomponents.css'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
+
+  const handleSignOut = () => {
+    // Remove the token from local storage
+    localStorage.removeItem('token');
+  };
 
     const content = (
         <div className='above-navigation-bar'>
           <p className='title'>Caching Feelings</p>
           <div className='button-group'>
-            <button className='community-button'>Community</button>
-            <button className='signout-button'>Sign Out</button>
+            <Link to='/'>Community</Link>
+            <Link to='/' onClick={handleSignOut}>Sign Out</Link>
           </div>
         </div>
       )
