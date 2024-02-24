@@ -14,7 +14,6 @@ export const SignUpProvider = ({ children }) => {
     const [page, setPage] = useState(0)
 
     const [data, setData] = useState({
-        email: "",
         password: "", 
         username: "",
         birthday: "",

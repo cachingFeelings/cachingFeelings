@@ -2,6 +2,7 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import './config/db.js';
+import cors from 'cors'; 
 
 import userRouter from './routes/userRouter.js';
 
@@ -12,6 +13,7 @@ const app = express()
 const appUrl = process.env.APP_URL
 const port = process.env.PORT || 8080
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
