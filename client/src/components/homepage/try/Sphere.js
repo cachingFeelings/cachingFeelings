@@ -8,15 +8,15 @@ const Sphere = () => {
     const retrieveMatches = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch("http://localhost:42069/api/user/getMatches/", {
+        const res = await fetch("http://localhost:8080/api/user/getMatches/", {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': 'Bearer ' + token,
           }
         });
         const data = await res.json();
-        const userIds = data.listUsers.map(user => user._id);
+        const userIds = data.listUsers.map(user => user.username);
         setMatches(userIds);
       } catch (err) {
         console.error("Error retrieving matches:", err);
@@ -52,39 +52,18 @@ const Sphere = () => {
 
     console.log(Array.isArray(matches))
 
-    // matches.forEach((match, index) => {
-    //   const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
-    //   const node = new THREE.Mesh(nodeGeometry, material);
-    //   const phi = Math.acos(-1 + (2 * index) / matches.length);
-    //   const theta = Math.sqrt(matches.length * Math.PI) * phi;
-    //   node.position.x = 4.5 * Math.cos(theta) * Math.sin(phi);
-    //   node.position.y = 4.5 * Math.sin(theta) * Math.sin(phi);
-    //   node.position.z = 4.5 * Math.cos(phi);
-    //   group.add(node);
-
-    //   const spriteMaterial = new THREE.SpriteMaterial({
-    //     map: new THREE.CanvasTexture(generateSpriteCanvas(`User ${index + 1}`)),
-    //     depthTest: false
-    //   });
-    //   const sprite = new THREE.Sprite(spriteMaterial);
-    //   sprite.position.copy(node.position).add(new THREE.Vector3(0, -0.25, 0));
-    //   sprite.scale.set(1, 0.5, 1);
-    //   group.add(sprite);
-    //   labels.push(sprite);
-    // });
-    
-    for (let i = 0; i < 30; i++) {
+    matches.forEach((match, index) => {
       const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
       const node = new THREE.Mesh(nodeGeometry, material);
-      const phi = Math.acos(-1 + (2 * i) / 30);
-      const theta = Math.sqrt(30 * Math.PI) * phi;
+      const phi = Math.acos(-1 + (2 * index) / matches.length);
+      const theta = Math.sqrt(matches.length * Math.PI) * phi;
       node.position.x = 4.5 * Math.cos(theta) * Math.sin(phi);
       node.position.y = 4.5 * Math.sin(theta) * Math.sin(phi);
       node.position.z = 4.5 * Math.cos(phi);
       group.add(node);
 
       const spriteMaterial = new THREE.SpriteMaterial({
-        map: new THREE.CanvasTexture(generateSpriteCanvas('User ' + (i + 1))),
+        map: new THREE.CanvasTexture(generateSpriteCanvas(match)),
         depthTest: false
       });
       const sprite = new THREE.Sprite(spriteMaterial);
@@ -92,7 +71,28 @@ const Sphere = () => {
       sprite.scale.set(1, 0.5, 1);
       group.add(sprite);
       labels.push(sprite);
-    }
+    });
+    
+    // for (let i = 0; i < 30; i++) {
+    //   const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
+    //   const node = new THREE.Mesh(nodeGeometry, material);
+    //   const phi = Math.acos(-1 + (2 * i) / 30);
+    //   const theta = Math.sqrt(30 * Math.PI) * phi;
+    //   node.position.x = 4.5 * Math.cos(theta) * Math.sin(phi);
+    //   node.position.y = 4.5 * Math.sin(theta) * Math.sin(phi);
+    //   node.position.z = 4.5 * Math.cos(phi);
+    //   group.add(node);
+
+    //   const spriteMaterial = new THREE.SpriteMaterial({
+    //     map: new THREE.CanvasTexture(generateSpriteCanvas('User ' + (i + 1))),
+    //     depthTest: false
+    //   });
+    //   const sprite = new THREE.Sprite(spriteMaterial);
+    //   sprite.position.copy(node.position).add(new THREE.Vector3(0, -0.25, 0));
+    //   sprite.scale.set(1, 0.5, 1);
+    //   group.add(sprite);
+    //   labels.push(sprite);
+    // }
 
     const onWindowResize = () => {
       var aboveNavBar = document.querySelector('.above-navigation-bar');
@@ -172,7 +172,7 @@ const Sphere = () => {
       }
       window.removeEventListener('resize', onWindowResize);
     };
-  }, []);
+  }, [matches]);
 
   function generateSpriteCanvas(text) {
     const canvas = document.createElement('canvas');
