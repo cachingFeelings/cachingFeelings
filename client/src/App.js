@@ -6,6 +6,7 @@ import SignupForm from './components/landingpage/SignupForm';
 import { SignUpProvider } from './context/SignUpContext';
 import Try from './components/homepage/try/Try';
 import UserConfig from './components/homepage/user.config/userconfig';
+import Catch from './components/homepage/catch/Catch';
 
 function App() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function App() {
       <Route path="/signup" element={<SignUpProvider><SignupForm /></SignUpProvider>} />
       <Route path="/try" element={<Try />} />
       <Route path="/userconfig" element={<UserConfig />} />
+      <Route path="/catch" element={<Catch  />} />
     </Routes>
   );
 }

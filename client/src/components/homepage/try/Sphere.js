@@ -26,7 +26,8 @@ const Sphere = () => {
     retrieveMatches();
   }, []);
 
-  console.log(`the matchs are: ${matches}`); 
+
+  console.log(`the matches are: ${matches}`); 
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -50,8 +51,6 @@ const Sphere = () => {
     const nodeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     const labels = [];
 
-    console.log(Array.isArray(matches))
-
     matches.forEach((match, index) => {
       const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
       const node = new THREE.Mesh(nodeGeometry, material);
@@ -72,27 +71,29 @@ const Sphere = () => {
       group.add(sprite);
       labels.push(sprite);
     });
-    
-    // for (let i = 0; i < 30; i++) {
-    //   const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
-    //   const node = new THREE.Mesh(nodeGeometry, material);
-    //   const phi = Math.acos(-1 + (2 * i) / 30);
-    //   const theta = Math.sqrt(30 * Math.PI) * phi;
-    //   node.position.x = 4.5 * Math.cos(theta) * Math.sin(phi);
-    //   node.position.y = 4.5 * Math.sin(theta) * Math.sin(phi);
-    //   node.position.z = 4.5 * Math.cos(phi);
-    //   group.add(node);
 
-    //   const spriteMaterial = new THREE.SpriteMaterial({
-    //     map: new THREE.CanvasTexture(generateSpriteCanvas('User ' + (i + 1))),
-    //     depthTest: false
-    //   });
-    //   const sprite = new THREE.Sprite(spriteMaterial);
-    //   sprite.position.copy(node.position).add(new THREE.Vector3(0, -0.25, 0));
-    //   sprite.scale.set(1, 0.5, 1);
-    //   group.add(sprite);
-    //   labels.push(sprite);
-    // }
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+  
+    const onMouseClick = (event) => {
+      // Calculate mouse coordinates in normalized device coordinates ([-1, 1])
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  
+      // Update the raycaster's position and direction based on the mouse coordinates
+      raycaster.setFromCamera(mouse, camera);
+  
+      // Check for intersections between the raycaster and the nodes in the scene
+      const intersects = raycaster.intersectObjects(group.children);
+  
+      // If there are intersections, handle the click event
+      if (intersects.length > 0) {
+        const clickedNode = intersects[0].object;
+        console.log('Clicked node:', clickedNode); // Assuming you've stored match data in userData
+      }
+    };
+  
+    document.addEventListener('click', onMouseClick);
 
     const onWindowResize = () => {
       var aboveNavBar = document.querySelector('.above-navigation-bar');

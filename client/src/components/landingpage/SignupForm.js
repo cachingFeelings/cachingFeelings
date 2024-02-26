@@ -24,10 +24,23 @@ const SignupForm = () => {
 
   const handleNext = () => setPage(prev => prev + 1)
 
-  const handleSignUp = e => {
+  const handleSignUp = async (e) => {
     e.preventDefault() //remove later
-    console.log(JSON.stringify(data))
-    console.log("handle submit is working")
+    console.log("Data being sent to the backend: "); 
+    console.log(JSON.stringify(data)); 
+  
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch("http://localhost:42069/api/user/create_user/", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data})
+    });
+    } catch (err) {
+
+    }
   }
 
   return (
