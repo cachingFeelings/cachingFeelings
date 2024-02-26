@@ -13,8 +13,8 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
+    if (!token && !['/', '/login', '/signup'].includes(window.location.pathname)) {
+      navigate('/');
     }
   }, [navigate]);
 
