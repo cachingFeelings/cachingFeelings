@@ -29,15 +29,15 @@ const UserConfig = () => {
     console.log(`This is being sent to the backend: old pwd: ${password}, new pwd: ${newpwd}, new image: ${profilePic}`)
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:42069/api/user/updateInfo/", {
+      const res = await fetch("http://localhost:8080/api/user/modifyUser", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          'password': password,
-          'new-password': newpwd,
+          'currentPassword': password,
+          'password': newpwd,
           'profilePicture': profilePic
       }),
     });

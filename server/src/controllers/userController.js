@@ -120,7 +120,7 @@ export async function modifyUser(req, res){
                 return res.status(401).send({message: "That ain't gonna work here chief"})
             }
         } else if (updates.password) {
-            return res.status(400).send({ message: 'You gottat provide the current password' });
+            return res.status(400).send({ message: 'You gotta provide the current password' });
         }
 
         Object.keys(updates).forEach((key) => {
