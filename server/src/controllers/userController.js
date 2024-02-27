@@ -111,6 +111,50 @@ export async function validUsername(req, res) {
     }
 }
 
+export async function likeDislike(req,res){ 
+    try{
+        const targetUserID = req.body._id;
+        const like = req.body.like;
+
+        const user = req.user;
+
+        const targetUser = await User.findOne({_id: targetUserID});
+        
+        if (!targetUser){
+            return res.status(404).send({message: "Who you tryna contact? The wind?"})
+        }
+        if(!user.likes){
+            user["likes"] = {}
+        }
+        if(!user.dislikes){
+            user["dislikes"] = []
+        }
+        if (like){
+            if (user.likes.has(targetUserID)){
+                return res.status(400).send({ message: "User already liked." });
+            } else {
+                user.likes.set(targetUserID, "");
+            }
+        }else {
+            if (user.dislikes.includes(targetUserID)) {
+                return res.status(400).send({ message: "User already disliked." });
+            } else {
+                user.dislikes.push(targetUserID);
+            }
+        }
+
+        await user.save();
+
+        res.status(201).send({ message: "Great Success"});
+    } catch (error) {
+        if (error.kind == 'ObjectId'){
+            res.status(404).send({message: "Who you tryna contact? The wind?"});
+        }else {
+            res.status(400).send({ message: error.message });
+        }
+    }
+}
+
 export async function modifyUser(req, res){
     try{
         const user = req.user;
@@ -150,10 +194,15 @@ export async function getMatches(req, res){
         const token = req.token;
         
         const userInterests = user.interests;
-        
+
+        const likedUsers = Array.from(user.likes.keys());
+        const dislikedUsers = user.dislikes;
+
+        const excludedUsers = [...likedUsers, ...dislikedUsers, user._id];
+
         const pipeline = [
             { 
-                $match: { _id: { $ne: user._id} } 
+                $match: { _id: { $nin: excludedUsers}} 
             },
             { 
                 $project: {
@@ -174,6 +223,20 @@ export async function getMatches(req, res){
         res.status(201).send({ listUsers });
     } catch (error) {
         res.status(400).send({ message: error.message });
+    }
+}
+
+export async function getLikes(req, res){
+    try{
+        const user = req.user;
+        const likedUsers = Array.from(user.likes.keys());
+        res.status(201).send({ likedUsers });
+    } catch (error) {
+        if (error.kind == 'ObjectId'){
+            res.status(404).send({message: "Who you tryna contact? The wind?"});
+        }else {
+            res.status(400).send({ message: error.message });
+        }
     }
 }
 
