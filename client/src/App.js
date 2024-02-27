@@ -21,7 +21,6 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Container />} />
-      <Route path="/example" element={<Example />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/signup" element={<SignUpProvider><SignupForm /></SignUpProvider>} />
       <Route path="/try" element={<Try />} />
