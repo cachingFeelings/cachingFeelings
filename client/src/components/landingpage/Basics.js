@@ -22,8 +22,9 @@ const Basics = () => {
 
 
     const checkDuplicate = async () => {
+        console.log("Checking duplicate")
         try {
-            const res = await fetch("http://localhost:42069/api/user/validate/", {
+            const res = await fetch("http://localhost:8080/api/user/validate/", {
                 method: "POST",
     
                 headers: {
@@ -35,8 +36,10 @@ const Basics = () => {
             })
     
             if (res.status === 200) {
-                // Username is unique
                 setUnique(true);
+            }
+            else {
+                setUnique(false); 
             }
         } catch (err) {
     

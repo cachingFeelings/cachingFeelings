@@ -88,6 +88,24 @@ export async function login(req, res){
     }
 }
 
+export async function validUsername(req, res) {
+    try {
+        const { username } = req.body; 
+
+        const user = await User.findOne({username});
+        console.log(`The username: ${username} was found: ${user}`)
+        if (user){
+            return res.status(409).send({message: "Already taken"})
+        }
+        else {
+            return res.status(200).send({message: "Username is available"}); 
+        }
+    }
+    catch (error) {
+        res.status(400).send({message: error.message})
+    }
+}
+
 export async function modifyUser(req, res){
     try{
         const user = req.user;
