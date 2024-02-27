@@ -9,11 +9,25 @@ const {compare} = bcpkg;
 // Return only the required data for each request
 export async function createUser(req, res) {
     try {
-        // Only the username & pass - rest of the fields added as onboarding
-        const { username, password } = req.body;
-        const user = new User({ username, password });
+        // Make sure we have the minimum requirements
+        if (!req.body.username || !req.body.password) {
+            return res.status(400).send({ message: "Username and password are required." });
+        }
 
-        // Add to DB
+        let userInfo = {
+            username: req.body.username,
+            password: req.body.password,
+        }
+
+        const optionalFields = ['DOB', 'showUsersLookingFor', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
+        optionalFields.forEach(field => {
+            if (req.body[field]) userData[field] = req.body[field];
+        });
+
+        // Create new User Object
+        const user = new User(userInfo);
+
+        // Save to DB
         await user.save();
 
         // Generate a JWT for the user
@@ -36,13 +50,15 @@ export async function getUserData(req, res){
         if (!user){
             return res.status(404).send({message: "Who you tryna contact? The wind?"})
         }
+        
+        const userObj = user.toObject();
+        delete userObj.password;
 
-        res.status(201).send({ user });
+        res.status(201).send({ userObj });
     } catch {
         res.status(400).send({ message: error.message });
     }
 }
-
 
 export async function login(req, res){
     try{
@@ -69,6 +85,39 @@ export async function login(req, res){
         res.status(201).send({ userObj, token });
     } catch (error) {
         res.status(400).send({ message: error.message });
+    }
+}
+
+export async function modifyUser(req, res){
+    try{
+        const user = req.user;
+        const token = req.token;
+        const updates = req.body;
+        
+        if(updates.password && updates.currentPassword){
+            const passGood = await compare(updates.currentPassword, user.password);
+            if (!passGood){
+                return res.status(401).send({message: "That ain't gonna work here chief"})
+            }
+        } else if (updates.password) {
+            return res.status(400).send({ message: 'You gottat provide the current password' });
+        }
+
+        Object.keys(updates).forEach((key) => {
+            if (key != 'currentPassword'){
+                user[key] = updates[key];
+            }
+        });
+
+        await user.save();
+
+        const userObj = user.toObject();
+        delete userObj.password;
+
+        res.status(201).send({ userObj, token });
+
+    } catch{
+
     }
 }
 
@@ -105,20 +154,40 @@ export async function getMatches(req, res){
     }
 }
 
+// export async function startConvo(req, res){
+//     try{
+//         const user = req.user;
+//         const token = req.token;
+        
+//         const otherUserID = await User.findOne({_id: req._id});
+        
 
+//         res.status(201).send({ listUsers });
+//     } catch (error) {
+//         res.status(400).send({ message: error.message });
+//     }
+// }
 
-export async function batchCreateUser(req, res) {
-    try {
-        // Only the username & pass - rest of the fields added as onboarding
-        for (let item of req.body){
-            console.log(item)
-            const { username, password, interests } = item;
-            const user = new User({ username, password, interests });    
-            await user.save();
-        }
+// export async function addMessage(){
 
-        res.status(201).send({ user, token });
-    } catch (error) {
-        res.status(400).send({ message: error.message });
-    }
-}
+// }
+
+// export async function changeStatus(req, res){
+
+// }
+
+// export async function batchCreateUser(req, res) {
+//     try {
+//         // Only the username & pass - rest of the fields added as onboarding
+//         for (let item of req.body){
+//             console.log(item)
+//             const { username, password, interests } = item;
+//             const user = new User({ username, password, interests });    
+//             await user.save();
+//         }
+
+//         res.status(201).send({ user, token });
+//     } catch (error) {
+//         res.status(400).send({ message: error.message });
+//     }
+// }

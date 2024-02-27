@@ -14,6 +14,8 @@ const userSchema = new Schema({
     dislikes: { type: Map, of: String },
     matches: { type: Map, of: String },
     randos: { type: Map, of: String },
+    showUsersLookingFor: {type: String},
+    matchWith: {type: String},
     gender: String,
     interestedIn: [String],
     bio: String,
