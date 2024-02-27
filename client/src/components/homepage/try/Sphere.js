@@ -16,8 +16,12 @@ const Sphere = () => {
           }
         });
         const data = await res.json();
-        const userIds = data.listUsers.map(user => user.username);
-        setMatches(userIds);
+        const users = data.listUsers.map(user => ({
+          id: user._id,
+          username: user.username,
+          interests: user.interests
+        }));
+        setMatches(users);
       } catch (err) {
         console.error("Error retrieving matches:", err);
       }
@@ -26,8 +30,7 @@ const Sphere = () => {
     retrieveMatches();
   }, []);
 
-
-  console.log(`the matches are: ${matches}`); 
+  console.log(`the matchs are: ${matches}`); 
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -51,49 +54,33 @@ const Sphere = () => {
     const nodeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     const labels = [];
 
+    console.log(Array.isArray(matches))
+
     matches.forEach((match, index) => {
       const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
       const node = new THREE.Mesh(nodeGeometry, material);
+      node.userData = match;
+
       const phi = Math.acos(-1 + (2 * index) / matches.length);
       const theta = Math.sqrt(matches.length * Math.PI) * phi;
       node.position.x = 4.5 * Math.cos(theta) * Math.sin(phi);
       node.position.y = 4.5 * Math.sin(theta) * Math.sin(phi);
       node.position.z = 4.5 * Math.cos(phi);
+
       group.add(node);
 
       const spriteMaterial = new THREE.SpriteMaterial({
-        map: new THREE.CanvasTexture(generateSpriteCanvas(match)),
+        map: new THREE.CanvasTexture(generateSpriteCanvas(match.username)),
         depthTest: false
       });
+
       const sprite = new THREE.Sprite(spriteMaterial);
+      sprite.userData = match;
       sprite.position.copy(node.position).add(new THREE.Vector3(0, -0.25, 0));
       sprite.scale.set(1, 0.5, 1);
       group.add(sprite);
       labels.push(sprite);
     });
-
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-  
-    const onMouseClick = (event) => {
-      // Calculate mouse coordinates in normalized device coordinates ([-1, 1])
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  
-      // Update the raycaster's position and direction based on the mouse coordinates
-      raycaster.setFromCamera(mouse, camera);
-  
-      // Check for intersections between the raycaster and the nodes in the scene
-      const intersects = raycaster.intersectObjects(group.children);
-  
-      // If there are intersections, handle the click event
-      if (intersects.length > 0) {
-        const clickedNode = intersects[0].object;
-        console.log('Clicked node:', clickedNode); // Assuming you've stored match data in userData
-      }
-    };
-  
-    document.addEventListener('click', onMouseClick);
 
     const onWindowResize = () => {
       var aboveNavBar = document.querySelector('.above-navigation-bar');
@@ -104,10 +91,38 @@ const Sphere = () => {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, sphereHeight);
     };
-    
 
     window.addEventListener('resize', onWindowResize, false);
 
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    const onMouseClick = (event) => {
+      event.preventDefault();
+      
+      mouse.x = ((event.clientX - renderer.domElement.offsetLeft) / renderer.domElement.clientWidth) * 2 - 1;
+      mouse.y = -((event.clientY - renderer.domElement.offsetTop) / renderer.domElement.clientHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(group.children, true);
+      
+      const rayDirection = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera).sub(camera.position).normalize();
+      const arrowHelper = new THREE.ArrowHelper(rayDirection, camera.position, 100, 0xff0000);
+      scene.add(arrowHelper);
+
+      if (intersects.length > 0) {
+        const id = intersects[0].object.userData.id;
+        const username = intersects[0].object.userData.username;
+        const interests = intersects[0].object.userData.interests;
+
+        // user profile pop up window
+        window.alert(`Node User ID: ${id}\nNode Username: ${username}\nNode Interests: ${interests}`);
+      }
+    };
+
+    renderer.domElement.addEventListener('click', onMouseClick, false);
+    
     const drag = {
       isDragging: false,
       previousMousePosition: { x: 0, y: 0 },
