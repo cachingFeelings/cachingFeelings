@@ -15,12 +15,39 @@ describe('POST /create_user', () => {
         expect(response.body).toHaveProperty('token');
     });
 
-    it('should return a 400 error for missing username or password', async () => {
+    it('should return a 400 error for missing password', async () => {
         const response = await request(app)
             .post('/api/user/create_user') 
             .send({
                 data: {
                     username: 'testUser',
+                    // Bad Input
+                }
+            });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toEqual("Username and password are required.");
+    });
+
+    it('should return a 400 error for missing username', async () => {
+        const response = await request(app)
+            .post('/api/user/create_user') 
+            .send({
+                data: {
+                    password: 'testPass',
+                    // Bad Input
+                }
+            });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toEqual("Username and password are required.");
+    });
+
+    it('should return a 400 error for sending empty string as username and password', async () => {
+        const response = await request(app)
+            .post('/api/user/create_user') 
+            .send({
+                data: {
+                    password: '',
+                    username: ''
                     // Bad Input
                 }
             });
@@ -136,5 +163,26 @@ describe('GET /getUser', () => {
     });
 });
 
+describe('POST /validate', () => {
+    it('should return 200 for a unique username', async () => {
+
+        const response = await request(app)
+            .post('/api/user/validate')
+            .send({username: 'unique' });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toEqual("Username is available");
+    });
+
+    it('should return 409 for a unique username', async () => {
+
+        const response = await request(app)
+            .post('/api/user/validate')
+            .send({username: 'testUser' });
+
+        expect(response.statusCode).toBe(409);
+        expect(response.body.message).toEqual("Already taken");
+    });
+}); 
 
 
