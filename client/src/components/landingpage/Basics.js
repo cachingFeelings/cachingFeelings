@@ -22,8 +22,9 @@ const Basics = () => {
 
 
     const checkDuplicate = async () => {
+        console.log("Checking duplicate")
         try {
-            const res = await fetch("http://localhost:42069/api/user/validate/", {
+            const res = await fetch("http://localhost:8080/api/user/validate/", {
                 method: "POST",
     
                 headers: {
@@ -35,32 +36,51 @@ const Basics = () => {
             })
     
             if (res.status === 200) {
-                // Username is unique
                 setUnique(true);
+            }
+            else {
+                setUnique(false); 
             }
         } catch (err) {
     
         }
     }; 
 
-    useEffect( () => {
-        setValid(USER_REGEX.test(user));
-        console.log(`The user tested is: ${user} and valid is now set to: ${valid}`)
-        if(valid){
+    const handleBlur = (value) => {
+        if(value != ''){
+            setValid(USER_REGEX.test(user));
             checkDuplicate(); 
-        } 
-    }, [user])
+        }
+        else {
+            setValid(true); 
+        }
+    }
 
-    useEffect( () => {
-        setValidPwd(PWD_REGEX.test(pwd)); 
-    }, [pwd])
+    const handlePwdBlur = (value) => {
+        if(value != '') {
+            setValidPwd(PWD_REGEX.test(pwd)); 
+        }
+        else {
+            setValid(true); 
+        }
+    }
 
     useEffect( () => {
         setMatchPwd(pwd === matchpwd); 
     }, [matchpwd])
 
+    const handleUserChange = (e) => {
+        handleChange(e); 
+        setUser(e.target.value)
+    } 
+
+    const handlePwdChange = (e) => {
+        handleChange(e); 
+        setPwd(e.target.value)
+    } 
+
     const content = (
-        <div className="basics-div">
+        <div className="basics-div" style={{width:"min-content"}}>
             <input
                 className="basic-input"
                 type="text"
@@ -68,8 +88,8 @@ const Basics = () => {
                 name="username"
                 placeholder="Username"
                 value={data.username}
-                onChange={e => {handleChange(e)}}
-                onBlur={e => {setUser(e.target.value)}}
+                onChange={handleUserChange}
+                onBlur={e => handleBlur(e.target.value)}
             />
             <p id="uidnote" className={!valid ? "instructions" : "offscreen"}>
                 <FontAwesomeIcon icon={faInfoCircle} style={{marginRight:"2px"}}/>
@@ -88,8 +108,8 @@ const Basics = () => {
                 name="password"
                 placeholder="Password"
                 value={data.password}
-                onChange={handleChange}
-                onBlur={e => {setPwd(e.target.value)}}
+                onChange={handlePwdChange}
+                onBlur={e => handlePwdBlur(e.target.value)}
             />
             <p id="uidnote" className={!validPwd ? "instructions" : "offscreen"}>
                 <FontAwesomeIcon icon={faInfoCircle} style={{marginRight:"2px"}}/>

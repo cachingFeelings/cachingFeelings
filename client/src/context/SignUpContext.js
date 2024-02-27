@@ -16,9 +16,9 @@ export const SignUpProvider = ({ children }) => {
     const [data, setData] = useState({
         password: "", 
         username: "",
-        birthday: "",
+        DOB: "",
         postalCode: "",
-        genderIdentity: "",
+        gender: "",
         showUsersLookingFor: "",
         matchWith: "",
         bio: "",
@@ -63,7 +63,7 @@ export const SignUpProvider = ({ children }) => {
     const canNextPage3 = true //Object.keys(data)
 
 
-    const disablePrev = page === 0
+    const disablePrev = page === -1
 
     const disableNext =
         (page === Object.keys(title).length - 1)

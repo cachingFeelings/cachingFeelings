@@ -10,19 +10,21 @@ const {compare} = bcpkg;
 export async function createUser(req, res) {
     try {
         // Make sure we have the minimum requirements
-        if (!req.body.username || !req.body.password) {
+        if (!req.body.data.username || !req.body.data.password) {
+            console.log("didn't provide username and password")
             return res.status(400).send({ message: "Username and password are required." });
         }
+
         let userInfo = {
-            username: req.body.username,
-            password: req.body.password,
+            username: req.body.data.username,
+            password: req.body.data.password,
         }
-        
+
         const optionalFields = ['DOB', 'showUsersLookingFor', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
         optionalFields.forEach(field => {
-            if (req.body[field]) userInfo[field] = req.body[field];
+            if (req.body.data[field]) userInfo[field] = req.body.data[field];
         });
-        
+
         // Create new User Object
         const user = new User(userInfo);
 
@@ -37,6 +39,7 @@ export async function createUser(req, res) {
 
         res.status(201).send({ userObj, token });
     } catch (error) {
+        console.error("Stack trace:", error.stack);
         res.status(400).send({ message: error.message });
     }
 }
@@ -45,7 +48,7 @@ export async function getUserData(req, res){
     try{
         const userID = req.body._id;
         const user = await User.findOne({_id: userID}, '-password');
-        
+
         if (!user){
             return res.status(404).send({message: "Who you tryna contact? The wind?"})
         }
@@ -54,12 +57,8 @@ export async function getUserData(req, res){
         delete userObj.password;
 
         res.status(201).send({ userObj });
-    } catch (error) {
-        if (error.kind == 'ObjectId'){
-            res.status(404).send({message: "Who you tryna contact? The wind?"});
-        }else {
-            res.status(400).send({ message: error.message });
-        }
+    } catch {
+        res.status(400).send({ message: error.message });
     }
 }
 
@@ -91,6 +90,24 @@ export async function login(req, res){
     }
 }
 
+export async function validUsername(req, res) {
+    try {
+        const { username } = req.body; 
+
+        const user = await User.findOne({username});
+        console.log(`The username: ${username} was found: ${user}`)
+        if (user){
+            return res.status(409).send({message: "Already taken"})
+        }
+        else {
+            return res.status(200).send({message: "Username is available"}); 
+        }
+    }
+    catch (error) {
+        res.status(400).send({message: error.message})
+    }
+}
+
 export async function modifyUser(req, res){
     try{
         const user = req.user;
@@ -103,7 +120,7 @@ export async function modifyUser(req, res){
                 return res.status(401).send({message: "That ain't gonna work here chief"})
             }
         } else if (updates.password) {
-            return res.status(400).send({ message: 'You gottat provide the current password' });
+            return res.status(400).send({ message: 'You gotta provide the current password' });
         }
 
         Object.keys(updates).forEach((key) => {
@@ -156,7 +173,6 @@ export async function getMatches(req, res){
         res.status(400).send({ message: error.message });
     }
 }
-
 
 // export async function startConvo(req, res){
 //     try{
