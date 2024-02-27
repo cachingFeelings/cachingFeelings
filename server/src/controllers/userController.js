@@ -13,17 +13,16 @@ export async function createUser(req, res) {
         if (!req.body.username || !req.body.password) {
             return res.status(400).send({ message: "Username and password are required." });
         }
-
         let userInfo = {
             username: req.body.username,
             password: req.body.password,
         }
-
+        
         const optionalFields = ['DOB', 'showUsersLookingFor', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
         optionalFields.forEach(field => {
-            if (req.body[field]) userData[field] = req.body[field];
+            if (req.body[field]) userInfo[field] = req.body[field];
         });
-
+        
         // Create new User Object
         const user = new User(userInfo);
 
@@ -46,7 +45,7 @@ export async function getUserData(req, res){
     try{
         const userID = req.body._id;
         const user = await User.findOne({_id: userID}, '-password');
-
+        
         if (!user){
             return res.status(404).send({message: "Who you tryna contact? The wind?"})
         }
@@ -55,8 +54,12 @@ export async function getUserData(req, res){
         delete userObj.password;
 
         res.status(201).send({ userObj });
-    } catch {
-        res.status(400).send({ message: error.message });
+    } catch (error) {
+        if (error.kind == 'ObjectId'){
+            res.status(404).send({message: "Who you tryna contact? The wind?"});
+        }else {
+            res.status(400).send({ message: error.message });
+        }
     }
 }
 
@@ -153,6 +156,7 @@ export async function getMatches(req, res){
         res.status(400).send({ message: error.message });
     }
 }
+
 
 // export async function startConvo(req, res){
 //     try{
