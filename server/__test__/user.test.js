@@ -6,8 +6,10 @@ describe('POST /create_user', () => {
         const response = await request(app)
             .post('/api/user/create_user') 
             .send({
-                username: 'testUser',
-                password: 'testPassword',
+                data: {
+                    username: 'testUser',
+                    password: 'testPassword',
+                }
             });
         expect(response.statusCode).toBe(201);
         expect(response.body).toHaveProperty('token');
@@ -17,8 +19,10 @@ describe('POST /create_user', () => {
         const response = await request(app)
             .post('/api/user/create_user') 
             .send({
-                username: 'testUser'
-                // Bad Input
+                data: {
+                    username: 'testUser',
+                    // Bad Input
+                }
             });
         expect(response.statusCode).toBe(400);
         expect(response.body.message).toEqual("Username and password are required.");
@@ -28,8 +32,10 @@ describe('POST /create_user', () => {
         const response = await request(app)
             .post('/api/user/create_user') 
             .send({
-                username: 'testUser',
-                password: 'testPassword'
+                data: {
+                    username: 'testUser',
+                    password: 'testPassword',
+                }
             });
         expect(response.statusCode).toBe(400);
         expect(response.body.message).toEqual("E11000 duplicate key error collection: test.users index: username_1 dup key: { username: \"testUser\" }");
