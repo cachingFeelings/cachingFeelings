@@ -69,7 +69,7 @@ h2 {
   z-index: 3;
   height: 0px;
 }
-p {
+.instructions p {
   font-size: x-small; 
 }
 
