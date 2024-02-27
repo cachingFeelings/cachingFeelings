@@ -1,14 +1,44 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 const Sphere = () => {
+  const [matches, setMatches] = useState([]);
+
+  useEffect(() => {
+    const retrieveMatches = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch("http://localhost:8080/api/user/getMatches/", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+          }
+        });
+        const data = await res.json();
+        const users = data.listUsers.map(user => ({
+          id: user._id,
+          username: user.username,
+          interests: user.interests
+        }));
+        setMatches(users);
+      } catch (err) {
+        console.error("Error retrieving matches:", err);
+      }
+    };
+
+    retrieveMatches();
+  }, []);
+
+  console.log(`the matchs are: ${matches}`); 
   const mountRef = useRef(null);
-  
+
   useEffect(() => {
     var aboveNavBar = document.querySelector('.above-navigation-bar');
     var navBar = document.querySelector('.navigation-bar');
     var totalHeight = aboveNavBar.offsetHeight + navBar.offsetHeight;
     var sphereHeight = window.innerHeight - totalHeight + 1;
+
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera(75, window.innerWidth / sphereHeight, 0.1, 1000);
     let renderer = new THREE.WebGLRenderer();
@@ -23,27 +53,34 @@ const Sphere = () => {
 
     const nodeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     const labels = [];
-    
-    for (let i = 0; i < 30; i++) {
+
+    console.log(Array.isArray(matches))
+
+    matches.forEach((match, index) => {
       const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
       const node = new THREE.Mesh(nodeGeometry, material);
-      const phi = Math.acos(-1 + (2 * i) / 30);
-      const theta = Math.sqrt(30 * Math.PI) * phi;
+      node.userData = match;
+
+      const phi = Math.acos(-1 + (2 * index) / matches.length);
+      const theta = Math.sqrt(matches.length * Math.PI) * phi;
       node.position.x = 4.5 * Math.cos(theta) * Math.sin(phi);
       node.position.y = 4.5 * Math.sin(theta) * Math.sin(phi);
       node.position.z = 4.5 * Math.cos(phi);
+
       group.add(node);
 
       const spriteMaterial = new THREE.SpriteMaterial({
-        map: new THREE.CanvasTexture(generateSpriteCanvas('User ' + (i + 1))),
+        map: new THREE.CanvasTexture(generateSpriteCanvas(match.username)),
         depthTest: false
       });
+
       const sprite = new THREE.Sprite(spriteMaterial);
+      sprite.userData = match;
       sprite.position.copy(node.position).add(new THREE.Vector3(0, -0.25, 0));
       sprite.scale.set(1, 0.5, 1);
       group.add(sprite);
       labels.push(sprite);
-    }
+    });
 
     const onWindowResize = () => {
       var aboveNavBar = document.querySelector('.above-navigation-bar');
@@ -54,10 +91,38 @@ const Sphere = () => {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, sphereHeight);
     };
-    
 
     window.addEventListener('resize', onWindowResize, false);
 
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    const onMouseClick = (event) => {
+      event.preventDefault();
+      
+      mouse.x = ((event.clientX - renderer.domElement.offsetLeft) / renderer.domElement.clientWidth) * 2 - 1;
+      mouse.y = -((event.clientY - renderer.domElement.offsetTop) / renderer.domElement.clientHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(group.children, true);
+      
+      const rayDirection = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera).sub(camera.position).normalize();
+      const arrowHelper = new THREE.ArrowHelper(rayDirection, camera.position, 100, 0xff0000);
+      scene.add(arrowHelper);
+
+      if (intersects.length > 0) {
+        const id = intersects[0].object.userData.id;
+        const username = intersects[0].object.userData.username;
+        const interests = intersects[0].object.userData.interests;
+
+        // user profile pop up window
+        window.alert(`Node User ID: ${id}\nNode Username: ${username}\nNode Interests: ${interests}`);
+      }
+    };
+
+    renderer.domElement.addEventListener('click', onMouseClick, false);
+    
     const drag = {
       isDragging: false,
       previousMousePosition: { x: 0, y: 0 },
@@ -123,7 +188,7 @@ const Sphere = () => {
       }
       window.removeEventListener('resize', onWindowResize);
     };
-  }, []);
+  }, [matches]);
 
   function generateSpriteCanvas(text) {
     const canvas = document.createElement('canvas');

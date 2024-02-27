@@ -3,7 +3,6 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 100vh;
 }
 
 .button, .link-button {
@@ -54,14 +53,22 @@
 }
 
 /* Additional styles for layout */
-.form-container {
+.settings-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 90%;
     max-width: 400px;
     margin: auto;
+}
+
+.new-password {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: -webkit-fill-available;
 }
 
 .twinkling-background {
@@ -69,14 +76,13 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh; /* Or 100% if it's inside a container with defined height */
+    height: 100%;
     z-index: -1; /* Ensures it's behind the content */
   }
   
   .config-page {
     position: relative;
     width: 100%;
-    min-height: 100vh;
     overflow: hidden;
   }
   

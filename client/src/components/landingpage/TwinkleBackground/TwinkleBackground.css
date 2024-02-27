@@ -36,6 +36,10 @@
   body {
     overflow-x: hidden;
   }
+
+  .twinkling-background {
+    height: 100%; 
+  }
   
   .stars {
    background: black url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png) repeat; 

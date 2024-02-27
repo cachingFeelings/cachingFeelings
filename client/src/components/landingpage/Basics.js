@@ -1,10 +1,10 @@
 import useSignUpContext from "../../hooks/useSignUpContext"
 import './LandingPage.css'
 import { useEffect, useState } from "react"
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-// import { faInfoCircle } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 
-const USER_REGEX = /^[A-Za-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-Za-z0-9]{4,20}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const Basics = () => {
@@ -12,22 +12,52 @@ const Basics = () => {
     const { data, handleChange } = useSignUpContext()
 
     const [user, setUser] = useState('');
-    const [validName, setValidName] = useState(false);
+    const [valid, setValid] = useState(true); 
+    const [unique, setUnique] = useState(true); 
 
     const [pwd, setPwd] = useState('');
-    const [validPwd, setValidPwd] = useState(false);
+    const [matchpwd, setMatch] = useState(''); 
+    const [validPwd, setValidPwd] = useState(true);
+    const [matches, setMatchPwd] = useState(true);
 
-    const [matchPwd, setMatchPwd] = useState('');
-    const [validMatch, setValidMatch] = useState(false);
+
+    const checkDuplicate = async () => {
+        try {
+            const res = await fetch("http://localhost:42069/api/user/validate/", {
+                method: "POST",
+    
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'username': user
+                }),
+            })
+    
+            if (res.status === 200) {
+                // Username is unique
+                setUnique(true);
+            }
+        } catch (err) {
+    
+        }
+    }; 
 
     useEffect( () => {
-        setValidName(USER_REGEX.test(user)); 
+        setValid(USER_REGEX.test(user));
+        console.log(`The user tested is: ${user} and valid is now set to: ${valid}`)
+        if(valid){
+            checkDuplicate(); 
+        } 
     }, [user])
 
     useEffect( () => {
         setValidPwd(PWD_REGEX.test(pwd)); 
-        setValidMatch(pwd === matchPwd); 
-    }, [pwd, matchPwd])
+    }, [pwd])
+
+    useEffect( () => {
+        setMatchPwd(pwd === matchpwd); 
+    }, [matchpwd])
 
     const content = (
         <div className="basics-div">
@@ -37,17 +67,58 @@ const Basics = () => {
                 id="username"
                 name="username"
                 placeholder="Username"
-                pattern="([A-Z])[\w+.]{1,}"
                 value={data.username}
-                onChange={e => {handleChange(e); setUser(e.target.value); }}
-                //onBlur={checkUsername}
+                onChange={e => {handleChange(e)}}
+                onBlur={e => {setUser(e.target.value)}}
             />
-            {/* <p id="uidnote" className={!validName ? "instructions" : "offscreen"}>
-                <FontAwesomeIcon icon={faInfoCircle} />
-                4 to 24 characters.<br />
-                Must begin with a letter.<br />
-                Letters, numbers, underscores, hyphens allowed.
-            </p> */}
+            <p id="uidnote" className={!valid ? "instructions" : "offscreen"}>
+                <FontAwesomeIcon icon={faInfoCircle} style={{marginRight:"2px"}}/>
+                Must be 4 to 20 characters consisting of numbers and letters only.
+            </p>
+            <p id="uidnote" className={!unique ? "instructions" : "offscreen"}>
+                <FontAwesomeIcon icon={faInfoCircle} style={{marginRight:"2px"}}/>
+                Username already in use
+            </p>
+
+            <label htmlFor="password" className="offscreen">Password</label>
+            <input
+                className="basic-input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                value={data.password}
+                onChange={handleChange}
+                onBlur={e => {setPwd(e.target.value)}}
+            />
+            <p id="uidnote" className={!validPwd ? "instructions" : "offscreen"}>
+                <FontAwesomeIcon icon={faInfoCircle} style={{marginRight:"2px"}}/>
+                Password must contain one upppercase, one lowercase, one number, one special character and be between 8-24 characters.
+            </p>
+
+            <label htmlFor="confirmpassword" className="offscreen">Confirm Password</label>
+            <input
+                className="basic-input"
+                type="password"
+                id="confirmpassword"
+                name="password"
+                placeholder="Confirm Password"
+                onBlur={e => {setMatch(e.target.value)}}
+            />
+            <p id="uidnote" className={!matches ? "instructions" : "offscreen"}>
+                <FontAwesomeIcon icon={faInfoCircle} style={{marginRight:"2px"}}/>
+                Passwords do not match.
+            </p>
+            <input
+                className="basic-input"
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                placeholder="Postal Code"
+                pattern="([A-Z])[\w\s.]{1,}"
+                value={data.postalCode}
+                onChange={handleChange}
+            />
             <label className="basic-label" htmlFor="birthday">Birthday</label>
             <input
                 className="basic-input"
@@ -57,47 +128,6 @@ const Basics = () => {
                 placeholder="Birthday (MM/DD/YYYY)"
                 pattern="\d{2}\/\d{2}\/\d{4}"
                 value={data.birthday}
-                onChange={handleChange}
-            />
-            <input
-                className="basic-input"
-                type="text"
-                id="email"
-                name="email"
-                placeholder="Email"
-                pattern="[\w\d\s.#]{2,}"
-                value={data.email}
-                onChange={handleChange}
-            />
-
-            <label htmlFor="password" className="offscreen">Password</label>
-            <input
-                className="basic-input"
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                pattern="[\w\d\s.#]{2,}"
-                value={data.password}
-                onChange={handleChange}
-            />
-            <label htmlFor="confirmpassword" className="offscreen">Confirm Password</label>
-            <input
-                className="basic-input"
-                type="password"
-                id="confirmpassword"
-                name="password"
-                placeholder="Confirm Password"
-                pattern="[\w\d\s.#]{2,}"
-            />
-            <input
-                className="basic-input"
-                type="text"
-                id="postalCode"
-                name="postalCode"
-                placeholder="Postal Code"
-                pattern="([A-Z])[\w\s.]{1,}"
-                value={data.postalCode}
                 onChange={handleChange}
             />
         </div>
