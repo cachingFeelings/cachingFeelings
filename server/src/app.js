@@ -6,8 +6,10 @@ import cors from 'cors';
 
 import userRouter from './routes/userRouter.js';
 
+if (!process.env.APP_URL) {
+  dotenv.config();
+}
 
-dotenv.config()
 const app = express()
 
 const appUrl = process.env.APP_URL
