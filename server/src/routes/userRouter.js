@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, login, validUsername, getMatches, getUserData, modifyUser } from '../controllers/userController.js'
+import { createUser, login, validUsername, getMatches, getUserData, modifyUser, likeDislike } from '../controllers/userController.js'
 import { decodeJWT } from '../config/auth.js'
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.post('/login', login)
 router.get('/getMatches', decodeJWT, getMatches)
 router.get('/getUser', decodeJWT, getUserData)
 router.post('/modifyUser', decodeJWT, modifyUser)
+router.post('likeDislike', decodeJWT, likeDislike)
 // router.post('/startConvo', decodeJWT, startConvo)
 
 
