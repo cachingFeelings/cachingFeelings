@@ -10,18 +10,19 @@ const {compare} = bcpkg;
 export async function createUser(req, res) {
     try {
         // Make sure we have the minimum requirements
-        if (!req.body.username || !req.body.password) {
+        if (!req.body.data.username || !req.body.data.password) {
+            console.log("didn't provide username and password")
             return res.status(400).send({ message: "Username and password are required." });
         }
 
         let userInfo = {
-            username: req.body.username,
-            password: req.body.password,
+            username: req.body.data.username,
+            password: req.body.data.password,
         }
 
         const optionalFields = ['DOB', 'showUsersLookingFor', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
         optionalFields.forEach(field => {
-            if (req.body[field]) userData[field] = req.body[field];
+            if (req.body.data[field]) userInfo[field] = req.body.data[field];
         });
 
         // Create new User Object
@@ -38,6 +39,7 @@ export async function createUser(req, res) {
 
         res.status(201).send({ userObj, token });
     } catch (error) {
+        console.error("Stack trace:", error.stack);
         res.status(400).send({ message: error.message });
     }
 }
