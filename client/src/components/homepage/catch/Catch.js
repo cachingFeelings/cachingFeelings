@@ -52,7 +52,7 @@ const Catch = () => {
         <div style={{ position: 'relative', color:"white"}}>
             <TwinklingBackground />
             <h1 style={{marginTop: '0px', textAlign: 'center'}}>Your likes</h1>
-            {likes !== null ? <UsersContainer usersArray={likes} /> : <p>No likes yet...</p>}
+            {likes !== null ? <UsersContainer usersArray={likes} /> : <p style={{textAlign:'center'}}>No likes yet...</p>}
         </div>
         </div>
     );
