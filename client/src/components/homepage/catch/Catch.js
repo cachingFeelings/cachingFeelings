@@ -24,17 +24,19 @@ const Catch = () => {
             });
             const data = await res.json();
 
-            const convertJsonToUserArray = (userdata) => {
-                return userdata.listUsers.map(user => ({
+            if(data[0]){
+                const usersArray = data.listUsers.map(user => ({
                   id: user._id,
                   username: user.username,
                   interests: user.interests
                 }));
-              };
+                setLikes(usersArray); 
+              }
+              else {
+                let users = []
+                return users; 
+              }; 
               
-            const usersArray = convertJsonToUserArray(data);
-            console.log(usersArray);
-            setLikes(usersArray); 
           } catch (err) {
             console.error("Error retrieving matches:", err);
           }
@@ -50,7 +52,7 @@ const Catch = () => {
         <div style={{ position: 'relative', color:"white"}}>
             <TwinklingBackground />
             <h1 style={{marginTop: '0px', textAlign: 'center'}}>Your likes</h1>
-            {likes !== null ? <UsersContainer usersArray={likes} /> : <p>Loading...</p>}
+            {likes !== null ? <UsersContainer usersArray={likes} /> : <p>No likes yet...</p>}
         </div>
         </div>
     );

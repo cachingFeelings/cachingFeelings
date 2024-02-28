@@ -229,14 +229,20 @@ export async function getMatches(req, res){
 export async function getLikes(req, res){
     try{
         const user = req.user;
+        console.log(`The user.likes var: ${user.likes}`)
         if(!user.likes){
-            user["likes"] = {}
+            console.log("There are no likes"); 
+            // user["likes"] = {}
+            res.status(201).send({})
         }
-        if(!user.dislikes){
-            user["dislikes"] = []
+        else {
+            const likedUsers = Array.from(user.likes.keys());
+            res.status(201).send({ likedUsers });
         }
-        const likedUsers = Array.from(user.likes.keys());
-        res.status(201).send({ likedUsers });
+        // if(!user.dislikes){
+        //     user["dislikes"] = []
+        // }
+    
     } catch (error) {
         if (error.kind == 'ObjectId'){
             res.status(404).send({message: "Who you tryna contact? The wind?"});
