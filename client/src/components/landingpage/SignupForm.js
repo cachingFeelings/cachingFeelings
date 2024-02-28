@@ -36,7 +36,7 @@ const SignupForm = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault() //remove later
-   
+    
     try {
       const res = await fetch("http://localhost:8080/api/user/create_user", {
         method: "POST",
@@ -44,24 +44,47 @@ const SignupForm = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({data})
-    })
+      })
       .then(res => res.json());
+      
+      localStorage.setItem("token", res.token);
 
-    localStorage.setItem("token", res.token);
-  
-  } catch (err) {
-
-  }
-  const token = localStorage.getItem("token");
-    if (token) {
+      const token = localStorage.getItem("token");
+      if (token) {
         if (token === "undefined") {
-            alert("Error signup up, please double check your input");
+          alert("Error signup up, please double check your input");
+        } else {
+          try {
+            const res2 = await fetch("http://localhost:8080/api/user/login", {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                'username': data['username'],
+                'password': data['password']
+              })
+            })
+            .then(res2 => res2.json());
+            localStorage.setItem("token", res2.token);
+
+            const token2 = localStorage.getItem("token");
+            if (token2) {
+              if (token2 === "undefined") {
+                  alert("Something bad happend when sign up!");
+              } else {
+                  navigate("/try");
+              }
+          }
+          } catch (err) {
+            alert("Something bad happened, when logged in!");
+          }
         }
-        else {
-            navigate("/try");
-        }
-    }
+      }
+  } catch (err) {
+    alert("Something bad happened, when sigun up!");
   }
+}
    
 
   return (
