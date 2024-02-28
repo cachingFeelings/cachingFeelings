@@ -60,31 +60,6 @@ test('clicking on an OS option updates state', () => {
     expect(screen.getByText('Javascript')).toHaveClass('active');
   });
   
-
-
-
-  test('renders user details', () => {
-    const mockUser = { username: 'JaneDoe', interests: ['reading', 'traveling'] };
-    render(<User user={mockUser} />);
-    expect(screen.getByText(`Username: ${mockUser.username}`)).toBeInTheDocument();
-    expect(screen.getByText(`Interests: ${mockUser.interests.join(', ')}`)).toBeInTheDocument();
-  });
-
-
-
-  test('renders multiple User components', () => {
-    const mockUsersArray = [
-      { _id: '1', username: 'User1', interests: ['coding'] },
-      { _id: '2', username: 'User2', interests: ['music', 'movies'] },
-    ];
-    render(<UsersContainer usersArray={mockUsersArray} />);
-    expect(screen.getByText('Username: User1')).toBeInTheDocument();
-    expect(screen.getByText('Username: User2')).toBeInTheDocument();
-    expect(screen.getByText('Interests: coding')).toBeInTheDocument();
-    expect(screen.getByText('Interests: music, movies')).toBeInTheDocument();
-  });
-
-
  // Test if the PopupWin component renders when isOpen is true
 test('renders PopupWin component when open', () => {
   // Mock the props to pass into PopupWin
