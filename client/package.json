@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.7",
     "gsap": "^3.12.5",
+    "history": "^5.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1",
@@ -19,9 +20,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "nodemon src/app.js",
+    "build": "echo \"Error: no build script specified\" && exit 1",
+    "lint": "eslint src/",
+    "test": "jest --coverage --detectOpenHandles --forceExit"
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +41,30 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-react": "^7.23.3",
+    "msw": "^2.2.1"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
+    ],
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!some-module)"
     ]
   }
 }

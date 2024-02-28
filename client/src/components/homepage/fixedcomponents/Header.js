@@ -1,3 +1,4 @@
+import React from 'react'
 import './fixedcomponents.css'
 import { Link } from 'react-router-dom'
 
