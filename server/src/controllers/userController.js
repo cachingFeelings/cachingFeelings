@@ -10,18 +10,19 @@ const {compare} = bcpkg;
 export async function createUser(req, res) {
     try {
         // Make sure we have the minimum requirements
-        if (!req.body.username || !req.body.password) {
+        if (!req.body.data.username || !req.body.data.password) {
+            console.log("didn't provide username and password")
             return res.status(400).send({ message: "Username and password are required." });
         }
 
         let userInfo = {
-            username: req.body.username,
-            password: req.body.password,
+            username: req.body.data.username,
+            password: req.body.data.password,
         }
 
         const optionalFields = ['DOB', 'showUsersLookingFor', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
         optionalFields.forEach(field => {
-            if (req.body[field]) userData[field] = req.body[field];
+            if (req.body.data[field]) userInfo[field] = req.body.data[field];
         });
 
         // Create new User Object
@@ -46,7 +47,7 @@ export async function getUserData(req, res){
     try{
         const userID = req.body._id;
         const user = await User.findOne({_id: userID}, '-password');
-
+        
         if (!user){
             return res.status(404).send({message: "Who you tryna contact? The wind?"})
         }
@@ -55,8 +56,12 @@ export async function getUserData(req, res){
         delete userObj.password;
 
         res.status(201).send({ userObj });
-    } catch {
-        res.status(400).send({ message: error.message });
+    } catch (error) {
+        if (error.kind == 'ObjectId'){
+            res.status(404).send({message: "Who you tryna contact? The wind?"});
+        }else {
+            res.status(400).send({ message: error.message });
+        }
     }
 }
 
@@ -88,6 +93,68 @@ export async function login(req, res){
     }
 }
 
+export async function validUsername(req, res) {
+    try {
+        const { username } = req.body; 
+
+        const user = await User.findOne({username});
+        console.log(`The username: ${username} was found: ${user}`)
+        if (user){
+            return res.status(409).send({message: "Already taken"})
+        }
+        else {
+            return res.status(200).send({message: "Username is available"}); 
+        }
+    }
+    catch (error) {
+        res.status(400).send({message: error.message})
+    }
+}
+
+export async function likeDislike(req,res){ 
+    try{
+        const targetUserID = req.body._id;
+        const like = req.body.like;
+
+        const user = req.user;
+
+        const targetUser = await User.findOne({_id: targetUserID});
+        
+        if (!targetUser){
+            return res.status(404).send({message: "Who you tryna contact? The wind?"})
+        }
+        if(!user.likes){
+            user["likes"] = {}
+        }
+        if(!user.dislikes){
+            user["dislikes"] = []
+        }
+        if (like){
+            if (user.likes.has(targetUserID)){
+                return res.status(400).send({ message: "User already liked." });
+            } else {
+                user.likes.set(targetUserID, "");
+            }
+        }else {
+            if (user.dislikes.includes(targetUserID)) {
+                return res.status(400).send({ message: "User already disliked." });
+            } else {
+                user.dislikes.push(targetUserID);
+            }
+        }
+
+        await user.save();
+
+        res.status(201).send({ message: "Great Success"});
+    } catch (error) {
+        if (error.kind == 'ObjectId'){
+            res.status(404).send({message: "Who you tryna contact? The wind?"});
+        }else {
+            res.status(400).send({ message: error.message });
+        }
+    }
+}
+
 export async function modifyUser(req, res){
     try{
         const user = req.user;
@@ -100,7 +167,7 @@ export async function modifyUser(req, res){
                 return res.status(401).send({message: "That ain't gonna work here chief"})
             }
         } else if (updates.password) {
-            return res.status(400).send({ message: 'You gottat provide the current password' });
+            return res.status(400).send({ message: 'You gotta provide the current password' });
         }
 
         Object.keys(updates).forEach((key) => {
@@ -127,10 +194,20 @@ export async function getMatches(req, res){
         const token = req.token;
         
         const userInterests = user.interests;
-        
+        if(!user.likes){
+            user["likes"] = {}
+        }
+        if(!user.dislikes){
+            user["dislikes"] = []
+        }
+        const likedUsers = Array.from(user.likes.keys());
+        const dislikedUsers = user.dislikes;
+
+        const excludedUsers = [...likedUsers, ...dislikedUsers, user._id];
+
         const pipeline = [
             { 
-                $match: { _id: { $ne: user._id} } 
+                $match: { _id: { $nin: excludedUsers}} 
             },
             { 
                 $project: {
@@ -151,6 +228,32 @@ export async function getMatches(req, res){
         res.status(201).send({ listUsers });
     } catch (error) {
         res.status(400).send({ message: error.message });
+    }
+}
+
+export async function getLikes(req, res){
+    try{
+        const user = req.user;
+        console.log(`The user.likes var: ${user.likes}`)
+        if(!user.likes){
+            console.log("There are no likes"); 
+            // user["likes"] = {}
+            res.status(201).send({})
+        }
+        else {
+            const likedUsers = Array.from(user.likes.keys());
+            res.status(201).send({ likedUsers });
+        }
+        // if(!user.dislikes){
+        //     user["dislikes"] = []
+        // }
+    
+    } catch (error) {
+        if (error.kind == 'ObjectId'){
+            res.status(404).send({message: "Who you tryna contact? The wind?"});
+        }else {
+            res.status(400).send({ message: error.message });
+        }
     }
 }
 

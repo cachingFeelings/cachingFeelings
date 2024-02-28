@@ -6,8 +6,10 @@ import cors from 'cors';
 
 import userRouter from './routes/userRouter.js';
 
+if (!process.env.APP_URL) {
+  dotenv.config();
+}
 
-dotenv.config()
 const app = express()
 
 const appUrl = process.env.APP_URL
@@ -25,15 +27,11 @@ app.get('/', (req, res) => {
 
 app.use('/api/user', userRouter);
 
-// app.post('/sign-up', (req, res) => {
-//   // const { email, password } = req.body;
-//   // console.log(password)
-//   const response = {
-//     message: 'When you think too much you removing whats moving'
-//   }
-//   return res.status(200).json(response)
-// })
 
-app.listen(port, () => {
-  console.log(`Server is up on port ${appUrl}:${port}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is up on port ${appUrl}:${port}`)
+  });
+}
+
+export default app;
