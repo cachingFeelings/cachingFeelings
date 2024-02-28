@@ -194,7 +194,12 @@ export async function getMatches(req, res){
         const token = req.token;
         
         const userInterests = user.interests;
-
+        if(!user.likes){
+            user["likes"] = {}
+        }
+        if(!user.dislikes){
+            user["dislikes"] = []
+        }
         const likedUsers = Array.from(user.likes.keys());
         const dislikedUsers = user.dislikes;
 
