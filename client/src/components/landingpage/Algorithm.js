@@ -1,3 +1,4 @@
+import React from 'react';
 import useSignUpContext from "../../hooks/useSignUpContext"
 import './LandingPage.css'
 

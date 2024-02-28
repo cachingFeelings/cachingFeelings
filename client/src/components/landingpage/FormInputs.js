@@ -1,3 +1,4 @@
+import React from 'react';
 import Basics from "./Basics"
 import Algorithm from "./Algorithm"
 import About from "./About"

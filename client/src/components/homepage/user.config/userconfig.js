@@ -29,15 +29,15 @@ const UserConfig = () => {
     console.log(`This is being sent to the backend: old pwd: ${password}, new pwd: ${newpwd}, new image: ${profilePic}`)
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:42069/api/user/updateInfo/", {
+      const res = await fetch("http://localhost:8080/api/user/modifyUser", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          'password': password,
-          'new-password': newpwd,
+          'currentPassword': password,
+          'password': newpwd,
           'profilePicture': profilePic
       }),
     });
@@ -65,11 +65,11 @@ const UserConfig = () => {
       <div className="container">
         <TwinklingBackground/>
         <form className="settings-container" onSubmit={handleSubmit}>
-          <div className='new-password'>
+          {/* <div className='new-password'>
             <label className="label" htmlFor="profilePic">Upload new profile picture:</label>
             <input style={{maxWidth:"110px"}} type="file" id="profilePic" onChange={handleProfilePicChange} />
             {profilePic && <img src={profilePic} alt="Profile" className="profile-picture" />}
-          </div>
+  </div> */}
           <div className='new-password'>
             <label className="label" htmlFor="username">Modify Password: </label>
             <input className="input-field" type="password" id="password" placeholder='New Password' onChange={handlePasswordChange} />

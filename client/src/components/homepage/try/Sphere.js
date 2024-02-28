@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import PopupWin from './PopupWin';
 
 const Sphere = () => {
   const [matches, setMatches] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const mountRef = useRef(null);
 
   useEffect(() => {
     const retrieveMatches = async () => {
@@ -13,25 +17,21 @@ const Sphere = () => {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token,
-          }
+          },
         });
         const data = await res.json();
         const users = data.listUsers.map(user => ({
           id: user._id,
           username: user.username,
-          interests: user.interests
+          interests: user.interests,
         }));
         setMatches(users);
       } catch (err) {
         console.error("Error retrieving matches:", err);
       }
     };
-
     retrieveMatches();
   }, []);
-
-  console.log(`the matchs are: ${matches}`); 
-  const mountRef = useRef(null);
 
   useEffect(() => {
     var aboveNavBar = document.querySelector('.above-navigation-bar');
@@ -53,8 +53,6 @@ const Sphere = () => {
 
     const nodeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
     const labels = [];
-
-    console.log(Array.isArray(matches))
 
     matches.forEach((match, index) => {
       const material = new THREE.MeshBasicMaterial({ color: 0xabcdef });
@@ -98,26 +96,29 @@ const Sphere = () => {
     const mouse = new THREE.Vector2();
 
     const onMouseClick = (event) => {
-      event.preventDefault();
+      if (isModalOpen) {
+        return;
+      } else {
+        event.preventDefault();
       
-      mouse.x = ((event.clientX - renderer.domElement.offsetLeft) / renderer.domElement.clientWidth) * 2 - 1;
-      mouse.y = -((event.clientY - renderer.domElement.offsetTop) / renderer.domElement.clientHeight) * 2 + 1;
-
-      raycaster.setFromCamera(mouse, camera);
-
-      const intersects = raycaster.intersectObjects(group.children, true);
-      
-      const rayDirection = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera).sub(camera.position).normalize();
-      const arrowHelper = new THREE.ArrowHelper(rayDirection, camera.position, 100, 0xff0000);
-      scene.add(arrowHelper);
-
-      if (intersects.length > 0) {
-        const id = intersects[0].object.userData.id;
-        const username = intersects[0].object.userData.username;
-        const interests = intersects[0].object.userData.interests;
-
-        // user profile pop up window
-        window.alert(`Node User ID: ${id}\nNode Username: ${username}\nNode Interests: ${interests}`);
+        mouse.x = ((event.clientX - renderer.domElement.offsetLeft) / renderer.domElement.clientWidth) * 2 - 1;
+        mouse.y = -((event.clientY - renderer.domElement.offsetTop) / renderer.domElement.clientHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(group.children, true);
+        
+        // const rayDirection = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera).sub(camera.position).normalize();
+        // const arrowHelper = new THREE.ArrowHelper(rayDirection, camera.position, 100, 0xff0000);
+        // scene.add(arrowHelper);
+  
+        if (intersects.length > 0) {
+          const userData = {
+            id: intersects[0].object.userData.id,
+            username: intersects[0].object.userData.username,
+            interests: intersects[0].object.userData.interests,
+          };
+          setSelectedUser(userData);
+          setIsModalOpen(true);
+        }
       }
     };
 
@@ -131,32 +132,44 @@ const Sphere = () => {
     };
 
     const onMouseDown = (event) => {
-      drag.isDragging = true;
-      drag.previousMousePosition.x = event.clientX;
-      drag.previousMousePosition.y = event.clientY;
-    };
-
-    const onMouseMove = (event) => {
-      if (drag.isDragging) {
-        const deltaMove = {
-          x: event.clientX - drag.previousMousePosition.x,
-          y: event.clientY - drag.previousMousePosition.y,
-        };
-
-        const rotateSpeed = 0.005;
-        group.rotation.y += deltaMove.x * rotateSpeed;
-        group.rotation.x += deltaMove.y * rotateSpeed;
-
-        drag.rotationVelocity.x = deltaMove.x * rotateSpeed;
-        drag.rotationVelocity.y = deltaMove.y * rotateSpeed;
-
+      if (isModalOpen) {
+        return;
+      } else {
+        drag.isDragging = true;
         drag.previousMousePosition.x = event.clientX;
         drag.previousMousePosition.y = event.clientY;
       }
     };
 
+    const onMouseMove = (event) => {
+      if (isModalOpen) {
+        return;
+      } else {
+        if (drag.isDragging) {
+          const deltaMove = {
+            x: event.clientX - drag.previousMousePosition.x,
+            y: event.clientY - drag.previousMousePosition.y,
+          };
+  
+          const rotateSpeed = 0.005;
+          group.rotation.y += deltaMove.x * rotateSpeed;
+          group.rotation.x += deltaMove.y * rotateSpeed;
+  
+          drag.rotationVelocity.x = deltaMove.x * rotateSpeed;
+          drag.rotationVelocity.y = deltaMove.y * rotateSpeed;
+  
+          drag.previousMousePosition.x = event.clientX;
+          drag.previousMousePosition.y = event.clientY;
+        }
+      }
+    };
+
     const onMouseUp = () => {
-      drag.isDragging = false;
+      if (isModalOpen) {
+        return;
+      } else {
+        drag.isDragging = false;
+      }
     };
 
     document.addEventListener('mousedown', onMouseDown);
@@ -165,7 +178,6 @@ const Sphere = () => {
 
     const animate = () => {
       requestAnimationFrame(animate);
-
       if (!drag.isDragging) {
         group.rotation.y += drag.autoRotateSpeed.y;
         group.rotation.x += drag.autoRotateSpeed.x;
@@ -174,20 +186,34 @@ const Sphere = () => {
         drag.rotationVelocity.x *= 0.95;
         drag.rotationVelocity.y *= 0.95;
       }
-
       renderer.render(scene, camera);
     };
     animate();
 
     return () => {
+      window.removeEventListener('resize', onWindowResize);
+      renderer.domElement.removeEventListener('click', onMouseClick, false);
       document.removeEventListener('mousedown', onMouseDown);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+      
+      group.children.forEach(child => {
+        if (child instanceof THREE.Mesh) {
+          child.geometry.dispose();
+          child.material.dispose();
+        } else if (child instanceof THREE.Sprite) {
+          child.material.map.dispose();
+          child.material.dispose();
+        }
+      });
+    
       if (mountRefCurr) {
         mountRefCurr.removeChild(renderer.domElement);
       }
-      window.removeEventListener('resize', onWindowResize);
+      renderer.dispose();
     };
+
+  // eslint-disable-next-line
   }, [matches]);
 
   function generateSpriteCanvas(text) {
@@ -200,8 +226,27 @@ const Sphere = () => {
     context.fillText(text, 0, 48);
     return canvas;
   }
-  
-  return <div ref={mountRef} style={{ width: '100%', height: '100%'}}></div>;
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleLike = () => {
+    console.log("Liked", selectedUser);
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div>
+      <div ref={mountRef} data-testid="three-canvas-container" style={{ width: '100%', height: '100%'}}></div>
+      <PopupWin 
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        userData={selectedUser}
+        onLike={handleLike}
+      />
+    </div>
+  );
 };
 
 export default Sphere;
