@@ -228,7 +228,7 @@ export async function getMatches(req, res){
 
 export async function getLikes(req, res){
     try{
-        const user = req.user;
+        const user = req.user; 
         const likedUsers = Array.from(user.likes.keys());
         res.status(201).send({ likedUsers });
     } catch (error) {

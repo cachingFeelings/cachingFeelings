@@ -15,8 +15,8 @@ const Catch = () => {
         const retrieveMatches = async () => {
           try {
             const token = localStorage.getItem('token');
-            const res = await fetch("http://localhost:8080/api/user/getMatches/", {
-              method: "POST",
+            const res = await fetch("http://localhost:8080/api/user/getLikes/", {
+              method: "GET",
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token,
