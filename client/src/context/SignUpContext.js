@@ -23,10 +23,7 @@ export const SignUpProvider = ({ children }) => {
         showUsersLookingFor: "",
         matchWith: "",
         bio: "",
-        OS: [],
-        progLang: [], 
-        csInterests: [],
-        noncsInterests: [],
+        interests: [],
         profilePhoto: ""
     })
 

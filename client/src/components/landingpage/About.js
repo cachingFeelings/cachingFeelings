@@ -24,12 +24,12 @@ const About = () => {
                     <span
                         onClick={() => handleChange({
                             target: {
-                                name: 'OS',
+                                name: 'interests',
                                 value: category
                             }
                         })}
                         className={`span ${
-                            data?.OS?.includes(category) ? "active" : ""
+                            data?.interests?.includes(category) ? "active" : ""
                         }`}
                         key={`osOption-${idx}`}
                     >
@@ -46,12 +46,12 @@ const About = () => {
                     <span
                         onClick={() => handleChange({
                             target: {
-                                name: 'progLang',
+                                name: 'interests',
                                 value: category
                             }
                         })}
                         className={`span ${
-                            data?.progLang?.includes(category) ? "active" : ""
+                            data?.interests?.includes(category) ? "active" : ""
                         }`}
                         key={`osOption-${idx}`}
                     >
@@ -68,12 +68,12 @@ const About = () => {
                     <span
                         onClick={() => handleChange({
                             target: {
-                                name: 'csInterests',
+                                name: 'interests',
                                 value: category
                             }
                         })}
                         className={`span ${
-                            data?.csInterests?.includes(category) ? "active" : ""
+                            data?.interests?.includes(category) ? "active" : ""
                         }`}
                         key={`osOption-${idx}`}
                     >
@@ -90,12 +90,12 @@ const About = () => {
                     <span
                         onClick={() => handleChange({
                             target: {
-                                name: 'noncsInterests',
+                                name: 'interests',
                                 value: category
                             }
                         })}
                         className={`span ${
-                            data?.noncsInterests?.includes(category) ? "active" : ""
+                            data?.interests?.includes(category) ? "active" : ""
                         }`}
                         key={`osOption-${idx}`}
                     >
