@@ -234,7 +234,6 @@ export async function getMatches(req, res){
 export async function getLikes(req, res){
     try{
         const user = req.user;
-        console.log(`The user.likes var: ${user.likes}`)
         if(!user.likes){
             console.log("There are no likes"); 
             // user["likes"] = {}

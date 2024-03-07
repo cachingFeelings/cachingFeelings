@@ -9,7 +9,7 @@ import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBack
 const Catch = () => {
 
     const [likes, setLikes ] = useState(null); 
-    //get all matches for now, change backend to only send likes 
+
     useEffect(() => {
 
         const retrieveMatches = async () => {
@@ -25,6 +25,7 @@ const Catch = () => {
             const data = await res.json();
 
             if(data['likedUsers'].length > 0) {
+              console.log(data); 
               const usersArray = data['likedUsers'].map(userId => ({
                   id: userId
                   // username: user.username,
@@ -48,7 +49,7 @@ const Catch = () => {
         <div>
         <Header />
         <NavBar />
-        <div style={{ position: 'relative', color:"white"}}>
+        <div style={{ position: 'relative', color:"white", height:"100vh"}}>
             <TwinklingBackground />
             <h1 style={{marginTop: '0px', textAlign: 'center'}}>Your likes</h1>
             {likes !== null ? <UsersContainer usersArray={likes} /> : <p style={{textAlign:'center'}}>No likes yet...</p>}
