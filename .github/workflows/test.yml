@@ -30,3 +30,9 @@ jobs:
       - name: Run tests
         working-directory: ./server
         run: npm run test
+      - name: Build Application Server
+        working-directory: ./server
+        run: npm run build
+      - name: Build Application Client
+        working-directory: ./client
+        run: npm run build
