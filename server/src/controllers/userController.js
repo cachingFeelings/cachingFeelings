@@ -111,6 +111,8 @@ export async function validUsername(req, res) {
     }
 }
 
+// TODO
+// Change this fn so that each time someone likes, it checks if its a mutual like to make it a mutualMatch instead of a like
 export async function likeDislike(req,res){ 
     try{
         const targetUserID = req.body._id;
@@ -188,7 +190,7 @@ export async function modifyUser(req, res){
     }
 }
 
-export async function getMatches(req, res){
+export async function getInterestMatches(req, res){
     try{
         const user = req.user;
         const token = req.token;
@@ -234,20 +236,14 @@ export async function getMatches(req, res){
 export async function getLikes(req, res){
     try{
         const user = req.user;
-        console.log(`The user.likes var: ${user.likes}`)
+
         if(!user.likes){
-            console.log("There are no likes"); 
-            // user["likes"] = {}
-            res.status(201).send({})
+            user["likes"] = {}
         }
-        else {
-            const likedUsers = Array.from(user.likes.keys());
-            res.status(201).send({ likedUsers });
-        }
-        // if(!user.dislikes){
-        //     user["dislikes"] = []
-        // }
-    
+        
+        const listUsers = Array.from(user.likes.keys());
+        res.status(201).send({ listUsers });
+
     } catch (error) {
         if (error.kind == 'ObjectId'){
             res.status(404).send({message: "Who you tryna contact? The wind?"});
@@ -257,40 +253,26 @@ export async function getLikes(req, res){
     }
 }
 
-// export async function startConvo(req, res){
-//     try{
-//         const user = req.user;
-//         const token = req.token;
-        
-//         const otherUserID = await User.findOne({_id: req._id});
-        
+export async function getMatches(req, res){
+    try{
+        const user = req.user;
 
-//         res.status(201).send({ listUsers });
-//     } catch (error) {
-//         res.status(400).send({ message: error.message });
-//     }
-// }
+        if (!user.matches){
+            user["matches"] = {}
+        }
+        const mapUsers = user.matches;
+        res.status(201).send({ mapUsers });
+    } catch (error) {
+        if (error.kind == 'ObjectId'){
+            res.status(404).send({message: "Who you tryna contact? The wind?"});
+        }else {
+            res.status(400).send({ message: error.message });
+        }
+    }
+}
+// IDEA
+// Keep list a map
+// Add a matches map
+// When you like a user, check if you're also in their likes. If yes, move everything from likes to matches for both users.
+// Create a convo id and add that to the matches map 
 
-// export async function addMessage(){
-
-// }
-
-// export async function changeStatus(req, res){
-
-// }
-
-// export async function batchCreateUser(req, res) {
-//     try {
-//         // Only the username & pass - rest of the fields added as onboarding
-//         for (let item of req.body){
-//             console.log(item)
-//             const { username, password, interests } = item;
-//             const user = new User({ username, password, interests });    
-//             await user.save();
-//         }
-
-//         res.status(201).send({ user, token });
-//     } catch (error) {
-//         res.status(400).send({ message: error.message });
-//     }
-// }
