@@ -1,9 +1,10 @@
 import express from 'express';
-import { getConvo } from '../controllers/convoController.js';
 import { decodeJWT } from '../config/auth.js'
 
 const router = express.Router();
 
-router.get('/getConvo', decodeJWT, getConvo);
+router.get('/batchGetMessages', decodeJWT, );
+router.get('/getMessage', decodeJWT, );
+router.post('/addMessage', decodeJWT, );
 
 export default router;
