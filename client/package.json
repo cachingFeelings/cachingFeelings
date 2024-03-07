@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "nodemon src/app.js",
-    "build": "echo \"Error: no build script specified\" && exit 1",
+    "build": "react-scripts build",
     "lint": "eslint src/",
     "test": "jest --coverage --detectOpenHandles --forceExit"
   },
