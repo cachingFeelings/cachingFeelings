@@ -7,6 +7,7 @@ import { SignUpProvider } from './context/SignUpContext';
 import Try from './components/homepage/try/Try';
 import UserConfig from './components/homepage/user.config/userconfig';
 import Catch from './components/homepage/catch/Catch';
+import Finally from './components/homepage/finally/Finally'; 
 
 function App() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function App() {
       <Route path="/try" element={<Try />} />
       <Route path="/userconfig" element={<UserConfig />} />
       <Route path="/catch" element={<Catch  />} />
+      <Route path="/finally" element={<Finally  />} />
     </Routes>
   );
 }
