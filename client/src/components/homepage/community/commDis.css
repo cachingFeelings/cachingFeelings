@@ -1,0 +1,67 @@
+.report-btn {
+  font-size: 16px; /* Adjust size as needed */
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.user-post {
+  border: 1px solid #ccc; /* Adjust as needed */
+  padding: 10px; /* Adjust as needed */
+  margin-bottom: 10px; /* Adjust as needed */
+  width: 70%; /* Same as the textarea */
+  box-sizing: border-box;
+}
+
+
+.bio-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 70%; /* This width will also apply to the rectangles */
+  margin: 3px auto; /* Center the section */
+  margin-bottom: 20px; /* Add space below each rectangle */
+  background-color: white; /* Set the background color to white */
+  border: 1px solid #ccc; /* Add a border */
+  box-sizing: border-box;
+  color: black;
+}
+
+.bio-section h3,
+.bio-section p, .bio-section label {
+color: black; /* Set the text color to black */
+}
+
+
+
+.bio-section textarea {
+  width: 100%; /* Fill the parent width */
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.post-button,
+.like-button,
+.dislike-button,
+.report-button {
+margin-left: 10px;
+background-color: black;
+color: white;
+font-size: 16px;
+transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.post-button:hover,
+.like-button:hover,
+.dislike-button:hover,
+.report-button:hover {
+background-color: white;
+color: black;
+font-size: 16px;
+}
+
+.button-group {
+display: flex;
+justify-content: flex-end;
+}
+
