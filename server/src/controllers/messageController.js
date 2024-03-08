@@ -38,6 +38,8 @@ export async function getMessages(req, res){
         const unauthorized = !message.to.equals(userID) && !message.to.equals(userID);
         if(unauthorized){
             res.status(401).send("Accessing Unauthorized Resources");
+        } else if (message.burnAfterRead && message.seen){
+            throw new Error("User has already seen the message")
         } else {
             res.status(201).send({ message });
         }
@@ -50,4 +52,56 @@ export async function getMessages(req, res){
     }
 }
 
+export async function sendMessage(req, res){
+    try{
+        if( !req.body && (!req.mediaLink || req.mediaLink.length == 0 )){
+            throw new Error("Message cannot be empty - at least need a body and a ")
+        }
+        const messageInfo = {
+            from: req.user._id,
+            to: req.to,
+            burnMessageAfter: req.burnMessageAfter? req.burnMessageAfter : false,
+            seen: req.seen? req.seen : false,
+            timeStamp : new Date(),
+            convoID : req.user.matches[req.to]
+        }
 
+        if(req.body){
+            messageInfo.body = req.body
+        }
+
+        if(req.mediaLink && req.mediaLink.length > 0){
+            messageInfo.mediaLink = req.mediaLink
+        }
+
+        const message = new Message(messageInfo);
+
+        await message.save();
+
+        res.status(201).send({ message });
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+}
+
+export async function updateSeen(req, res){
+    try{
+        const messageId = req.messageID;
+        const message = await Message.findOne({ _id : messageId });
+        const userID = req.user._id;
+
+        const unauthorized = !message.to.equals(userID);
+        if(unauthorized){
+            res.status(401).send("Accessing Unauthorized Resources");
+        }else {
+            message.seen = true;
+            await message.save();
+            
+            res.status(201).send({ message });
+        }
+    }
+    catch (error) {
+
+    }
+
+}
