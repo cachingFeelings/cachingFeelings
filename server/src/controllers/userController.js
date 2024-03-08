@@ -1,4 +1,5 @@
 import User from '../models/userModel.js';
+import Convo from '../models/convoModel.js';
 import pkg from 'jsonwebtoken';
 import bcpkg from 'bcryptjs'
 const {sign} = pkg;
@@ -144,10 +145,34 @@ export async function likeDislike(req,res){
                 user.dislikes.push(targetUserID);
             }
         }
+        var matchCheck = false;
+        if (like && targetUser.likes && targetUser.likes.has(user._id)){
+            const convoInfo = {
+                messages : [],
+                users : [user._id, targetUserID]
+            }
+            const convo = new Convo(userInfo);
+            await convo.save();
+            
+            if(!user.matches){
+                user["matches"] = {}
+            }
+            if(!targetUser.matches){
+                targetUser["matches"] = {}
+            }
+            user.matches.set(targetUserID, convo._id);
+            targetUser.matches.set(user._id, convo._id);
+            
+            await targetUser.save();
+            matchCheck = true;
+        }
 
         await user.save();
 
-        res.status(201).send({ message: "Great Success"});
+        res.status(201).send({ 
+            message: "Great Success",
+            isMatch: matchCheck
+        });
     } catch (error) {
         if (error.kind == 'ObjectId'){
             res.status(404).send({message: "Who you tryna contact? The wind?"});
