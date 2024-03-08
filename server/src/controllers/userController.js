@@ -112,8 +112,6 @@ export async function validUsername(req, res) {
     }
 }
 
-// TODO
-// Change this fn so that each time someone likes, it checks if its a mutual like to make it a mutualMatch instead of a like
 export async function likeDislike(req,res){ 
     try{
         const targetUserID = req.body._id;
@@ -295,10 +293,3 @@ export async function getMatches(req, res){
         }
     }
 }
-
-// IDEA
-// Keep list a map
-// Add a matches map
-// When you like a user, check if you're also in their likes. If yes, move everything from likes to matches for both users.
-// Create a convo id and add that to the matches map 
-

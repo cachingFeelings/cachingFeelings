@@ -14,7 +14,7 @@ router.get('/getUser', decodeJWT, getUserData)
 router.post('/modifyUser', decodeJWT, modifyUser)
 router.post('/likeDislike', decodeJWT, likeDislike)
 router.get('/getLikes',decodeJWT, getLikes)
-// router.post('/startConvo', decodeJWT, startConvo)
+router.post('/getFinally', decodeJWT, getMatches)
 
 
 export default router;
