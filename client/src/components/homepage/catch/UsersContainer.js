@@ -11,7 +11,9 @@ const UsersContainer = ({ usersArray }) => {
   return (
     <div id="users-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
       {usersArray.map((user, index) => (
-        <User key={index} user={user} />
+        <div key={index}>
+          <User user={user} />
+        </div>
       ))}
     </div>
   );

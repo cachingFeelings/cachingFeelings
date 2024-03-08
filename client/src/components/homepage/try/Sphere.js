@@ -13,7 +13,7 @@ const Sphere = () => {
       try {
         const token = localStorage.getItem('token');
         const res = await fetch("http://localhost:8080/api/user/getMatches/", {
-          method: "POST",
+          method: "GET",
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token,
@@ -227,18 +227,53 @@ const Sphere = () => {
     return canvas;
   }
 
-  const handleModalClose = () => {
+  const handleModalClose = async () => {
+    console.log("Diliked", selectedUser['id']);
+  
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch("http://localhost:8080/api/user/likeDislike", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          '_id': selectedUser['id'],
+          'like': false
+        }),
+      })
+      .then(res => res.json());
+    } catch (err) {
+  }
     setIsModalOpen(false);
   };
 
-  const handleLike = () => {
-    console.log("Liked", selectedUser);
-    setIsModalOpen(false);
-  };
+  const handleLike = async () => { 
+    console.log("Liked", selectedUser['id']);
+  
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch("http://localhost:8080/api/user/likeDislike", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          '_id': selectedUser['id'],
+          'like': true
+        }),
+      })
+      .then(res => res.json());
+    } catch (err) {
+  }
+  setIsModalOpen(false);
+};
 
   return (
     <div>
-      <div ref={mountRef} data-testid="three-canvas-container" style={{ width: '100%', height: '100%'}}></div>
+      <div ref={mountRef} style={{ width: '100%', height: '100%'}}></div>
       <PopupWin 
         isOpen={isModalOpen}
         onClose={handleModalClose}
