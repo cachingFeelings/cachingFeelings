@@ -4,53 +4,45 @@ import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBack
 import NavBar from '../fixedcomponents/NavBar';
 import Header from '../fixedcomponents/Header';
 
-const BioRectangle = ({ username, content, isInput, onPostChange, onPostSubmit, postContent }) => {
-  if (isInput) {
-    return (
-      <div className="bio-section">
-        <label>Bio:</label>
-        <textarea
-          placeholder="Use this space to showcase your personality, interests, and what you're looking for in a partner..."
-          rows="4"
-          cols="50"
-          value={postContent}
-          onChange={onPostChange}
-        />
-        <button className="post-button" onClick={onPostSubmit}>Post</button>
+const PostRectangle = ({ username, content }) => {
+  return (
+    <div className="post-section">
+      <h3>{username}</h3>
+      <p>{content}</p>
+      <div className="button-group">
+        <button className="cd-like-button">Like</button>
+        <button className="cd-dislike-button">Dislike</button>
+        <button className="cd-report-button">Report</button>
       </div>
-    );
-  } else {
-    return (
-      <div className="bio-section">
-        <h3>{username}</h3>
-        <p>{content}</p>
-        <div className="button-group">
-          <button className="like-button">Like</button>
-          <button className="dislike-button">Dislike</button>
-          <button className="report-button">Report</button>
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
+};
+
+const BioInput = ({ onPostChange, onPostSubmit, postContent }) => {
+  return (
+    <div className="bio-section input-bio fixed-bio">
+      <textarea
+        placeholder="Use this space to showcase your personality, interests, and what you're looking for in a partner..."
+        value={postContent}
+        onChange={onPostChange}
+      />
+      <button className="cd-post-button" onClick={onPostSubmit}>Post</button>
+    </div>
+  );
 };
 
 const CommDis = () => {
   const [bioContent, setBioContent] = useState('');
   const [posts, setPosts] = useState([
-    { username: 'User1', content: 'This is the first post.' },
-    { username: 'User2', content: 'This is another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
-    { username: 'User3', content: 'This is yet another post.' },
+    { username: 'User1', content: 'This is the latest post' },
+    { username: 'User3', content: 'This is another post.' },
+    { username: 'User4', content: 'This is another post.' },
+    { username: 'User5', content: 'This is another post.' },
+    { username: 'User6', content: 'This is another post.' },
+    { username: 'User7', content: 'This is another post.' },
+    { username: 'User8', content: 'This is another post.' },
+    { username: 'User9', content: 'This is another post.' },
+    { username: 'User10', content: 'This is another post.' },
     // ...other initial posts
   ]);
 
@@ -66,21 +58,22 @@ const CommDis = () => {
   };
 
   return (
-    <div className="config-page">
-      <Header />
-      <NavBar />
-      <div className="container" style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
-        <TwinklingBackground/>
-        <BioRectangle
-          isInput={true}
-          onPostChange={handlePostChange}
-          onPostSubmit={handlePostSubmit}
-          postContent={bioContent}
-        />
+    <div className="community-page">
+      <div className="fixed-header">
+        <Header />
+        <NavBar />
+      </div>
+      <TwinklingBackground />
+      <div className="posts-container">
         {posts.map((post, index) => (
-          <BioRectangle key={index} username={post.username} content={post.content} isInput={false} />
+          <PostRectangle key={index} username={post.username} content={post.content} />
         ))}
       </div>
+      <BioInput
+        onPostChange={handlePostChange}
+        onPostSubmit={handlePostSubmit}
+        postContent={bioContent}
+      />
     </div>
   );
 };
