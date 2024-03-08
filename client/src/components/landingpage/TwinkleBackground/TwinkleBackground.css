@@ -52,6 +52,11 @@
         z-index: 0;
   }
   
+  .twinkling-background {
+    height: auto;
+  }
+  
+
   .twinkling{
       width:10000px;
       height: 100%;
