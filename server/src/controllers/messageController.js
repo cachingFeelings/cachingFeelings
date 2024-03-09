@@ -4,7 +4,7 @@ export async function batchGetMessages(req, res){
     try{
         const userID = req.user._id;
 
-        const messageIdList = req.messageIDs;
+        const messageIdList = req.body.messageIDs;
         const messageList = await Message.find({
             _id : { $in: messageIdList }, 
             $or: [ 
@@ -32,7 +32,7 @@ export async function batchGetMessages(req, res){
 export async function getMessages(req, res){
     try{
         const userID = req.user._id;
-        const messageId = req.messageID;
+        const messageId = req.body.messageID;
         const message = await Message.findOne({ _id : messageId });
         
         const unauthorized = !message.to.equals(userID) && !message.to.equals(userID);
@@ -54,24 +54,24 @@ export async function getMessages(req, res){
 
 export async function sendMessage(req, res){
     try{
-        if( !req.body && (!req.mediaLink || req.mediaLink.length == 0 )){
+        if( !req.body && (!req.body.mediaLink || req.body.mediaLink.length == 0 )){
             throw new Error("Message cannot be empty - at least need a body and a ")
         }
         const messageInfo = {
             from: req.user._id,
-            to: req.to,
-            burnMessageAfter: req.burnMessageAfter? req.burnMessageAfter : false,
-            seen: req.seen? req.seen : false,
+            to: req.body.to,
+            burnMessageAfter: req.body.burnMessageAfter? req.body.burnMessageAfter : false,
+            seen: req.body.seen? req.body.seen : false,
             timeStamp : new Date(),
             convoID : req.user.matches[req.to]
         }
 
         if(req.body){
-            messageInfo.body = req.body
+            messageInfo.body = req.body.body
         }
 
-        if(req.mediaLink && req.mediaLink.length > 0){
-            messageInfo.mediaLink = req.mediaLink
+        if(req.body.mediaLink && req.body.mediaLink.length > 0){
+            messageInfo.mediaLink = req.body.mediaLink
         }
 
         const message = new Message(messageInfo);
@@ -86,7 +86,7 @@ export async function sendMessage(req, res){
 
 export async function updateSeen(req, res){
     try{
-        const messageId = req.messageID;
+        const messageId = req.body.messageID;
         const message = await Message.findOne({ _id : messageId });
         const userID = req.user._id;
 

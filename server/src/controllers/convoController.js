@@ -5,8 +5,13 @@ export async function getConvo(req, res){
         const convoID = req.body.convoID;
         
         const convo = await Convo.findOne({_id: convoID});
-        
-        res.status(201).send({ convo });
+
+        const unauthorized = !convo.users.includes(req.user._id);
+        if(unauthorized){
+            res.status(401).send({message: "Accessing Unauthorized Resources"});
+        } else {
+            res.status(201).send({ convo });
+        }
     } catch (error) {
         if (error.kind == 'ObjectId'){
             res.status(404).send({message: "There's no Conversation ID to see here"});
