@@ -264,7 +264,12 @@ export async function getLikes(req, res){
             user["likes"] = {}
         }
         
-        const listUsers = Array.from(user.likes.keys());
+        const userIDs = Array.from(user.likes.keys());
+
+        const listUsers = await User.find({
+            '_id' : {$in: userIDs}   
+        }, '_id username interests')
+        
         res.status(201).send({ listUsers });
 
     } catch (error) {
