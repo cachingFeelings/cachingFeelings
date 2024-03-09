@@ -6,6 +6,8 @@ import cors from 'cors';
 
 import userRouter from './routes/userRouter.js';
 import convoRouter from './routes/convoRouter.js'
+import messageRouter from './routes/messageRouter.js'
+
 
 if (!process.env.APP_URL) {
   dotenv.config();
@@ -27,7 +29,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/user', userRouter);
-app.use('/api/convo', convoRouter)
+app.use('/api/convo', convoRouter);
+app.use('/api/message', messageRouter);
 
 
 if (process.env.NODE_ENV !== 'test') {

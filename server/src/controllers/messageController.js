@@ -1,4 +1,5 @@
 import Message from '../models/messageModel.js'
+import Convo from '../models/convoModel.js'
 
 export async function batchGetMessages(req, res){
     try{
@@ -57,13 +58,25 @@ export async function sendMessage(req, res){
         if( !req.body && (!req.body.mediaLink || req.body.mediaLink.length == 0 )){
             throw new Error("Message cannot be empty - at least need a body and a ")
         }
+
+        const thisConvoID = req.user.matches.get(req.body.to);
+        if (!thisConvoID){
+            throw new Error("You have to match with the user first");
+        }
+
+        const convo = await Convo.findOne({"_id": thisConvoID});
+
+        if(!convo){
+            return res.status(404).send({message: "Convo Id Not Found"});
+        }
+
         const messageInfo = {
             from: req.user._id,
             to: req.body.to,
-            burnMessageAfter: req.body.burnMessageAfter? req.body.burnMessageAfter : false,
+            burnAfterRead: req.body.burnMessageAfter? req.body.burnMessageAfter : false,
             seen: req.body.seen? req.body.seen : false,
             timeStamp : new Date(),
-            convoID : req.user.matches[req.to]
+            convoID : thisConvoID
         }
 
         if(req.body){
@@ -77,6 +90,10 @@ export async function sendMessage(req, res){
         const message = new Message(messageInfo);
 
         await message.save();
+
+        convo.messages.push(message._id.toString());
+
+        await convo.save();
 
         res.status(201).send({ message });
     } catch (error) {
