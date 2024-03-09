@@ -2,7 +2,7 @@ import Convo from '../models/convoModel.js';
 
 export async function getConvo(req, res){
     try{
-        const convoID = req.convoID;
+        const convoID = req.body.convoID;
         
         const convo = await Convo.findOne({_id: convoID});
         
