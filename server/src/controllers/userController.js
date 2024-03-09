@@ -144,12 +144,12 @@ export async function likeDislike(req,res){
             }
         }
         var matchCheck = false;
-        if (like && targetUser.likes && targetUser.likes.has(user._id)){
+        if (like && targetUser.likes && targetUser.likes.has(user._id.toString())){
             const convoInfo = {
                 messages : [],
                 users : [user._id, targetUserID]
             }
-            const convo = new Convo(userInfo);
+            const convo = new Convo(convoInfo);
             await convo.save();
             
             if(!user.matches){
