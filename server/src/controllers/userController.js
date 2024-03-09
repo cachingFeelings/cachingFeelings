@@ -256,6 +256,16 @@ export async function getLikes(req, res){
     }
 }
 
+export async function getCurrentUserId(req, res) {
+    try {
+        const _id = req.user._id;
+        res.status(200).send({ _id });
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+}
+
+
 // export async function startConvo(req, res){
 //     try{
 //         const user = req.user;
