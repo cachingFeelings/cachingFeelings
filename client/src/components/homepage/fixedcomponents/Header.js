@@ -13,7 +13,7 @@ const Header = () => {
         <div className='above-navigation-bar'>
           <p className='title'>Caching Feelings</p>
           <div className='button-group'>
-            <Link to='/'>Community</Link>
+            <Link to='/communityDiscovery'>Community</Link>
             <Link to='/' onClick={handleSignOut}>Sign Out</Link>
           </div>
         </div>
