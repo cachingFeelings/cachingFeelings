@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "build": "babel src --out-dir dist --copy-files --no-copy-ignored",
     "lint": "eslint src/",
     "test": "NODE_ENV=test jest --coverage --detectOpenHandles --forceExit"
   },
