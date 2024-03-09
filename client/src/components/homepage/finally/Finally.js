@@ -28,25 +28,25 @@ const Finally = () => {
             });
             const data = await res.json();
 
-            if(data['likedUsers'].length > 0) {
-              console.log(data); 
-              const usersArray = data['likedUsers'].map(userId => ({
-                  id: userId
-                  // username: user.username,
-                  // interests: user.interests
-                }));
-                setLikes(usersArray); 
-            } else {
-              let users = []
-              return users; 
-            }; 
+            // if(data['likedUsers'].length > 0) {
+            //   console.log(data); 
+            //   const usersArray = data['likedUsers'].map(userId => ({
+            //       id: userId
+            //       // username: user.username,
+            //       // interests: user.interests
+            //     }));
+            //     setLikes(usersArray); 
+            // } else {
+            //   let users = []
+            //   return users; 
+            // }; 
               
           } catch (err) {
             console.error("Error retrieving matches:", err);
           }
         };
     
-        retrieveMatches();
+        //retrieveMatches();
       }, []);
 
 

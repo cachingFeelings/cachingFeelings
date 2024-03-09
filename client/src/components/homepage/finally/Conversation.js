@@ -6,7 +6,7 @@ export default function Conversation({conversations}){
         <div className='conversation'>
             {conversations.map((convo, index) => (
                 <div key={index}>
-                    <Avatar name={user} round ={true} size="50"></Avatar>
+                    <Avatar name="test" round ={true} size="50"></Avatar>
                     <span className='conversationName'>Test Name</span> 
                 </div>
             ))}

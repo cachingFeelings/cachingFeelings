@@ -34,14 +34,16 @@ body -> userID: the recipient ID from the likes page
  */
 export async function createConvo(req, res){
     try{
-        const userID = req.body._id; 
+        const userID = req.user; 
         const recipient = req.body.userID
         //confirm the user ID they sent exists
-        
-        const user = await User.findOne({recipient});
+    
+        const user = await User.findOne({_id: recipient});
+
+        //add error checking to make sure the recipient also likes the user
         
         if (!user){
-            return res.status(404).send({message: "Who you tryna contact? The wind?"})
+            return res.status(404).send({message: `Who (${userID}) you tryna contact? ${recipient} The wind?`})
         }
 
         let convoInfo = {
