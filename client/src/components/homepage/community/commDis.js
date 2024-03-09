@@ -76,6 +76,7 @@ const CommDis = () => {
   const [bioContent, setBioContent] = useState('');
   const [posts, setPosts] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [isConnected, setIsConnected] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -95,8 +96,10 @@ const CommDis = () => {
 
         const data = await response.json();
         setPosts(data.posts);
+        setIsConnected(true);
       } catch (error) {
         console.error('ERROR: fetching posts: ', error);
+        setIsConnected(false);
       }
     };
     fetchPosts();
@@ -280,32 +283,45 @@ const CommDis = () => {
     }
   };
 
+  let communityPageClass = 'community-page';
+  if (!isConnected || posts.length === 0) {
+    communityPageClass += ' full-page';
+  }
+
   return (
-    <div className="community-page">
+    <div className={communityPageClass}>
       <div className="fixed-header">
         <Header />
         <NavBar />
       </div>
       <TwinklingBackground />
       <div className="posts-container">
-        {posts.map((post, index) => (
-          <PostRectangle
-            key={index}
-            _id={post._id}
-            author={post.author}
-            body={post.body}
-            likes={post.likes}
-            dislikes={post.dislikes}
-            timeStamp={post.timeStamp}
-            reportedBy={post.reportedBy}
-            hide={post.hide}
-            currentUserId={currentUserId}
-            onLike={handleLike}
-            onDislike={handleDislike}
-            onDelete={handleDelete}
-            onReport={handleReport}
-          />
-        ))}
+        {isConnected ? (
+          posts.length > 0 ? (
+            posts.map((post, index) => (
+              <PostRectangle
+                key={index}
+                _id={post._id}
+                author={post.author}
+                body={post.body}
+                likes={post.likes}
+                dislikes={post.dislikes}
+                timeStamp={post.timeStamp}
+                reportedBy={post.reportedBy}
+                hide={post.hide}
+                currentUserId={currentUserId}
+                onLike={handleLike}
+                onDislike={handleDislike}
+                onDelete={handleDelete}
+                onReport={handleReport}
+              />
+            ))
+          ) : (
+            <p className="no-posts-message">No posts yet, post the first post in the community!</p>
+          )
+        ) : (
+          <p className="no-connection-message">No connection. Please try again later.</p>
+        )}
       </div>
       <BioInput
         onPostChange={handlePostChange}
