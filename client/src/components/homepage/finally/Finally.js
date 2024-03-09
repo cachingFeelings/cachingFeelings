@@ -12,6 +12,43 @@ import Messages from './Messages';
 
 const Finally = () => {
 
+    const [conversations, setConvos ] = useState(null); 
+
+    useEffect(() => {
+
+        const retrieveConversations = async () => {
+          try {
+            const token = localStorage.getItem('token');
+            const res = await fetch("http://localhost:8080/api/convo/getConvo", {
+              method: "GET",
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+              }
+            });
+            const data = await res.json();
+
+            if(data['likedUsers'].length > 0) {
+              console.log(data); 
+              const usersArray = data['likedUsers'].map(userId => ({
+                  id: userId
+                  // username: user.username,
+                  // interests: user.interests
+                }));
+                setLikes(usersArray); 
+            } else {
+              let users = []
+              return users; 
+            }; 
+              
+          } catch (err) {
+            console.error("Error retrieving matches:", err);
+          }
+        };
+    
+        retrieveMatches();
+      }, []);
+
 
     return (
         <div>
