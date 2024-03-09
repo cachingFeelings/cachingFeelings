@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "build": "tsc",
+    "build": "babel src --out-dir dist --copy-files --no-copy-ignored",
     "lint": "eslint src/",
     "test": "NODE_ENV=test jest --coverage --detectOpenHandles --forceExit"
   },
@@ -28,6 +28,7 @@
     "mongoose": "^8.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "babel-jest": "^29.7.0",
     "eslint": "^7.32.0",
