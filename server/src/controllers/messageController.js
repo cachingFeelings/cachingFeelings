@@ -9,7 +9,7 @@ export async function batchGetMessages(req, res){
         const messageList = await Message.find({
             _id : { $in: messageIdList }, 
             $or: [ 
-                { burnMessageAfter: { $ne: true } }, 
+                { burnAfterRead: { $ne: true } }, 
                 { seen: { $ne: true } }
             ]
         }).sort({ timeStamp: 1 });
@@ -73,7 +73,7 @@ export async function sendMessage(req, res){
         const messageInfo = {
             from: req.user._id,
             to: req.body.to,
-            burnAfterRead: req.body.burnMessageAfter? req.body.burnMessageAfter : false,
+            burnAfterRead: req.body.burnAfterRead? req.body.burnAfterRead : false,
             seen: req.body.seen? req.body.seen : false,
             timeStamp : new Date(),
             convoID : thisConvoID
@@ -111,6 +111,9 @@ export async function updateSeen(req, res){
         if(unauthorized){
             res.status(401).send("Accessing Unauthorized Resources");
         }else {
+            if (message.seen){
+                throw new Error("Already Marked Seen");
+            }
             message.seen = true;
             await message.save();
             
@@ -118,7 +121,7 @@ export async function updateSeen(req, res){
         }
     }
     catch (error) {
-
+        res.status(400).send({ message: error.message });
     }
 
 }
