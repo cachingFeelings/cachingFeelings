@@ -7,8 +7,9 @@ const messageSchema = new Schema({
     to: {type: Schema.Types.ObjectId, ref:"User"},
     body: String,
     mediaLink: [String],
-    burnMessageAfter: Number,
+    burnAfterRead: Boolean,
     seen: Boolean,
+    timeStamp: Date,
     convoID: {type: Schema.Types.ObjectId, ref:"Convo"},
   });
 
