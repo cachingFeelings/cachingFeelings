@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   server:
+    image: allnewareas/caching-feelings-server:latest
     build: 
       context: ./server
       dockerfile: Dockerfile
@@ -12,6 +13,7 @@ services:
       - NODE_ENV=development
 
   client:
+    image: allnewareas/caching-feelings-client:latest
     build: 
       context: ./client
       dockerfile: Dockerfile
