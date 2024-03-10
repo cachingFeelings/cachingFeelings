@@ -101,7 +101,8 @@ const Finally = () => {
             },
             body: JSON.stringify({
                 'body': newMessage,
-                'convoID': currChat
+                'convoID': currChat,
+                'burnAfterRead': burnAfter
             }),
         })
             const data = await res.json();
@@ -170,6 +171,7 @@ const Finally = () => {
                     <div className='chatBoxBottom'>
                         <textarea className="chatMessageInput" placeholder='send new message...' onChange={(e)=>setNewMessage(e.target.value)} value={newMessage}></textarea>
                         <button className='chatSubmitButton' onClick={handleSubmit}>Send</button>
+                        <label htmlFor="burnCheckbox">Burn after read</label>
                         <input
                             type="checkbox"
                             name="period"
