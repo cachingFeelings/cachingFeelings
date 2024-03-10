@@ -5,8 +5,9 @@ import './config/db.js';
 import cors from 'cors'; 
 
 import userRouter from './routes/userRouter.js';
-import convoRouter from './routes/convoRouter.js'
-import messageRouter from './routes/messageRouter.js'
+import convoRouter from './routes/convoRouter.js';
+import messageRouter from './routes/messageRouter.js';
+import communityRouter from './routes/communityRouter.js'; 
 
 
 if (!process.env.APP_URL) {
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 app.use('/api/user', userRouter);
 app.use('/api/convo', convoRouter);
 app.use('/api/message', messageRouter);
+app.use('/api/community', communityRouter); 
 
 
 if (process.env.NODE_ENV !== 'test') {

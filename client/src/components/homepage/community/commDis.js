@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,  useEffect } from 'react';
 import './commDis.css';
 import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBackground';
 import NavBar from '../fixedcomponents/NavBar';
@@ -33,18 +33,31 @@ const BioInput = ({ onPostChange, onPostSubmit, postContent }) => {
 
 const CommDis = () => {
   const [bioContent, setBioContent] = useState('');
-  const [posts, setPosts] = useState([
-    { username: 'User1', content: 'This is the latest post' },
-    { username: 'User3', content: 'This is another post.' },
-    { username: 'User4', content: 'This is another post.' },
-    { username: 'User5', content: 'This is another post.' },
-    { username: 'User6', content: 'This is another post.' },
-    { username: 'User7', content: 'This is another post.' },
-    { username: 'User8', content: 'This is another post.' },
-    { username: 'User9', content: 'This is another post.' },
-    { username: 'User10', content: 'This is another post.' },
-    // ...other initial posts
-  ]);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+
+    const retrievePosts = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch("http://localhost:8080/api/community/getPosts", {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+          }
+        });
+        const data = await res.json();
+        setPosts(data); 
+    
+      } catch (err) {
+        console.error("Error retrieving matches:", err);
+      }
+    };
+
+    retrievePosts(); 
+}, []);
+
 
   const handlePostChange = (event) => {
     setBioContent(event.target.value);
@@ -66,7 +79,7 @@ const CommDis = () => {
       <TwinklingBackground />
       <div className="posts-container">
         {posts.map((post, index) => (
-          <PostRectangle key={index} username={post.username} content={post.content} />
+          <PostRectangle key={index} username={post.author.username} content={post.body} />
         ))}
       </div>
       <BioInput

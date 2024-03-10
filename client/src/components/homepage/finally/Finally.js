@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../fixedcomponents/Header'; 
 import NavBar from '../fixedcomponents/NavBar';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Contacts from './Contacts'
 import './Finally.css'
 import Avatar from 'react-avatar';
@@ -18,6 +18,13 @@ const Finally = () => {
     const [messages, setMessages ] = useState([]); 
     const [newMessage, setNewMessage ] = useState("");
     const [burnAfter, setBurn ] = useState(false);
+    const chatBoxTopRef = useRef();
+
+    useEffect(() => {
+        if (chatBoxTopRef.current) {
+            chatBoxTopRef.current.scrollTop = chatBoxTopRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     useEffect(() => {
         const getUserID = async () => {
@@ -163,7 +170,7 @@ const Finally = () => {
                 <div className='chatBoxWrapper'>
                     { currChat && messages ? 
                     <>
-                    <div className='chatBoxTop'>
+                    <div className='chatBoxTop' ref={chatBoxTopRef}>
                         {messages.map((m) => (
                             <Messages id={m._id} message={m} own={m.from === theUser} burn={m.burnAfterRead} onDelete={handleDeleteMessage}/>
                         ))}
