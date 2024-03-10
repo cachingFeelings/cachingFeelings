@@ -35,6 +35,32 @@ const CommDis = () => {
   const [bioContent, setBioContent] = useState('');
   const [posts, setPosts] = useState([]);
 
+
+  const handlePostSubmit = async (e)=>{
+    //prevent page refresh 
+    e.preventDefault()
+    try {
+    const token = localStorage.getItem('token');
+    const res = await fetch("http://localhost:8080/api/community/newPost", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+            'body': bioContent
+        }),
+    })
+        const data = await res.json();
+        console.log(`The submit response is: ${data}`)
+        setPosts([...posts, data]);
+        setBioContent(""); 
+    }
+    catch(err){
+        console.log(err)
+    }
+  }
+
   useEffect(() => {
 
     const retrievePosts = async () => {
@@ -63,12 +89,12 @@ const CommDis = () => {
     setBioContent(event.target.value);
   };
 
-  const handlePostSubmit = () => {
-    if (!bioContent.trim()) return;
-    const newPost = { username: 'NewUser', content: bioContent };
-    setPosts([newPost, ...posts]);
-    setBioContent('');
-  };
+  // const handlePostSubmit = () => {
+  //   if (!bioContent.trim()) return;
+  //   const newPost = { username: 'NewUser', content: bioContent };
+  //   setPosts([newPost, ...posts]);
+  //   setBioContent('');
+  // };
 
   return (
     <div className="community-page">
