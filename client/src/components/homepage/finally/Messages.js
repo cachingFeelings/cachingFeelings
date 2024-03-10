@@ -5,7 +5,6 @@ export default function Messages({message, own}) {
     return (
         <div className={own ? 'message own' : 'message'}>
             <div className={own ? 'messageTop own' : 'messageTop'}>
-                <div className='avatar'>T</div>
                 <p className='messageText'>{message.body}</p>
             </div>
             <div className='messageBottom'>{format(message.timeStamp)}</div>

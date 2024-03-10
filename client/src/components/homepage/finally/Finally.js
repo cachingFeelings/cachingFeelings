@@ -16,7 +16,8 @@ const Finally = () => {
     const [convos, setConvos ] = useState([]); 
     const [currChat, setCurrChat ] = useState(null); 
     const [messages, setMessages ] = useState([]); 
-
+    const [newMessage, setNewMessage ] = useState("");
+    const [burnAfter, setBurn ] = useState(false);
     useEffect(() => {
         const getUserID = async () => {
             try {
@@ -88,6 +89,32 @@ const Finally = () => {
     retrieveMessages(); 
     }, [currChat]);
 
+    const handleSubmit = async (e)=>{
+        //prevent page refresh 
+        e.preventDefault()
+        const token = localStorage.getItem('token');
+        const res = await fetch("http://localhost:8080/api/message/postMessage", {
+            method: "POST",
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+            body: JSON.stringify({
+                'body': newMessage,
+                'convoID': currChat
+            }),
+        })
+            .then(res => res.json());
+
+        try{
+            const res = await res.json(); 
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
 
     console.log(`The current user is: ${theUser}`);
 
@@ -120,8 +147,14 @@ const Finally = () => {
                         ))}
                     </div>
                     <div className='chatBoxBottom'>
-                        <textarea className="chatMessageInput" placeholder='send new message...'></textarea>
-                        <button className='chatSubmitButton'>Send</button>
+                        <textarea className="chatMessageInput" placeholder='send new message...' onChange={(e)=>setNewMessage(e.target.value)} value={newMessage}></textarea>
+                        <button className='chatSubmitButton' onClick={handleSubmit}>Send</button>
+                        <input
+                            type="checkbox"
+                            name="period"
+                            checked={burnAfter}
+                            onChange={(e) => setBurn(e.target.checked)}
+                        />
                     </div>
                     </> : <span>Open a Conversation to Start</span> }
                 </div>

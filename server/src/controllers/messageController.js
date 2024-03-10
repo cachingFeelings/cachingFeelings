@@ -14,8 +14,6 @@ export async function batchGetMessages(req, res){
                 { seen: { $ne: true } }
             ]
         }).sort({ timeStamp: 1 });
-
-        console.log(`The message list is: ${messageList}`)
         
         //REMOVE AFTER TESTING
         const unauthorized = false//messageList.some(message => !message.to.equals(userID) && !message.from.equals(userID));
@@ -69,16 +67,16 @@ export async function postMessage(req, res){
         // if (!thisConvoID){
         //     throw new Error("You have to match with the user first");
         // }
-
-        const convo = await Convo.findOne({"_id": req._id});
+        console.log(req.body.convoID); 
+        const convo = await Convo.findOne({_id: req.body.convoID});
 
         if(!convo){
             return res.status(404).send({message: "Convo Id Not Found"});
         }
 
+
         const messageInfo = {
             from: req.user._id,
-            to: req.body.to,
             burnAfterRead: req.body.burnAfterRead ? req.body.burnAfterRead : false,
             seen: req.body.seen? req.body.seen : false,
             timeStamp : new Date(),
