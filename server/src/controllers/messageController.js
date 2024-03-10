@@ -131,3 +131,16 @@ export async function updateSeen(req, res){
     }
 
 }
+
+export async function deleteMessage(req, res){
+    try{
+        const messageId = req.body._id;
+        await Message.deleteOne({ _id: messageId });
+
+        res.status(201).send("Delete successful");
+    }
+    catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+
+}
