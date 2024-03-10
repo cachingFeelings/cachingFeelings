@@ -3,17 +3,19 @@ import Convo from '../models/convoModel.js'
 
 export async function batchGetMessages(req, res){
     try{
-        const userID = req.user._id;
+        // const userID = req.user._id;
 
-        const messageIdList = req.body.messageIDs;
-        console.log(req.body);
+        // const messageIdList = req.body.messageIDs;
+        console.log(`The convoID is: ${req.query.convoID}`);
         const messageList = await Message.find({
-            convoID : req.body.convoID, //{ $in: messageIdList }, 
+            convoID : req.query.convoID, //{ $in: messageIdList }, 
             $or: [ 
                 { burnAfterRead: { $ne: true } }, 
                 { seen: { $ne: true } }
             ]
         }).sort({ timeStamp: 1 });
+
+        console.log(`The message list is: ${messageList}`)
         
         //REMOVE AFTER TESTING
         const unauthorized = false//messageList.some(message => !message.to.equals(userID) && !message.from.equals(userID));

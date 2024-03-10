@@ -12,10 +12,32 @@ import Messages from './Messages';
 
 
 const Finally = () => {
-
+    const [theUser, setUserID] = useState(null); 
     const [convos, setConvos ] = useState([]); 
     const [currChat, setCurrChat ] = useState(null); 
     const [messages, setMessages ] = useState([]); 
+
+    useEffect(() => {
+        const getUserID = async () => {
+            try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`http://localhost:8080/api/user/getCurrentUserId`, {
+                method: "GET",
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                }
+            });
+            const data = await res.json(); 
+            setUserID(data._id); 
+        
+            } catch (err) {
+            console.error("Error getting user:", err);
+            }
+        } 
+        getUserID();
+    }, []);
+
 
     useEffect(() => {
 
@@ -48,16 +70,15 @@ const Finally = () => {
     const retrieveMessages = async () => {
         try {
         const token = localStorage.getItem('token');
-        const res = await fetch("http://localhost:8080/api/message/batchGetMessages", {
+        const res = await fetch(`http://localhost:8080/api/message/batchGetMessages?convoID=${currChat}`, {
             method: "GET",
             headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token,
-            },
-            body: JSON.stringify({
-                'convoID': currChat
-            })
-        }); 
+            }
+        });
+        const data = await res.json(); 
+        setMessages(data.messageList); 
     
         } catch (err) {
         console.error("Error retrieving matches:", err);
@@ -65,9 +86,10 @@ const Finally = () => {
     };
 
     retrieveMessages(); 
-    }, []);
+    }, [currChat]);
 
-    console.log(currChat); 
+
+    console.log(`The current user is: ${theUser}`);
 
     return (
         <div>
@@ -90,18 +112,12 @@ const Finally = () => {
             </div>
             <div className='chatBox'>
                 <div className='chatBoxWrapper'>
-                    { currChat ? 
+                    { currChat && messages ? 
                     <>
                     <div className='chatBoxTop'>
-                        <Messages />
-                        <Messages own={true}/>
-                        <Messages />
-                        <Messages />
-                        <Messages own={true}/>
-                        <Messages />
-                        <Messages />
-                        <Messages own={true}/>
-                        <Messages />
+                        {messages.map((m) => (
+                            <Messages message={m} own={m.from === theUser}/>
+                        ))}
                     </div>
                     <div className='chatBoxBottom'>
                         <textarea className="chatMessageInput" placeholder='send new message...'></textarea>
