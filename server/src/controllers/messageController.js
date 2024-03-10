@@ -73,7 +73,7 @@ export async function sendMessage(req, res){
         const messageInfo = {
             from: req.user._id,
             to: req.body.to,
-            burnAfterRead: req.body.burnAfterRead? req.body.burnAfterRead : false,
+            burnAfterRead: req.body.burnAfterRead ? req.body.burnAfterRead : false,
             seen: req.body.seen? req.body.seen : false,
             timeStamp : new Date(),
             convoID : thisConvoID

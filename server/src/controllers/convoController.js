@@ -14,16 +14,26 @@ export async function getConvos(req, res){
             { users: { $in: [userID] } }
         ).populate({
             path: 'users',
-            select: 'username -_id',
+            select: 'username _id',
             match: { _id: { $ne: userID } }
         });
+
+        // const convo = await Convo.find(
+        //     { users: { $in: [userID] } },
+        //     { _id: 1, users: { $elemMatch: { $ne: userID } } }
+        // );
 
         if (!convo) {
             res.status(404).send({ message: "No conversation found for the user." });
             return;
         }
 
-        const usernames = convo.map(conversation => conversation.users[0].username);
+        const usernames = convo.map(conv => ({
+            _id: conv._id,
+            username: conv.users[0].username
+        }));
+
+        // const usernames = convo.map(conversation => conversation.users[0].username);
 
         res.status(200).json(usernames); 
 

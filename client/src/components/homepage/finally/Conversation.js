@@ -6,10 +6,10 @@ export default function Conversation({conversations}){
     if(conversations) {
         return (
             <div className='conversation'>
-                {conversations.map((name, index) => (
-                    <div key={index} className='conversation-box'>
-                        <Avatar name={name} round ={true} size="50"></Avatar>
-                        <span className='conversationName'>{name}</span> 
+                {conversations.map((convo, index) => (
+                    <div key={index} className='conversation-box' convo-id={convo._id}>
+                        <Avatar name={convo.username} round ={true} size="50"></Avatar>
+                        <span className='conversationName'>{convo.username}</span> 
                     </div>
                 ))}
             </div>
