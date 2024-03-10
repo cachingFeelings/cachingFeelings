@@ -18,6 +18,7 @@ const Finally = () => {
     const [messages, setMessages ] = useState([]); 
     const [newMessage, setNewMessage ] = useState("");
     const [burnAfter, setBurn ] = useState(false);
+
     useEffect(() => {
         const getUserID = async () => {
             try {
@@ -53,9 +54,6 @@ const Finally = () => {
               }
             });
             const data = await res.json();
-            console.log("This is the data");
-            console.log(data);
-
             setConvos(data); 
         
           } catch (err) {
@@ -92,6 +90,7 @@ const Finally = () => {
     const handleSubmit = async (e)=>{
         //prevent page refresh 
         e.preventDefault()
+        try {
         const token = localStorage.getItem('token');
         const res = await fetch("http://localhost:8080/api/message/postMessage", {
             method: "POST",
@@ -102,21 +101,44 @@ const Finally = () => {
             },
             body: JSON.stringify({
                 'body': newMessage,
-                'convoID': currChat
+                'convoID': currChat,
+                'burnAfterRead': burnAfter
             }),
         })
-            .then(res => res.json());
-
-        try{
-            const res = await res.json(); 
+            const data = await res.json();
+            console.log(`The submit response is: ${data}`)
+            setMessages([...messages, data]);
+            setNewMessage("")
         }
         catch(err){
             console.log(err)
         }
     }
 
-
-    console.log(`The current user is: ${theUser}`);
+    const handleDeleteMessage = (messageId) => { 
+        setMessages(messages.filter(msg => msg._id !== messageId));
+        deleteFromDB(messageId); 
+    }
+    const deleteFromDB = async (msgID) => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch("http://localhost:8080/api/message/deleteMessage", {
+                method: "DELETE",
+    
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify({
+                    '_id': msgID
+                }),
+            })
+            console.log("delete api request was called"); 
+        }
+        catch(err){
+            console.log(err)
+        }
+    };
 
     return (
         <div>
@@ -143,12 +165,13 @@ const Finally = () => {
                     <>
                     <div className='chatBoxTop'>
                         {messages.map((m) => (
-                            <Messages message={m} own={m.from === theUser}/>
+                            <Messages id={m._id} message={m} own={m.from === theUser} burn={m.burnAfterRead} onDelete={handleDeleteMessage}/>
                         ))}
                     </div>
                     <div className='chatBoxBottom'>
                         <textarea className="chatMessageInput" placeholder='send new message...' onChange={(e)=>setNewMessage(e.target.value)} value={newMessage}></textarea>
                         <button className='chatSubmitButton' onClick={handleSubmit}>Send</button>
+                        <label htmlFor="burnCheckbox">Burn after read</label>
                         <input
                             type="checkbox"
                             name="period"
