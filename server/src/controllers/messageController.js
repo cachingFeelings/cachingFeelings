@@ -3,18 +3,20 @@ import Convo from '../models/convoModel.js'
 
 export async function batchGetMessages(req, res){
     try{
-        const userID = req.user._id;
+        // const userID = req.user._id;
 
-        const messageIdList = req.body.messageIDs;
+        // const messageIdList = req.body.messageIDs;
+        console.log(`The convoID is: ${req.query.convoID}`);
         const messageList = await Message.find({
-            _id : { $in: messageIdList }, 
+            convoID : req.query.convoID, //{ $in: messageIdList }, 
             $or: [ 
                 { burnAfterRead: { $ne: true } }, 
                 { seen: { $ne: true } }
             ]
         }).sort({ timeStamp: 1 });
         
-        const unauthorized = messageList.some(message => !message.to.equals(userID) && !message.to.equals(userID));
+        //REMOVE AFTER TESTING
+        const unauthorized = false//messageList.some(message => !message.to.equals(userID) && !message.from.equals(userID));
         
         if(unauthorized){
             res.status(401).send("Accessing Unauthorized Resources");
@@ -53,27 +55,29 @@ export async function getMessages(req, res){
     }
 }
 
-export async function sendMessage(req, res){
+export async function postMessage(req, res){
     try{
+        //ask about this
         if( !req.body && (!req.body.mediaLink || req.body.mediaLink.length == 0 )){
             throw new Error("Message cannot be empty - at least need a body and a ")
         }
 
-        const thisConvoID = req.user.matches.get(req.body.to);
-        if (!thisConvoID){
-            throw new Error("You have to match with the user first");
-        }
-
-        const convo = await Convo.findOne({"_id": thisConvoID});
+        //No longer need this?
+        // const thisConvoID = req.user.matches.get(req.body.to);
+        // if (!thisConvoID){
+        //     throw new Error("You have to match with the user first");
+        // }
+        console.log(req.body.convoID); 
+        const convo = await Convo.findOne({_id: req.body.convoID});
 
         if(!convo){
             return res.status(404).send({message: "Convo Id Not Found"});
         }
 
+
         const messageInfo = {
             from: req.user._id,
-            to: req.body.to,
-            burnAfterRead: req.body.burnAfterRead? req.body.burnAfterRead : false,
+            burnAfterRead: req.body.burnAfterRead ? req.body.burnAfterRead : false,
             seen: req.body.seen? req.body.seen : false,
             timeStamp : new Date(),
             convoID : thisConvoID
