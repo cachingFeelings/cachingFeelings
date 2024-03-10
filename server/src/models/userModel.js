@@ -12,6 +12,7 @@ const userSchema = new Schema({
     DOB: Date,
     likes: { type: Map, of: String },
     dislikes: [{type: Schema.Types.ObjectId, ref:"User"}],
+    matches: { type: Map, of: String },
     showUsersLookingFor: {type: String},
     matchWith: {type: String},
     gender: String,

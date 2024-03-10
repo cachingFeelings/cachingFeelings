@@ -1,4 +1,5 @@
 import User from '../models/userModel.js';
+import Convo from '../models/convoModel.js';
 import pkg from 'jsonwebtoken';
 import bcpkg from 'bcryptjs'
 const {sign} = pkg;
@@ -142,10 +143,34 @@ export async function likeDislike(req,res){
                 user.dislikes.push(targetUserID);
             }
         }
+        var matchCheck = false;
+        if (like && targetUser.likes && targetUser.likes.has(user._id.toString())){
+            const convoInfo = {
+                messages : [],
+                users : [user._id, targetUserID]
+            }
+            const convo = new Convo(convoInfo);
+            await convo.save();
+            
+            if(!user.matches){
+                user["matches"] = {}
+            }
+            if(!targetUser.matches){
+                targetUser["matches"] = {}
+            }
+            user.matches.set(targetUserID, convo._id);
+            targetUser.matches.set(user._id, convo._id);
+            
+            await targetUser.save();
+            matchCheck = true;
+        }
 
         await user.save();
 
-        res.status(201).send({ message: "Great Success"});
+        res.status(201).send({ 
+            message: "Great Success",
+            isMatch: matchCheck
+        });
     } catch (error) {
         if (error.kind == 'ObjectId'){
             res.status(404).send({message: "Who you tryna contact? The wind?"});
@@ -188,7 +213,7 @@ export async function modifyUser(req, res){
     }
 }
 
-export async function getMatches(req, res){
+export async function getInterestMatches(req, res){
     try{
         const user = req.user;
         const token = req.token;
@@ -234,19 +259,19 @@ export async function getMatches(req, res){
 export async function getLikes(req, res){
     try{
         const user = req.user;
+
         if(!user.likes){
-            console.log("There are no likes"); 
-            // user["likes"] = {}
-            res.status(201).send({})
+            user["likes"] = {}
         }
-        else {
-            const likedUsers = Array.from(user.likes.keys());
-            res.status(201).send({ likedUsers });
-        }
-        // if(!user.dislikes){
-        //     user["dislikes"] = []
-        // }
-    
+        
+        const userIDs = Array.from(user.likes.keys());
+
+        const listUsers = await User.find({
+            '_id' : {$in: userIDs}   
+        }, '_id username interests')
+        
+        res.status(201).send({ listUsers });
+
     } catch (error) {
         if (error.kind == 'ObjectId'){
             res.status(404).send({message: "Who you tryna contact? The wind?"});
@@ -256,40 +281,30 @@ export async function getLikes(req, res){
     }
 }
 
-// export async function startConvo(req, res){
-//     try{
-//         const user = req.user;
-//         const token = req.token;
-        
-//         const otherUserID = await User.findOne({_id: req._id});
-        
+export async function getCurrentUserId(req, res) {
+    try {
+        const _id = req.user._id;
+        res.status(200).send({ _id });
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+}
 
-//         res.status(201).send({ listUsers });
-//     } catch (error) {
-//         res.status(400).send({ message: error.message });
-//     }
-// }
 
-// export async function addMessage(){
+export async function getMatches(req, res){
+    try{
+        const user = req.user;
 
-// }
-
-// export async function changeStatus(req, res){
-
-// }
-
-// export async function batchCreateUser(req, res) {
-//     try {
-//         // Only the username & pass - rest of the fields added as onboarding
-//         for (let item of req.body){
-//             console.log(item)
-//             const { username, password, interests } = item;
-//             const user = new User({ username, password, interests });    
-//             await user.save();
-//         }
-
-//         res.status(201).send({ user, token });
-//     } catch (error) {
-//         res.status(400).send({ message: error.message });
-//     }
-// }
+        if (!user.matches){
+            user["matches"] = {}
+        }
+        const mapUsers = user.matches;
+        res.status(201).send({ mapUsers });
+    } catch (error) {
+        if (error.kind == 'ObjectId'){
+            res.status(404).send({message: "Who you tryna contact? The wind?"});
+        }else {
+            res.status(400).send({ message: error.message });
+        }
+    }
+}
