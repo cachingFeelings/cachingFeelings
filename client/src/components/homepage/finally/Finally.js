@@ -18,6 +18,7 @@ const Finally = () => {
     const [messages, setMessages ] = useState([]); 
     const [newMessage, setNewMessage ] = useState("");
     const [burnAfter, setBurn ] = useState(false);
+
     useEffect(() => {
         const getUserID = async () => {
             try {
@@ -53,9 +54,6 @@ const Finally = () => {
               }
             });
             const data = await res.json();
-            console.log("This is the data");
-            console.log(data);
-
             setConvos(data); 
         
           } catch (err) {
@@ -92,6 +90,7 @@ const Finally = () => {
     const handleSubmit = async (e)=>{
         //prevent page refresh 
         e.preventDefault()
+        try {
         const token = localStorage.getItem('token');
         const res = await fetch("http://localhost:8080/api/message/postMessage", {
             method: "POST",
@@ -105,18 +104,15 @@ const Finally = () => {
                 'convoID': currChat
             }),
         })
-            .then(res => res.json());
-
-        try{
-            const res = await res.json(); 
+            const data = await res.json();
+            console.log(`The submit response is: ${data}`)
+            setMessages([...messages, data]);
+            setNewMessage("")
         }
         catch(err){
             console.log(err)
         }
     }
-
-
-    console.log(`The current user is: ${theUser}`);
 
     return (
         <div>

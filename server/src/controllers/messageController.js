@@ -69,6 +69,8 @@ export async function postMessage(req, res){
         // }
         console.log(req.body.convoID); 
         const convo = await Convo.findOne({_id: req.body.convoID});
+        console.log(`The convo is: ${convo}`); 
+        console.log(`The req is: ${req.body}`)
 
         if(!convo){
             return res.status(404).send({message: "Convo Id Not Found"});
@@ -78,9 +80,9 @@ export async function postMessage(req, res){
         const messageInfo = {
             from: req.user._id,
             burnAfterRead: req.body.burnAfterRead ? req.body.burnAfterRead : false,
-            seen: req.body.seen? req.body.seen : false,
+            seen: false,
             timeStamp : new Date(),
-            convoID : thisConvoID
+            convoID : convo._id
         }
 
         if(req.body){
@@ -99,7 +101,7 @@ export async function postMessage(req, res){
 
         await convo.save();
 
-        res.status(201).send({ message });
+        res.status(201).send(message);
     } catch (error) {
         res.status(400).send({ message: error.message });
     }
