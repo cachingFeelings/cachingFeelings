@@ -114,6 +114,11 @@ const Finally = () => {
         }
     }
 
+    const handleDeleteMessage = (messageId) => {
+        console.log(`This is the message we are wanting to remove: ${messageId}`); 
+        setMessages(messages.filter(msg => msg._id !== messageId));
+    };
+
     return (
         <div>
         <Header />
@@ -139,7 +144,7 @@ const Finally = () => {
                     <>
                     <div className='chatBoxTop'>
                         {messages.map((m) => (
-                            <Messages message={m} own={m.from === theUser}/>
+                            <Messages id={m._id} message={m} own={m.from === theUser} burn={m.burnAfterRead} onDelete={handleDeleteMessage}/>
                         ))}
                     </div>
                     <div className='chatBoxBottom'>

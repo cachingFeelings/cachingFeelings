@@ -67,6 +67,10 @@
 .own .messageText{
     background-color: blueviolet;
 }
+
+.own .burn {
+    background-color: red;
+}
 .avatar {
     display: inline-block;
     width:32px; 
