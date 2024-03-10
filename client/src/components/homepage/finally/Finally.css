@@ -38,13 +38,16 @@
 }
 
 .conversation {
-    display: flex;
+    display: block;
     align-items: center;
     padding: 10px; 
     border-color: white;
     cursor: pointer;
 }
-.conversation:hover {
+.conversation-box {
+    padding: 10px; 
+}
+.conversation-box:hover {
     background-color: lightslategray;
 }
 .conversationName {

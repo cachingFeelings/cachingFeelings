@@ -12,14 +12,14 @@ import Messages from './Messages';
 
 const Finally = () => {
 
-    const [conversations, setConvos ] = useState(null); 
+    const [convos, setConvos ] = useState(null); 
 
     useEffect(() => {
 
         const retrieveConversations = async () => {
           try {
             const token = localStorage.getItem('token');
-            const res = await fetch("http://localhost:8080/api/convo/getConvo", {
+            const res = await fetch("http://localhost:8080/api/convo/getConvos", {
               method: "GET",
               headers: {
                 'Content-Type': 'application/json',
@@ -27,26 +27,17 @@ const Finally = () => {
               }
             });
             const data = await res.json();
+            console.log("This is the data");
+            console.log(data);
 
-            // if(data['likedUsers'].length > 0) {
-            //   console.log(data); 
-            //   const usersArray = data['likedUsers'].map(userId => ({
-            //       id: userId
-            //       // username: user.username,
-            //       // interests: user.interests
-            //     }));
-            //     setLikes(usersArray); 
-            // } else {
-            //   let users = []
-            //   return users; 
-            // }; 
-              
+            setConvos(data); 
+        
           } catch (err) {
             console.error("Error retrieving matches:", err);
           }
         };
-    
-        //retrieveMatches();
+
+        retrieveConversations(); 
       }, []);
 
 
@@ -59,7 +50,7 @@ const Finally = () => {
         <div className="finally" style={{height:'100vh', display:'flex', color:'white'}}>
             <div className="chatMenu">
                 <div className='chatMenuWrapper'>
-                    <Conversation />
+                    <Conversation conversations={convos}/>
                 </div>
             </div>
             <div className='chatBox'>

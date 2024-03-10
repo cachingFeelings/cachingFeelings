@@ -6,21 +6,26 @@ import User from '../models/userModel.js';
 //then it will search through the list of conversations and find ones that the user is in
 //then it will stitch together the convo ID and the username of the person they are chatting with
 //then return this as a json body similar to how batchGetMessages sends it
-export async function getConvo(req, res){
+export async function getConvos(req, res){
     try{
         const userID = req.user; 
         
         const convo = await Convo.find(
-            { users: { $in: [userID] } },
-            { _id: 1, users: { $elemMatch: { $ne: userID } } }
-            );
+            { users: { $in: [userID] } }
+        ).populate({
+            path: 'users',
+            select: 'username -_id',
+            match: { _id: { $ne: userID } }
+        });
 
         if (!convo) {
             res.status(404).send({ message: "No conversation found for the user." });
             return;
         }
 
-        res.status(200).json(convo); 
+        const usernames = convo.map(conversation => conversation.users[0].username);
+
+        res.status(200).json(usernames); 
 
     } catch (error) {
         if (error.kind == 'ObjectId'){
