@@ -8,6 +8,26 @@
   flex-direction: column;
 }
 
+.community-page.full-page {
+  padding-bottom: 100px;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+}
+
+.no-posts-message {
+  color: white;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.no-connection-message {
+  color: #ff4757;
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2rem;
+}
+
 @media (max-width: 768px) {
   .community-page {
     position: absolute;
@@ -101,6 +121,7 @@
 
 .cd-like-button,
 .cd-dislike-button,
+.cd-delete-button,
 .cd-report-button {
   margin-left: 0.5%;
   margin-right: 0.5%;
@@ -139,6 +160,7 @@
 }
 
 .cd-report-button:hover,
+.cd-delete-button:hover,
 .cd-dislike-button:hover {
   box-shadow: 0 3px 10px #c84a4a;
   background-color: rgb(207, 36, 36);
