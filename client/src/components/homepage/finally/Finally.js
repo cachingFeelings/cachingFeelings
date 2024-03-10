@@ -114,9 +114,29 @@ const Finally = () => {
         }
     }
 
-    const handleDeleteMessage = (messageId) => {
-        console.log(`This is the message we are wanting to remove: ${messageId}`); 
+    const handleDeleteMessage = (messageId) => { 
         setMessages(messages.filter(msg => msg._id !== messageId));
+        deleteFromDB(messageId); 
+    }
+    const deleteFromDB = async (msgID) => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch("http://localhost:8080/api/message/deleteMessage", {
+                method: "DELETE",
+    
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify({
+                    '_id': msgID
+                }),
+            })
+            console.log("delete api request was called"); 
+        }
+        catch(err){
+            console.log(err)
+        }
     };
 
     return (
