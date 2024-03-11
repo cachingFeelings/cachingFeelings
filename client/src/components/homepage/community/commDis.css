@@ -129,12 +129,42 @@
   color: black;
   font-size: 16px;
   padding: 0.8%;
-  min-width: 65px;
+  min-width: 130px;
   width: 8%;
   border: none;
   cursor: pointer;
   border-radius: 7px;
   transition: background-color 0.4s ease, width 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cd-like-button-liked {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  box-shadow: 0 3px 10px #7ed470;
+  background-color: rgb(41, 185, 41);
+  color: white;
+  font-size: 16px;
+  padding: 0.8%;
+  min-width: 130px;
+  width: 8%;
+  border: none;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.cd-dislike-button-disliked {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  box-shadow: 0 3px 10px #c84a4a;
+  background-color: rgb(207, 36, 36);
+  color: white;
+  font-size: 16px;
+  padding: 0.8%;
+  min-width: 130px;
+  width: 8%;
+  border: none;
+  cursor: pointer;
+  border-radius: 7px;
 }
 
 .cd-post-button {
