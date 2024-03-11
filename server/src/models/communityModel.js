@@ -2,7 +2,7 @@ import { Schema as _Schema, model } from 'mongoose';
 
 const Schema = _Schema;
 
-const messageSchema = new Schema({
+const communitySchema = new Schema({
     author : {type: Schema.Types.ObjectId, ref:"User"},
     title : String,
     body : String,
@@ -13,5 +13,5 @@ const messageSchema = new Schema({
     hide : Boolean
   });
 
-const Message = model('Message', messageSchema);
-export default Message;
+const Community = model('Community', communitySchema);
+export default Community;
