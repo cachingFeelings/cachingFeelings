@@ -284,8 +284,12 @@ const CommDis = () => {
   };
 
   let communityPageClass = 'community-page';
-  if (!isConnected || posts.length === 0) {
+  if (posts === undefined) {
     communityPageClass += ' full-page';
+  } else {
+    if (!isConnected || posts.length === 0) {
+      communityPageClass += ' full-page';
+    }
   }
 
   return (
@@ -296,7 +300,7 @@ const CommDis = () => {
       </div>
       <TwinklingBackground />
       <div className="posts-container">
-        {isConnected ? (
+        {isConnected && posts !== undefined ?(
           posts.length > 0 ? (
             posts.map((post, index) => (
               <PostRectangle
