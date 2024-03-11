@@ -27,7 +27,7 @@ const sendLike = async (token, targetUserId, like = true) => {
 
 // Messages unit test
 describe('Messages', () => {
-    let user1Token, user2Id, messageId;
+    let user1Token, user2Id, user1Id, messageId;
 
     beforeAll(async () => {
         // Create two users and get their tokens/IDs
