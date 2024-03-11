@@ -253,9 +253,14 @@ const CommDis = () => {
   } else {
     if (!isConnected || posts.length === 0) {
       communityPageClass += ' full-page';
+    } else {
+      if (posts.length <= 3) {
+        communityPageClass += ' full-page';
+      }
     }
   }
-
+  
+  console.log(isConnected && posts !== undefined);
   return (
     <div className={communityPageClass}>
       <div className="fixed-header">
