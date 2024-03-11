@@ -75,11 +75,13 @@ body -> userID: the recipient ID from the likes page
  */
 export async function createConvo(req, res){
     try{
-        const userID = req.user; 
-        const recipient = req.body.userID
+        const userID = req.user._id; 
+        const recipient = req.body.username
         //confirm the user ID they sent exists
     
-        const user = await User.findOne({_id: recipient});
+        const user = await User.findOne({username: recipient});
+        const recipientID = user._id
+        console.log(`The userID is ${userID} and the recipient ID is ${recipientID}`)
 
         //add error checking to make sure the recipient also likes the user
         
@@ -88,7 +90,7 @@ export async function createConvo(req, res){
         }
 
         const existingConvo = await Convo.findOne({
-            users: { $all: [userID, recipient] }
+            users: { $all: [userID, recipientID] }
         });
         if (existingConvo) {
             return res.status(400).send({ message: "Conversation already exists for these users." });
@@ -96,7 +98,7 @@ export async function createConvo(req, res){
 
         let convoInfo = {
             messages : [], 
-            users: [userID, recipient] 
+            users: [userID, recipientID] 
         }
         const convo = new Convo(convoInfo); 
         await convo.save(); 
