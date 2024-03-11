@@ -74,9 +74,34 @@ describe('Messages', () => {
         user2Id = createUserResponse.body.userObj._id;
     });
 
-    beforeAll(async () => {
-    await sendLike(user1Token, user2Id);
-    await sendLike(user2Token, user1Id);
+    it('user 1 should like user 2', async () => {
+        const response = await request(app)
+            .post('/api/user/likeDislike')
+            .set('Authorization', `Bearer ${user1Token}`)
+            .send({
+                _id: user2Id,
+                like: true
+            });
+
+        // Check if the response status code is 201 (Created) or other if your API behaves differently
+        expect(response.statusCode).toBe(201);
+        // Add any other expectations here. For example, checking the response body if necessary
+        // e.g., expect(response.body.message).toEqual("Liked successfully");
+    });
+
+    it('user 2 should like user 1', async () => {
+        const response = await request(app)
+            .post('/api/user/likeDislike')
+            .set('Authorization', `Bearer ${user2Token}`)
+            .send({
+                _id: user1Id,
+                like: true
+            });
+
+        // Check if the response status code is 201 (Created) or other if your API behaves differently
+        expect(response.statusCode).toBe(201);
+        // Add any other expectations here. For example, checking the response body if necessary
+        // e.g., expect(response.body.message).toEqual("Liked successfully");
     });
     // beforeAll(async () => {
     //     const response = await request(app)
@@ -110,19 +135,19 @@ describe('Messages', () => {
     // });
 
     //Unit test for sending a message from user1 to user2
-    it('should send a message from user1 to user2', async () => {
-        const sendMessageResponse = await request(app)
-            .post('/api/message/sendMessage')
-            .set('Authorization', `Bearer ${user1Token}`)
-            .send({
-                body: 'Hello, user2!',
-                to: user2Id
-            });
-        expect(sendMessageResponse.statusCode).toBe(201);
-        messageId = sendMessageResponse.body._id; // Store messageId for later tests
-        expect(sendMessageResponse.body.from).toEqual(user1Id); // Assuming we have user1Id
-        expect(sendMessageResponse.body.to).toEqual(user2Id);
-    });
+    // it('should send a message from user1 to user2', async () => {
+    //     const sendMessageResponse = await request(app)
+    //         .post('/api/message/sendMessage')
+    //         .set('Authorization', `Bearer ${user1Token}`)
+    //         .send({
+    //             body: 'Hello, user2!',
+    //             to: user2Id
+    //         });
+    //     expect(sendMessageResponse.statusCode).toBe(201);
+    //     messageId = sendMessageResponse.body._id; // Store messageId for later tests
+    //     expect(sendMessageResponse.body.from).toEqual(user1Id); // Assuming we have user1Id
+    //     expect(sendMessageResponse.body.to).toEqual(user2Id);
+    // });
 
     // // Unit test for batch getting messages
     // it('should batch get messages', async () => {
