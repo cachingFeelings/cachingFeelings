@@ -20,8 +20,8 @@ describe('POST /create_user', () => {
             .post('/api/user/create_user') 
             .send({
                 data: {
-                    username: 'test1User',
-                    password: 'test1Password',
+                    username: 'test2User',
+                    password: 'test2Password',
                 }
             });
         expect(response.statusCode).toBe(201);
