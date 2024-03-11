@@ -161,7 +161,50 @@ describe('GET /getUser', () => {
         expect(response.statusCode).toBe(401);
         expect(response.body.message).toEqual("Please authenticate.");
     });
+
+    //===========================================
+    it('should return 201 and id', async () => {
+
+        const response = await request(app)
+            .get('/api/user/geCurrentUserId')
+            .set('Authorization', `Bearer ${token}`)
+            .send();
+
+        expect(response.statusCode).toBe(201);
+    });
+
+    it('should return 401 for missing or invalid token', async () => {
+
+        const response = await request(app)
+            .get('/api/user/geCurrentUserId')
+            .send();
+
+        expect(response.statusCode).toBe(401);
+    });
 });
+
+describe('POST /validate', () => {
+    it('should return 200 for a unique username', async () => {
+
+        const response = await request(app)
+            .post('/api/user/validate')
+            .send({username: 'unique' });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toEqual("Username is available");
+    });
+
+    it('should return 409 for a unique username', async () => {
+
+        const response = await request(app)
+            .post('/api/user/validate')
+            .send({username: 'testUser' });
+
+        expect(response.statusCode).toBe(409);
+        expect(response.body.message).toEqual("Already taken");
+    });
+}); 
+
 
 describe('POST /validate', () => {
     it('should return 200 for a unique username', async () => {

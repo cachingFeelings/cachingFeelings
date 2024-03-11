@@ -86,4 +86,78 @@ it('user 2 should like user 1', async () => {
     // Add any other expectations here. For example, checking the response body if necessary
     // e.g., expect(response.body.message).toEqual("Liked successfully");
 });
+
+it('user 2 should already likes user 1, receive 400', async () => {
+    const response = await request(app)
+        .post('/api/user/likeDislike')
+        .set('Authorization', `Bearer ${token2}`)
+        .send({
+            _id: userID,
+            like: true
+        });
+
+    // Check if the response status code is 201 (Created) or other if your API behaves differently
+    expect(response.statusCode).toBe(400);
+    // Add any other expectations here. For example, checking the response body if necessary
+    // e.g., expect(response.body.message).toEqual("Liked successfully");
+});
+
+it('user 2 should dislike user 1', async () => {
+    const response = await request(app)
+        .post('/api/user/likeDislike')
+        .set('Authorization', `Bearer ${token2}`)
+        .send({
+            _id: userID,
+            like: false
+        });
+
+    // Check if the response status code is 201 (Created) or other if your API behaves differently
+    expect(response.statusCode).toBe(201);
+    // Add any other expectations here. For example, checking the response body if necessary
+    // e.g., expect(response.body.message).toEqual("Liked successfully");
+});
+
+
+it('like will be set to true by default if not included', async () => {
+    const response = await request(app)
+        .post('/api/user/likeDislike')
+        .set('Authorization', `Bearer ${token2}`)
+        .send({
+            _id: userID
+        });
+
+    // Check if the response status code is 201 (Created) or other if your API behaves differently
+    expect(response.statusCode).toBe(201);
+    // Add any other expectations here. For example, checking the response body if necessary
+    // e.g., expect(response.body.message).toEqual("Liked successfully");
+});
+
+it(' receive error 400 id not included', async () => {
+    const response = await request(app)
+        .post('/api/user/likeDislike')
+        .set('Authorization', `Bearer ${token2}`)
+        .send({
+            like: false
+        });
+
+    // Check if the response status code is 201 (Created) or other if your API behaves differently
+    expect(response.statusCode).toBe(400);
+    // Add any other expectations here. For example, checking the response body if necessary
+    // e.g., expect(response.body.message).toEqual("Liked successfully");
+});
+
+it(' receive error 401 invalid or not included token', async () => {
+    const response = await request(app)
+        .post('/api/user/likeDislike')
+        .send({
+            _id: userID,
+            like: false
+        });
+
+    // Check if the response status code is 201 (Created) or other if your API behaves differently
+    expect(response.statusCode).toBe(401);
+    // Add any other expectations here. For example, checking the response body if necessary
+    // e.g., expect(response.body.message).toEqual("Liked successfully");
+});
+
 });
