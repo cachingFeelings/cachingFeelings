@@ -18,16 +18,23 @@ const PostRectangle = ({ _id, author, body, likes, dislikes, timeStamp, reported
 
   return (
     <div className="post-section">
-      <h3>{author['username']} - {date}</h3>
+      <h3>{author['username']}</h3>
+      <p>{date}</p>
       <p>{content}</p>
       <div className="button-group">
-        {!currentUserLikedPost &&  <button className="cd-like-button" onClick={() => onLike(_id)}>Like</button>}
-        {!currentUserDislikedPost && <button className="cd-dislike-button" onClick={() => onDislike(_id)}>Dislike</button>}
+        <button
+          className={`cd-like-button ${currentUserLikedPost ? 'cd-like-button-liked' : ''}`}
+          onClick={() => onLike(_id)}
+        >Like {likes.length}</button>
+        <button
+          className={`cd-dislike-button ${currentUserDislikedPost ? 'cd-dislike-button-disliked' : ''}`}
+          onClick={() => onDislike(_id)}
+        >Dislike {dislikes.length}</button>
         {isAuthor && <button className="cd-delete-button" onClick={() => onDelete(_id)}>Delete</button>}
         {!isAuthor && <button className="cd-report-button" onClick={() => onReport(_id)}>Report</button>}
       </div>
     </div>
-  );
+  );  
 };
 
 const BioInput = ({ onPostChange, onPostSubmit, postContent }) => {
@@ -121,14 +128,8 @@ const CommDis = () => {
         throw new Error(`ERROR: http status: ${response.status}`);
       }
   
-      // Update the local state to reflect the new like status
-      // const updatedPosts = posts.map(post => {
-      //   if (post._id === postId) {
-      //     return { ...post, likes: [...post.likes, currentUserId] };
-      //   }
-      //   return post;
-      // });
-      // setPosts(updatedPosts);
+      const updatedPost = await response.json();
+      setPosts(posts.map(post => post._id === postId ? { ...post, ...updatedPost } : post));
   
     } catch (error) {
       console.error('ERROR: liking post: ', error);
@@ -154,14 +155,8 @@ const CommDis = () => {
         throw new Error(`ERROR: http status: ${response.status}`);
       }
   
-      // Update the local state to reflect the new dislike status
-      // const updatedPosts = posts.map(post => {
-      //   if (post._id === postId) {
-      //     return { ...post, dislikes: [...post.dislikes, currentUserId] };
-      //   }
-      //   return post;
-      // });
-      // setPosts(updatedPosts);
+      const updatedPost = await response.json();
+      setPosts(posts.map(post => post._id === postId ? { ...post, ...updatedPost } : post));
   
     } catch (error) {
       console.error('ERROR: disliking post: ', error);
@@ -186,8 +181,7 @@ const CommDis = () => {
         throw new Error(`ERROR: http status: ${response.status}`);
       }
 
-      // Update the local state to remove the deleted post
-      // setPosts(posts.filter(post => post._id !== postId));
+      setPosts(posts.filter(post => post._id !== postId));
 
     } catch (error) {
       console.error('ERROR: deleting post: ', error);
@@ -213,8 +207,7 @@ const CommDis = () => {
         throw new Error(`ERROR: http status: ${response.status}`);
       }
 
-      // Update the state to reflect that the post has been reported
-      // setPosts(posts.map(post => post._id === postId ? { ...post, hide: true } : post));
+      setPosts(posts.map(post => post._id === postId ? { ...post, hide: true } : post));
 
     } catch (error) {
       console.error('ERROR: reporting post: ', error);
