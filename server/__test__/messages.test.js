@@ -74,7 +74,10 @@ describe('Messages', () => {
         user2Id = createUserResponse.body.userObj._id;
     });
 
-
+    beforeAll(async () => {
+    await sendLike(user1Token, user2Id);
+    await sendLike(user2Token, user1Id);
+    });
     // beforeAll(async () => {
     //     const response = await request(app)
     //     .post('/api/user/login') 
