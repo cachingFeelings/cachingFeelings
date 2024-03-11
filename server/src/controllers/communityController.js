@@ -2,8 +2,8 @@ import Community from '../models/communityModel.js';
 
 export async function getPosts(req, res){
     try{
-        const posts = await Community.find().populate('author', 'username');;
-        if (!posts) {
+        const posts = await Community.find().sort({timeStamp: -1}).populate('author', 'username');;
+        if (!posts || posts.length === 0) {
             res.status(404).send({ message: "There are no posts yet :(" });
             return;
         }
