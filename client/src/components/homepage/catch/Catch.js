@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import UsersContainer from './UsersContainer';
 import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBackground';
 
-
 const Catch = () => {
 
     const [likes, setLikes ] = useState(null); 
@@ -24,12 +23,12 @@ const Catch = () => {
             });
             const data = await res.json();
 
-            if(data['likedUsers'].length > 0) {
+            if(data['listUsers'].length > 0) {
               console.log(data); 
-              const usersArray = data['likedUsers'].map(userId => ({
-                  id: userId
-                  // username: user.username,
-                  // interests: user.interests
+              const usersArray = data['listUsers'].map(user => ({
+                  id: user._id,
+                  username: user.username,
+                  interests: user.interests
                 }));
                 setLikes(usersArray); 
             } else {
@@ -47,12 +46,12 @@ const Catch = () => {
 
     return (
         <div>
-        <Header />
-        <NavBar />
-        <div style={{ position: 'relative', color:"white", height:"100vh"}}>
+          <Header />
+          <NavBar />
+          <h1 style={{color: "white", textAlign: 'center'}}>Your likes</h1>
+        <div>
             <TwinklingBackground />
-            <h1 style={{marginTop: '0px', textAlign: 'center'}}>Your likes</h1>
-            {likes !== null ? <UsersContainer usersArray={likes} /> : <p style={{textAlign:'center'}}>No likes yet...</p>}
+            {likes !== null ? <UsersContainer usersArray={likes} /> : <p style={{color: "white", textAlign:'center'}}>No likes yet...</p>}
         </div>
         </div>
     );
