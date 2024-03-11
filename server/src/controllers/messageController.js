@@ -1,6 +1,10 @@
 import Message from '../models/messageModel.js'
 import Convo from '../models/convoModel.js'
 
+
+// TODO
+// Update the function to return signedURL of attachments too
+// update front end too
 export async function batchGetMessages(req, res){
     try{
         // const userID = req.user._id;
@@ -17,6 +21,7 @@ export async function batchGetMessages(req, res){
         
         //REMOVE AFTER TESTING
         const unauthorized = false//messageList.some(message => !message.to.equals(userID) && !message.from.equals(userID));
+        
         
         if(unauthorized){
             res.status(401).send("Accessing Unauthorized Resources");
@@ -55,6 +60,8 @@ export async function getMessages(req, res){
     }
 }
 
+// TODO
+// Add send message functionality on front and back
 export async function postMessage(req, res){
     try{
         //ask about this

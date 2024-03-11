@@ -24,7 +24,8 @@ export const SignUpProvider = ({ children }) => {
         matchWith: "",
         bio: "",
         interests: [],
-        profilePhoto: ""
+        profilePhoto: "",
+        pictures: []
     })
 
     const handleChange = e => {

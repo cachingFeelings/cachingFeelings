@@ -2,7 +2,8 @@ import React from 'react';
 import Basics from "./Basics"
 import Algorithm from "./Algorithm"
 import About from "./About"
-import Images from "./Images"
+// import Images from "./Images"
+import ImageUploadComponent from './imageUploader';
 import useSignUpContext from "../../hooks/useSignUpContext"
 import './LandingPage'
 
@@ -14,7 +15,7 @@ const FormInputs = () => {
         0: <Basics />,
         1: <Algorithm />,
         2: <About />,
-        3: <Images />
+        3: <ImageUploadComponent />
     }
 
     const content = (

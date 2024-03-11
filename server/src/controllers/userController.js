@@ -5,9 +5,6 @@ import bcpkg from 'bcryptjs'
 const {sign} = pkg;
 const {compare} = bcpkg;
 
-
-// TODO:
-// Return only the required data for each request
 export async function createUser(req, res) {
     try {
         // Make sure we have the minimum requirements
@@ -112,6 +109,8 @@ export async function validUsername(req, res) {
     }
 }
 
+// TODO
+// Make this function not create a convoID on convoStart
 export async function likeDislike(req,res){ 
     try{
         const targetUserID = req.body._id;
@@ -256,6 +255,9 @@ export async function getInterestMatches(req, res){
     }
 }
 
+// TODO
+// Displaying Likes is redundant 
+// Make this fn display matches
 export async function getLikes(req, res){
     try{
         const user = req.user;
@@ -290,7 +292,8 @@ export async function getCurrentUserId(req, res) {
     }
 }
 
-
+// TODO
+// Make this fn return matches with a convoID
 export async function getMatches(req, res){
     try{
         const user = req.user;
