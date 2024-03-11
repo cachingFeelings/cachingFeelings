@@ -15,7 +15,7 @@ export async function getPosts(req, res){
     }
 }
 
-export async function newPost(req, res){
+export async function newPosts(req, res){
     try{
         const postInfo = {
             author: req.user,

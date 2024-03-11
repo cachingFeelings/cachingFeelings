@@ -7,47 +7,18 @@ import Header from '../fixedcomponents/Header';
 const PostRectangle = ({ _id, author, body, likes, dislikes, timeStamp, reportedBy, hide, 
                          currentUserId, onLike, onDislike, onDelete, onReport}) => {
 
-  const [username, setUsername] = useState('');
   const content = body;
   const date = new Date(timeStamp).toLocaleDateString('en-US');
-  const isAuthor =  author === currentUserId;
+  const isAuthor =  author['_id'] === currentUserId;
   const isReportedByCurrentUser = reportedBy.includes(currentUserId);
   const currentUserLikedPost = likes.includes(currentUserId);
   const currentUserDislikedPost = dislikes.includes(currentUserId);
-
-  useEffect(() => {
-    const fetchUsername = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/api/user/getUser', {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + token
-          },
-          body: JSON.stringify({
-            '_id': currentUserId
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`ERROR: http status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setUsername(data.username);
-      } catch (error) {
-        console.error('ERROR: fetching username: ', error);
-      }
-    };
-
-    fetchUsername();
-  }, [author]);
 
   if (hide || isReportedByCurrentUser) return null;
 
   return (
     <div className="post-section">
-      <h3>{username} - {date}</h3>
+      <h3>{author['username']} - {date}</h3>
       <p>{content}</p>
       <div className="button-group">
         {!currentUserLikedPost &&  <button className="cd-like-button" onClick={() => onLike(_id)}>Like</button>}
@@ -95,7 +66,7 @@ const CommDis = () => {
         }
 
         const data = await response.json();
-        setPosts(data.posts);
+        setPosts(data);
         setIsConnected(true);
       } catch (error) {
         console.error('ERROR: fetching posts: ', error);
