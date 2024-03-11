@@ -77,7 +77,7 @@ describe('Messages', () => {
         const getCurrentUserIdResponse = await request(app)
             .get('/api/user/getCurrentUserId')
             .set('Authorization', `Bearer ${user1Token}`);
-        expect(getCurrentUserIdResponse.statusCode).toBe(201);
+        expect(getCurrentUserIdResponse.statusCode).toBe(200);
         expect(getCurrentUserIdResponse.body).toHaveProperty('_id');
         user1Id = getCurrentUserIdResponse.body._id; // Store user ID for later reference
     });
@@ -86,7 +86,7 @@ describe('Messages', () => {
         const getCurrentUserIdResponse = await request(app)
             .get('/api/user/getCurrentUserId')
             .set('Authorization', `Bearer ${user2Token}`);
-        expect(getCurrentUserIdResponse.statusCode).toBe(201);
+        expect(getCurrentUserIdResponse.statusCode).toBe(200);
         expect(getCurrentUserIdResponse.body).toHaveProperty('_id');
         user2Id = getCurrentUserIdResponse.body._id; // Store user ID for later reference
     });
