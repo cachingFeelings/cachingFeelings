@@ -29,6 +29,8 @@ const sendLike = async (token, targetUserId, like = true) => {
 describe('Messages', () => {
     let user1Token, user2Token, user2Id, user1Id, messageId;
 
+
+beforeAll(async () => {
     it('should create a new user and return a token', async () => {
         const response = await request(app)
             .post('/api/user/create_user') 
@@ -73,6 +75,8 @@ describe('Messages', () => {
         user2Token = createUserResponse.body.token; // Store token for later tests
         user2Id = createUserResponse.body.userObj._id;
     });
+
+});
 
     it('user 1 should like user 2', async () => {
         const response = await request(app)
