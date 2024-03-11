@@ -32,6 +32,12 @@ describe('Messages', () => {
     beforeAll(async () => {
         // Create two users and get their tokens/IDs
         user1Token = await createUserAndGetToken('user1', 'password1');
+
+        const user1Response = await request(app)
+            .get('/api/user/getCurrentUserId')
+            .set('Authorization', `Bearer ${user1Token}`);
+        user1Id = user1Response.body._id;
+
         const user2Token = await createUserAndGetToken('user2', 'password2');
 
         // Extract user2 ID from token if possible or create a helper to fetch it
