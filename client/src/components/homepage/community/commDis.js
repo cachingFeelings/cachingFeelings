@@ -7,56 +7,34 @@ import Header from '../fixedcomponents/Header';
 const PostRectangle = ({ _id, author, body, likes, dislikes, timeStamp, reportedBy, hide, 
                          currentUserId, onLike, onDislike, onDelete, onReport}) => {
 
-  const [username, setUsername] = useState('');
   const content = body;
   const date = new Date(timeStamp).toLocaleDateString('en-US');
-  const isAuthor =  author === currentUserId;
+  const isAuthor =  author['_id'] === currentUserId;
   const isReportedByCurrentUser = reportedBy.includes(currentUserId);
   const currentUserLikedPost = likes.includes(currentUserId);
   const currentUserDislikedPost = dislikes.includes(currentUserId);
-
-  useEffect(() => {
-    const fetchUsername = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/api/user/getUser', {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + token
-          },
-          body: JSON.stringify({
-            '_id': currentUserId
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`ERROR: http status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setUsername(data.username);
-      } catch (error) {
-        console.error('ERROR: fetching username: ', error);
-      }
-    };
-
-    fetchUsername();
-  }, [author]);
 
   if (hide || isReportedByCurrentUser) return null;
 
   return (
     <div className="post-section">
-      <h3>{username} - {date}</h3>
+      <h3>{author['username']}</h3>
+      <p>{date}</p>
       <p>{content}</p>
       <div className="button-group">
-        {!currentUserLikedPost &&  <button className="cd-like-button" onClick={() => onLike(_id)}>Like</button>}
-        {!currentUserDislikedPost && <button className="cd-dislike-button" onClick={() => onDislike(_id)}>Dislike</button>}
+        <button
+          className={`cd-like-button ${currentUserLikedPost ? 'cd-like-button-liked' : ''}`}
+          onClick={() => onLike(_id)}
+        >Like {likes.length}</button>
+        <button
+          className={`cd-dislike-button ${currentUserDislikedPost ? 'cd-dislike-button-disliked' : ''}`}
+          onClick={() => onDislike(_id)}
+        >Dislike {dislikes.length}</button>
         {isAuthor && <button className="cd-delete-button" onClick={() => onDelete(_id)}>Delete</button>}
         {!isAuthor && <button className="cd-report-button" onClick={() => onReport(_id)}>Report</button>}
       </div>
     </div>
-  );
+  );  
 };
 
 const BioInput = ({ onPostChange, onPostSubmit, postContent }) => {
@@ -95,7 +73,7 @@ const CommDis = () => {
         }
 
         const data = await response.json();
-        setPosts(data.posts);
+        setPosts(data);
         setIsConnected(true);
       } catch (error) {
         console.error('ERROR: fetching posts: ', error);
@@ -150,14 +128,8 @@ const CommDis = () => {
         throw new Error(`ERROR: http status: ${response.status}`);
       }
   
-      // Update the local state to reflect the new like status
-      // const updatedPosts = posts.map(post => {
-      //   if (post._id === postId) {
-      //     return { ...post, likes: [...post.likes, currentUserId] };
-      //   }
-      //   return post;
-      // });
-      // setPosts(updatedPosts);
+      const updatedPost = await response.json();
+      setPosts(posts.map(post => post._id === postId ? { ...post, ...updatedPost } : post));
   
     } catch (error) {
       console.error('ERROR: liking post: ', error);
@@ -183,14 +155,8 @@ const CommDis = () => {
         throw new Error(`ERROR: http status: ${response.status}`);
       }
   
-      // Update the local state to reflect the new dislike status
-      // const updatedPosts = posts.map(post => {
-      //   if (post._id === postId) {
-      //     return { ...post, dislikes: [...post.dislikes, currentUserId] };
-      //   }
-      //   return post;
-      // });
-      // setPosts(updatedPosts);
+      const updatedPost = await response.json();
+      setPosts(posts.map(post => post._id === postId ? { ...post, ...updatedPost } : post));
   
     } catch (error) {
       console.error('ERROR: disliking post: ', error);
@@ -215,8 +181,7 @@ const CommDis = () => {
         throw new Error(`ERROR: http status: ${response.status}`);
       }
 
-      // Update the local state to remove the deleted post
-      // setPosts(posts.filter(post => post._id !== postId));
+      setPosts(posts.filter(post => post._id !== postId));
 
     } catch (error) {
       console.error('ERROR: deleting post: ', error);
@@ -242,8 +207,7 @@ const CommDis = () => {
         throw new Error(`ERROR: http status: ${response.status}`);
       }
 
-      // Update the state to reflect that the post has been reported
-      // setPosts(posts.map(post => post._id === postId ? { ...post, hide: true } : post));
+      setPosts(posts.map(post => post._id === postId ? { ...post, hide: true } : post));
 
     } catch (error) {
       console.error('ERROR: reporting post: ', error);
@@ -284,10 +248,19 @@ const CommDis = () => {
   };
 
   let communityPageClass = 'community-page';
-  if (!isConnected || posts.length === 0) {
+  if (posts === undefined) {
     communityPageClass += ' full-page';
+  } else {
+    if (!isConnected || posts.length === 0) {
+      communityPageClass += ' full-page';
+    } else {
+      if (posts.length <= 3) {
+        communityPageClass += ' full-page';
+      }
+    }
   }
-
+  
+  console.log(isConnected && posts !== undefined);
   return (
     <div className={communityPageClass}>
       <div className="fixed-header">
@@ -296,7 +269,7 @@ const CommDis = () => {
       </div>
       <TwinklingBackground />
       <div className="posts-container">
-        {isConnected ? (
+        {isConnected && posts !== undefined ?(
           posts.length > 0 ? (
             posts.map((post, index) => (
               <PostRectangle
