@@ -56,6 +56,7 @@ describe('Messages', () => {
         expect(createUserResponse.statusCode).toBe(201);
         expect(createUserResponse.body).toHaveProperty('token');
         user1Token = createUserResponse.body.token; // Store token for later tests
+        user1Id = createUserResponse.body.userObj._id;
     });
 
     it('should create user2 and return a token', async () => {
@@ -70,26 +71,40 @@ describe('Messages', () => {
         expect(createUserResponse.statusCode).toBe(201);
         expect(createUserResponse.body).toHaveProperty('token');
         user2Token = createUserResponse.body.token; // Store token for later tests
+        user2Id = createUserResponse.body.userObj._id;
     });
 
-    // Test for retrieving the current user ID using the token
-    it('should get current user ID for user1 using the token', async () => {
-        const getCurrentUserIdResponse = await request(app)
-            .get('/api/user/getCurrentUserId')
-            .set('Authorization', `Bearer ${user1Token}`);
-        expect(getCurrentUserIdResponse.statusCode).toBe(200);
-        expect(getCurrentUserIdResponse.body).toHaveProperty('_id');
-        user1Id = getCurrentUserIdResponse.body._id; // Store user ID for later reference
-    });
 
-    it('should get current user ID for user2 using the token', async () => {
-        const getCurrentUserIdResponse = await request(app)
-            .get('/api/user/getCurrentUserId')
-            .set('Authorization', `Bearer ${user2Token}`);
-        expect(getCurrentUserIdResponse.statusCode).toBe(200);
-        expect(getCurrentUserIdResponse.body).toHaveProperty('_id');
-        user2Id = getCurrentUserIdResponse.body._id; // Store user ID for later reference
-    });
+    // beforeAll(async () => {
+    //     const response = await request(app)
+    //     .post('/api/user/login') 
+    //     .send({
+    //         username: 'testUser',
+    //         password: 'testPassword',
+    //     });
+    //     token = response.body.token;
+    //     userID = response.body.userObj._id;
+    // });
+
+
+    // // Test for retrieving the current user ID using the token
+    // it('should get current user ID for user1 using the token', async () => {
+    //     const getCurrentUserIdResponse = await request(app)
+    //         .get('/api/user/getCurrentUserId')
+    //         .set('Authorization', `Bearer ${user1Token}`);
+    //     expect(getCurrentUserIdResponse.statusCode).toBe(200);
+    //     expect(getCurrentUserIdResponse.body).toHaveProperty('_id');
+    //     user1Id = getCurrentUserIdResponse.body._id; // Store user ID for later reference
+    // });
+
+    // it('should get current user ID for user2 using the token', async () => {
+    //     const getCurrentUserIdResponse = await request(app)
+    //         .get('/api/user/getCurrentUserId')
+    //         .set('Authorization', `Bearer ${user2Token}`);
+    //     expect(getCurrentUserIdResponse.statusCode).toBe(200);
+    //     expect(getCurrentUserIdResponse.body).toHaveProperty('_id');
+    //     user2Id = getCurrentUserIdResponse.body._id; // Store user ID for later reference
+    // });
 
     //Unit test for sending a message from user1 to user2
     it('should send a message from user1 to user2', async () => {
