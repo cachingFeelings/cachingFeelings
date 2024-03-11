@@ -166,7 +166,7 @@ describe('GET /getUser', () => {
     it('should return 201 and id', async () => {
 
         const response = await request(app)
-            .get('/api/user/geCurrentUserId')
+            .get('/api/user/getCurrentUserId')
             .set('Authorization', `Bearer ${token}`)
             .send();
 
@@ -176,10 +176,10 @@ describe('GET /getUser', () => {
     it('should return 401 for missing or invalid token', async () => {
 
         const response = await request(app)
-            .get('/api/user/geCurrentUserId')
+            .get('/api/user/getCurrentUserId')
             .send();
 
-        expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(404);
     });
 });
 

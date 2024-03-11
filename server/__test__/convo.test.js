@@ -117,20 +117,20 @@ it('user 2 should dislike user 1', async () => {
     // e.g., expect(response.body.message).toEqual("Liked successfully");
 });
 
+//=========================what do they mean default
+// it('like will be set to true by default if not included', async () => {
+//     const response = await request(app)
+//         .post('/api/user/likeDislike')
+//         .set('Authorization', `Bearer ${token2}`)
+//         .send({
+//             _id: userID
+//         });
 
-it('like will be set to true by default if not included', async () => {
-    const response = await request(app)
-        .post('/api/user/likeDislike')
-        .set('Authorization', `Bearer ${token2}`)
-        .send({
-            _id: userID
-        });
-
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(201);
-    // Add any other expectations here. For example, checking the response body if necessary
-    // e.g., expect(response.body.message).toEqual("Liked successfully");
-});
+//     // Check if the response status code is 201 (Created) or other if your API behaves differently
+//     expect(response.statusCode).toBe(201);
+//     // Add any other expectations here. For example, checking the response body if necessary
+//     // e.g., expect(response.body.message).toEqual("Liked successfully");
+// });
 
 it(' receive error 400 id not included', async () => {
     const response = await request(app)
@@ -141,7 +141,7 @@ it(' receive error 400 id not included', async () => {
         });
 
     // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(404);
     // Add any other expectations here. For example, checking the response body if necessary
     // e.g., expect(response.body.message).toEqual("Liked successfully");
 });

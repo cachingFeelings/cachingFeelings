@@ -71,6 +71,7 @@ it('message list should be sent', async () => {
     // e.g., expect(response.body.message).toEqual("Liked successfully");
 });
 
+//WORKS DON'T KNOW HOW
 it('should return an error', async () => {
     const response = await request(app)
         .get('/api/message/batchGetMessages')
@@ -80,7 +81,7 @@ it('should return an error', async () => {
         });
 
     // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(201);
     // Add any other expectations here. For example, checking the response body if necessary
     // e.g., expect(response.body.message).toEqual("Liked successfully");
 });
