@@ -29,14 +29,28 @@ const sendLike = async (token, targetUserId, like = true) => {
 describe('Messages', () => {
     let user1Token, user2Token, user2Id, user1Id, messageId;
 
+    it('should create a new user and return a token', async () => {
+        const response = await request(app)
+            .post('/api/user/create_user') 
+            .send({
+                data: {
+                    username: 'testUser',
+                    password: 'testPassword',
+                }
+            });
+        expect(response.statusCode).toBe(201);
+        expect(response.body).toHaveProperty('token');
+    });
+
+
     // Test for creating a user and getting a token
     it('should create user1 and return a token', async () => {
         const createUserResponse = await request(app)
             .post('/api/user/create_user')
             .send({
                 data: {
-                    username: 'user1',
-                    password: 'password1'
+                    username: 'testingUser1',
+                    password: 'password1',
                 }
             });
         expect(createUserResponse.statusCode).toBe(201);
@@ -49,7 +63,7 @@ describe('Messages', () => {
             .post('/api/user/create_user')
             .send({
                 data: {
-                    username: 'user2',
+                    username: 'testingUser2',
                     password: 'password2'
                 }
             });
