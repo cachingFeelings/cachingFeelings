@@ -142,6 +142,21 @@ describe('GET /getUser', () => {
         });
     });
 
+
+    it('should create a new user and return a token', async () => {
+        const response = await request(app)
+            .post('/api/user/create_user') 
+            .send({
+                data: {
+                    username: 'test55User',
+                    password: 'test55Password',
+                }
+            });
+        expect(response.statusCode).toBe(201);
+        expect(response.body).toHaveProperty('token');
+    });
+
+
     it('should return 201 and user data for a valid user id and token', async () => {
 
         const response = await request(app)
@@ -307,9 +322,9 @@ describe('GET /getUser', () => {
         const response = await request(app)
             .put('/api/user/blockUser')
             .set('Authorization', `Bearer ${token}`)
-            .send({username: 'test77User'})
+            .send({username: 'test55User'})
 
-        console.log("Report: ", response)
+        //console.log("Report: ", response)
 
         expect(response.statusCode).toBe(201);
 
