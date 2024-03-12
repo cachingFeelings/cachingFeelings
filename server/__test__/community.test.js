@@ -64,7 +64,7 @@ describe('GET /getUser', () => {
     it('should return 201 and should like the post', async () => {
 
         const response = await request(app)
-            .post('/api/community/likeDislike')
+            .post('/api/community/likeDislikePosts')
             .set('Authorization', `Bearer ${token}`)
             .send({postID:postId,
                     like: true});
@@ -75,7 +75,7 @@ describe('GET /getUser', () => {
     it('should return 201 and should report the post', async () => {
 
         const response = await request(app)
-            .post('/api/community/report')
+            .post('/api/community/reportPosts')
             .set('Authorization', `Bearer ${token}`)
             .send({postID:postId,
                     report: true});
