@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 // import useSignUpContext from "../../hooks/useSignUpContext"
 import './LandingPage'
 
+const serverURL = process.env.SERVER_URL;
+const serverPort = process.env.SERVER_PORT;
+
 function ImageUploadComponent(){ 
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
@@ -31,7 +34,7 @@ function ImageUploadComponent(){
         ));
 
         try {
-            const response = await fetch("https://caching-feelings-server.onrender.com/api/images/generateUploadUrls", {
+            const response = await fetch(`http://${serverURL}:${serverPort}/api/images/generateUploadUrls`, {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',

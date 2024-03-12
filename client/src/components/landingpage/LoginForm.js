@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import TwinklingBackground from './TwinkleBackground/TwinkleBackground';
 
+const serverURL = process.env.SERVER_URL;
+const serverPort = process.env.SERVER_PORT;
+
 const LoginForm = () => {
 
   const [username, setUsername] = useState('');
@@ -15,7 +18,7 @@ const LoginForm = () => {
     e.preventDefault();
   
     try {
-        const res = await fetch("https://caching-feelings-server.onrender.com/api/user/login/", {
+        const res = await fetch(`http://${serverURL}:${serverPort}/api/user/login/`, {
             method: "POST",
 
             headers: {

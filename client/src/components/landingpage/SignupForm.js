@@ -5,6 +5,8 @@ import FormInputs from './FormInputs.js'
 import TwinklingBackground from './TwinkleBackground/TwinkleBackground.js';
 import { useNavigate } from 'react-router-dom'; 
 
+const serverURL = process.env.SERVER_URL;
+const serverPort = process.env.SERVER_PORT;
 
 const SignupForm = () => {
 
@@ -38,7 +40,7 @@ const SignupForm = () => {
     e.preventDefault() //remove later
     
     try {
-      const res = await fetch("https://caching-feelings-server.onrender.com/api/user/create_user", {
+      const res = await fetch(`http://${serverURL}:${serverPort}/api/user/create_user`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
@@ -55,7 +57,7 @@ const SignupForm = () => {
           alert("Error signup up, please double check your input");
         } else {
           try {
-            const res2 = await fetch("https://caching-feelings-server.onrender.com/api/user/login", {
+            const res2 = await fetch(`http://${serverURL}:${serverPort}/api/user/login`, {
               method: "POST",
               headers: {
                 'Content-Type': 'application/json'
