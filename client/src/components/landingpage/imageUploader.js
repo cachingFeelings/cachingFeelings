@@ -6,6 +6,8 @@ function ImageUploadComponent(){
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [uploadStatuses, setUploadStatuses] = useState({});
+    
+    const { data, handleChange } = useSignUpContext()
 
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);

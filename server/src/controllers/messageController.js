@@ -10,7 +10,6 @@ export async function batchGetMessages(req, res){
         // const userID = req.user._id;
 
         // const messageIdList = req.body.messageIDs;
-        console.log(`The convoID is: ${req.query.convoID}`);
         const messageList = await Message.find({
             convoID : req.query.convoID, //{ $in: messageIdList }, 
             $or: [ 

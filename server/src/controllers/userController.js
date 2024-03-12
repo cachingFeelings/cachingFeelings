@@ -257,9 +257,17 @@ export async function getLikes(req, res){
         
         const userIDs = Array.from(user.matches.keys());
 
-        const listUsers = await User.find({
+        const likedUsers = await User.find({
             '_id' : {$in: userIDs}   
-        }, '_id username interests')
+        }, '_id username interests likes')
+
+
+        const userID = user._id
+
+        const listUsers = likedUsers.filter(likedUser => {
+            return likedUser.likes && likedUser.likes.has(user._id.toString());
+        });
+
         
         res.status(201).send({ listUsers });
 
@@ -305,5 +313,22 @@ export async function getFinally(req, res){
         }else {
             res.status(400).send({ message: error.message });
         }
+    }
+}
+
+export async function blockUser(req, res){
+    try{
+        const currUser = req.user; 
+        const userToBlock = req.body.username; 
+        const user = await User.findOne({ username : userToBlock });
+        const usertoblockID = user._id
+
+        await Convo.deleteOne({ users: { $all: [currUser._id, usertoblockID] } });
+
+
+        await User.findByIdAndUpdate(currUser._id, { $unset: { [`likes.${usertoblockID}`]: 1 } });
+
+    } catch (error) {
+        res.status(400).send({ message: error.message });
     }
 }
