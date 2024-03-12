@@ -101,7 +101,6 @@ const Finally = () => {
                 }
                 return message;
             }));
-    
             setMessages(messagesWithMedia);
         } catch (err) {
             console.error("Error retrieving messages:", err);
@@ -111,10 +110,10 @@ const Finally = () => {
     useEffect(() => {
         if (currChat) {
             retrieveMessages();
-            clearInterval(pollingInterval.current);
-            pollingInterval.current = setInterval(retrieveMessages, 5000);
+            //clearInterval(pollingInterval.current);
+            //pollingInterval.current = setInterval(retrieveMessages, 5000);
         }
-        return () => clearInterval(pollingInterval.current);
+        //return () => clearInterval(pollingInterval.current);
     }, [currChat]);
 
     const handleDeleteMessage = async (messageId) => {
