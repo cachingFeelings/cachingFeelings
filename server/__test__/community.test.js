@@ -64,7 +64,7 @@ describe('GET /getUser', () => {
     it('should return 201 and should like the post', async () => {
 
         const response = await request(app)
-            .post('/api/community/likeDislikePosts')
+            .post('/api/community/likeDislike')
             .set('Authorization', `Bearer ${token}`)
             .send({postID:postId,
                     like: true});
