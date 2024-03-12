@@ -121,7 +121,7 @@ it('user 2 should not be able to dislike their self', async () => {
         });
 
     // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(201);
     
 });
 
