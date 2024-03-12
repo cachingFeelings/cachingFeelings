@@ -22,7 +22,7 @@ function formatDate(date) {
     }
 }
 
-export default function Messages({ message, own, burn, onDelete }) {
+export default function Messages({ message, own, burn, mediaLinks, onDelete }) {
     
     const showMessageHandler = () => {
         alert('' + message.body);
@@ -42,6 +42,15 @@ export default function Messages({ message, own, burn, onDelete }) {
                         <span onClick={showMessageHandler}>Read hidden message</span>
                     </p>
                 )}
+            </div>
+            <div className="mediaLinkBox">
+                {mediaLinks && mediaLinks.length > 0 && mediaLinks.map((link, index) => (
+                    <div key={index} className="mediaLink">
+                        <div className="mediaLinkPreview">
+                            <img src={link} alt={`Media Preview ${index}`} />
+                        </div>
+                    </div>
+                ))}
             </div>
             <div className='messageBottom'>{formatDate(message.timeStamp)}</div>
         </div>

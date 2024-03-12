@@ -59,12 +59,10 @@ export async function getMessages(req, res){
     }
 }
 
-// TODO
-// Add send message functionality on front and back
 export async function postMessage(req, res){
     try{
-        //ask about this
-        if( !req.body && (!req.body.mediaLink || req.body.mediaLink.length == 0 )){
+
+        if( !req.body.body && (!req.body.mediaLink || req.body.mediaLink.length == 0 )){
             throw new Error("Message cannot be empty - at least need a body and a ")
         }
 
@@ -73,10 +71,8 @@ export async function postMessage(req, res){
         // if (!thisConvoID){
         //     throw new Error("You have to match with the user first");
         // }
-        console.log(req.body.convoID); 
+
         const convo = await Convo.findOne({_id: req.body.convoID});
-        console.log(`The convo is: ${convo}`); 
-        console.log(`The req is: ${req.body}`)
 
         if(!convo){
             return res.status(404).send({message: "Convo Id Not Found"});
@@ -87,6 +83,7 @@ export async function postMessage(req, res){
             from: req.user._id,
             burnAfterRead: req.body.burnAfterRead ? req.body.burnAfterRead : false,
             seen: false,
+            mediaLink: req.body.mediaLink ? req.body.mediaLink : [],
             timeStamp : new Date(),
             convoID : convo._id
         }
