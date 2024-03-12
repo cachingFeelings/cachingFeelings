@@ -39,13 +39,9 @@ function ImageUploadComponent(){
                 body: JSON.stringify({files: fileInfo}),
             });
             const data = await response.json();
-            console.log(data); 
-            handleChange({
-                target: {
-                    name: 'pictures',
-                    value: data.files
-                }
-            })
+
+            const updatedFilesWithKeys = [...selectedFiles];
+
 
             await Promise.all(data.files.map(async (file, index) => {
                 const { uploadURL, objectKey } = file;
@@ -56,6 +52,22 @@ function ImageUploadComponent(){
                     },
                     body: selectedFiles[index],
                 });
+
+                updatedFilesWithKeys[index] = {
+                    ...updatedFilesWithKeys[index],
+                    objectKey: objectKey,
+                };
+
+                const fileKeys = updatedFilesWithKeys.map(file => file.objectKey).filter(key => key !== undefined);
+                console.log(`The filekeys are: ${fileKeys}`); 
+
+                handleChange({
+                    target: {
+                        name: 'pictures',
+                        value: fileKeys
+                    }
+                })
+
                 setUploadStatuses(prev => ({ ...prev, [file.name]: 'Uploaded'}));
             }))
 

@@ -130,7 +130,7 @@ const Basics = () => {
                 <FontAwesomeIcon icon={faInfoCircle} style={{marginRight:"2px"}}/>
                 Passwords do not match.
             </p>
-            <input
+            {/* <input
                 className="basic-input"
                 type="text"
                 id="postalCode"
@@ -139,7 +139,7 @@ const Basics = () => {
                 pattern="([A-Z])[\w\s.]{1,}"
                 value={data.postalCode}
                 onChange={handleChange}
-            />
+            /> */}
             <label className="basic-label" htmlFor="birthday">Birthday</label>
             <input
                 className="basic-input"

@@ -18,7 +18,7 @@ export async function createUser(req, res) {
             password: req.body.data.password,
         }
 
-        const optionalFields = ['DOB', 'showUsersLookingFor', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
+        const optionalFields = ['DOB', 'showUsersLookingFor', 'pictures', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
         optionalFields.forEach(field => {
             if (req.body.data[field]) userInfo[field] = req.body.data[field];
         });

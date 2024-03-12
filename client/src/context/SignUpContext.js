@@ -32,10 +32,13 @@ export const SignUpProvider = ({ children }) => {
     const handleChange = e => {
         const name = e.target.name
         const value = e.target.value === 'file'  ? e.target.files[0] : e.target.value;
-        console.log(`The data being sent to the frontend is: ${value[0].name} to key: ${name}`)
 
         setData(prevData => {
-            if (Array.isArray(prevData[name])) {
+            if (name === 'pictures'){
+                console.log(`The data being sent to the frontend is: ${value[0]} to key: ${name}`)
+                return {...prevData, [name]: value}; 
+            }
+            else if (Array.isArray(prevData[name])) {
                 if (prevData[name].includes(value)) {
                     return { ...prevData, [name]: prevData[name].filter(item => item !== value) };
                 } else {
