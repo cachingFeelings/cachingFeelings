@@ -309,6 +309,8 @@ describe('GET /getUser', () => {
             .set('Authorization', `Bearer ${token}`)
             .send({username: 'test77User'})
 
+        console.log("Report: ", response)
+
         expect(response.statusCode).toBe(201);
 
     });
