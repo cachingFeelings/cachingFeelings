@@ -1,0 +1,199 @@
+.finally {
+   font: optional;
+   display: flex; 
+}
+.tempDiv{
+    background-color: black;
+}
+
+.chatMenu{
+    flex: 2; 
+    border-color: black;
+}
+
+.chatBox {
+    flex: 5.5; 
+    border-color: black; 
+    height: 100%; 
+}
+.chatBoxWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;  
+}
+.chatBoxTop {
+    overflow-y: auto;
+    flex-grow: 1; 
+    height: 15%;
+    max-height: 60%;
+}
+.imagesAndBottom {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.imagePreviews {
+    display: flex;
+    gap: 8px;
+}
+
+.imagePreview {
+    width: 100px;
+    height: 100px;
+}
+
+.imagePreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.chatBoxBottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-shrink: 0; 
+    height: 90px; 
+    position: sticky;
+    bottom: 0; 
+    padding: 10px; 
+    gap: 32px;
+}
+
+.chatMenuWrapper, .chatBoxWrapper {
+    padding: 10px; 
+
+}
+
+.conversation {
+    display: block;
+    align-items: center;
+    padding: 10px; 
+    border-color: white;
+    cursor: pointer;
+}
+.conversation-box {
+    padding: 10px; 
+}
+.conversation-box:hover {
+    background-color: lightslategray;
+}
+.conversationName {
+    margin-left: 20px;
+    font-weight: 500;
+}
+.message {
+    display:flex; 
+    flex-direction: column;
+    margin-top: 20px;
+}
+.own {
+    display: flex;
+    align-items: flex-end; 
+    justify-content: flex-end;
+}
+.own .messageText{
+    background-color: blueviolet;
+}
+
+.own .burn {
+    background-color: red;
+}
+.avatar {
+    display: inline-block;
+    width:32px; 
+    height: 32px; 
+    background-color: blue;
+    border-radius: 50%; 
+    color: white; 
+    font-size: 20px; 
+    text-align: center;
+    line-height: 32px;
+}
+.messageTop {
+    display: flex; 
+}
+.messageText {
+    margin: 0px 10px;
+    padding: 10px; 
+    border-radius: 20px;
+    background-color: grey;
+    max-width: 50%;
+}
+.messageBottom {
+    font-size: 12px; 
+    margin-top: 10px
+}
+.buttonAndBurn {
+    display: flex;
+    max-width: 146px;
+    flex-direction: column;
+    gap: 15px;
+}
+.chatSubmitButton {
+    display: flex; 
+    width: 146px;
+    height: 42px;
+    justify-content: center;
+    align-items: center;
+    background-color: #8a2be2;
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    border-color: #fff; 
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.chatSubmitButton:hover {
+    background-color: #451771; 
+}
+.chatMessageInput {
+    flex-grow: 1;
+    height: 90px; 
+    border-radius: 8px;
+}
+.fileInput {
+    display: none; 
+}
+
+.fileInputLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 42px;
+    width: 256px;
+    background-color: #8a2be2;
+    color: #fff;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    border-color: #fff; 
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.fileInputLabel:hover {
+    background-color: #451771; 
+}
+.mediaLinkBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.mediaLink {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.mediaLinkPreview {
+    width: 100px;
+    height: 100px;
+}
+
+.mediaLinkPreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

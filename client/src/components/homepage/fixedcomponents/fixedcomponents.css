@@ -1,0 +1,75 @@
+.above-navigation-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0e0d13;
+    color: white;
+  }
+  
+  .above-navigation-bar p {
+    margin-left: 10px;
+  }
+
+  .above-navigation-bar a {
+    border-style:ridge;
+    border-color: #7f7f8083;
+    color:white;
+    background-color: black;
+    padding: 3% 10px;
+    margin-right: 10px;
+    text-decoration: none;
+  }
+  
+  .navigation-bar {
+    display: flex;
+    justify-content:space-around;
+    padding: 1% 0%;
+    background-color: #333;
+    color: white;
+  }
+
+  .navigation-bar a {
+    border-style:ridge;
+    border-color: #7f7f8083;
+    color:white;
+    background-color: black;
+    padding: 1% 10%;
+    white-space: nowrap;
+    margin: 0; 
+    text-align: center;
+  }
+  
+  .above-navigation-bar button:hover,
+  .navigation-bar button:hover,
+  .navigation-bar a:hover {
+    cursor: pointer;
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    animation: border-color-change 1s infinite;
+  }
+  
+  .above-navigation-bar button:focus,
+  .navigation-bar button:focus {
+    border-color: white;
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    background-color: #9a92d7;
+    
+  }
+  
+  @keyframes border-color-change {
+    0% { border-color: #9a92d7; }
+    50% { border-color: rgb(213, 243, 251); }
+    100% { border-color: #9a92d7; }
+  }
+  
+  @media (max-width: 768px) {
+    .navigation-bar {
+      flex-direction:column;
+      padding: 1% 0%;
+    }
+  
+    .navigation-bar button a {
+      padding: 2.5% 1%;
+      margin: 1% 1.8%;
+    }
+  }
+  

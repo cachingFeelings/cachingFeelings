@@ -1,0 +1,102 @@
+@keyframes slideUp {
+    from {
+        background-color: rgba(97, 252, 255, 0.846);
+        transform: translateY(100%);
+    } to {
+        background-color: rgb(0, 0, 0);
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+    } to {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes slideDownLike {
+    from {
+        transform: translateY(0);
+    } to {
+        background-color: #f44336;
+        transform: translateY(-130%);
+    }
+}
+
+.popup-win {
+    animation: slideUp 0.8s ease-out forwards;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 77%;
+    width: 90%;
+    max-width: 90%;
+    position: fixed;
+    left: 5%;
+    right: 5%;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    box-shadow: 0 -5px 15px rgba(97, 252, 255, 0.564);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+    padding: 5%;
+    box-sizing: border-box;
+}
+
+.popup-content {
+    text-align: center;
+    margin-top: 1%;
+}
+
+.close-button {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    border-style: ridge;
+    border-radius: 100%;
+    border-color: white;
+    background-color: transparent;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+  
+.like-button {
+    cursor: pointer;
+    position:relative;
+    text-align: center;
+    width: 20%;
+    padding: 1.3%;
+    border-radius: 10px;
+    background-color: rgba(0, 213, 216, 0.846);
+    transition: background-color 0.4s ease, width 0.4s ease, box-shadow 0.4s ease;
+    border-style: ridge;
+    border-color: aliceblue;
+    box-shadow: 0 5px 15px rgba(97, 252, 255, 0.564);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+}
+  
+.like-button:hover {
+    background-color: #f44336;
+    box-shadow: 0 5px 15px #f44336;
+    width: 90%;
+    color: white;
+}
+
+.popup-win-slide-down {
+    animation: slideDown 0.8s ease-out forwards;
+}
+
+.popup-win-slide-down-like {
+    animation: slideDownLike 0.8s ease-in-out forwards;
+}

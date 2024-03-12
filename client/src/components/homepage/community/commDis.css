@@ -1,0 +1,206 @@
+.community-page {
+  position: absolute;
+  padding-top: 14%;
+  padding-bottom: 24.5%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.community-page.full-page {
+  padding-bottom: 100px;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+}
+
+.no-posts-message {
+  color: white;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.no-connection-message {
+  color: #ff4757;
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .community-page {
+    position: absolute;
+    padding-top: 34%;
+    padding-bottom: 33.5%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.posts-container {
+  overflow-y:auto;
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.post-section {
+  background-color: rgba(255, 255, 255, 0.116);
+  border-color: rgb(151, 150, 150);
+  border-style: ridge;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-radius: 7px;
+}
+
+.post-section h3 {
+  color: white;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  margin-top: 1.5%;
+  margin-bottom: 1.1%;
+}
+
+.post-section p {
+  color: white;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  margin-bottom: 1.5%;
+}
+
+.bio-section {
+  box-shadow: 0 5px 15px rgba(97, 252, 255, 0.564);
+  background-color: rgba(15, 15, 15, 0.954);
+  border: 1px solid #b0b0b091;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.input-bio textarea {
+  box-shadow: 0 5px 15px rgba(214, 232, 232, 0.564);
+  width: calc(98%);
+  height: 140px;
+  margin: 1%;
+  box-sizing: border-box;
+  background-color: rgba(35, 34, 34, 0.946);
+  color: white;
+  border: 1px solid #ccc;
+  resize: none;
+  border-radius: 7px;
+}
+
+.fixed-bio {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 5px;
+  z-index: 10;
+  margin-left: 1.8%;
+  margin-right: 1.8%;
+  margin-bottom: -1px;
+  box-sizing: border-box;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1%;
+}
+
+.cd-like-button,
+.cd-dislike-button,
+.cd-delete-button,
+.cd-report-button {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  padding: 0.8%;
+  min-width: 130px;
+  width: 8%;
+  border: none;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: background-color 0.4s ease, width 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cd-like-button-liked {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  box-shadow: 0 3px 10px #7ed470;
+  background-color: rgb(41, 185, 41);
+  color: white;
+  font-size: 16px;
+  padding: 0.8%;
+  min-width: 130px;
+  width: 8%;
+  border: none;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.cd-dislike-button-disliked {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  box-shadow: 0 3px 10px #c84a4a;
+  background-color: rgb(207, 36, 36);
+  color: white;
+  font-size: 16px;
+  padding: 0.8%;
+  min-width: 130px;
+  width: 8%;
+  border: none;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.cd-post-button {
+  margin-left: 1%;
+  margin-bottom: 0.7%;
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  padding: 0.8%;
+  width: 8%;
+  min-width: 65px;
+  border: none;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: background-color 0.4s ease, width 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cd-like-button:hover {
+  box-shadow: 0 3px 10px #7ed470;
+  background-color: rgb(41, 185, 41);
+  color: white;
+  width: 98%;
+}
+
+.cd-report-button:hover,
+.cd-delete-button:hover,
+.cd-dislike-button:hover {
+  box-shadow: 0 3px 10px #c84a4a;
+  background-color: rgb(207, 36, 36);
+  color: white;
+  width: 98%;
+}
+
+.cd-post-button:hover {
+  box-shadow: 0 3px 10px #e6fdff;
+  background-color: rgba(97, 252, 255, 0.564);
+  color: white;
+  width: 98%;
+}

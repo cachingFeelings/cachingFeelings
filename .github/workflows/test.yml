@@ -1,0 +1,50 @@
+name: test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    env:
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+      PORT: ${{ secrets.PORT }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies server
+        working-directory: ./server
+        run: npm install
+
+      - name: Run tests server
+        working-directory: ./server
+        run: npm run test
+
+      - name: Build server
+        working-directory: ./server
+        run: npm run build
+
+      - name: Install dependencies client
+        working-directory: ./client
+        run: npm install
+
+      - name: Run tests client
+        working-directory: ./client
+        run: npm run test
+
+      - name: Build client
+        working-directory: ./client
+        run: npm run build
