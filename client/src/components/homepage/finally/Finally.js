@@ -75,11 +75,34 @@ const Finally = () => {
                 }
             });
             const data = await res.json();
-
-            // const messagesWithMedia = await Promise.all(data.messageList.map(async (message) =>{
-            //     try{}
-            // }))
-            setMessages(data.messageList);
+            let messagesWithMedia = await Promise.all(data.messageList.map(async (message) => {
+                if (message.mediaLink && message.mediaLink.length > 0) {
+                    const imageURLs = await Promise.all(message.mediaLink.map(async (mediaKey) => {
+                        try {
+                            const mediaRes = await fetch(`http://localhost:8080/api/images/getImageURL`, {
+                                method: "POST",
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ fileName: mediaKey })
+                            });
+                            const mediaData = await mediaRes.json();
+                            return mediaData.url; // Assuming the API returns { url: '...' }
+                        } catch (error) {
+                            console.error("Error fetching media URL:", error);
+                            return null;
+                        }
+                    }));
+                    // Filter out any failed requests (null values)
+                    message.imageURLs = imageURLs.filter(url => url !== null);
+                } else {
+                    // If no mediaList, store an empty array
+                    message.imageURLs = [];
+                }
+                return message;
+            }));
+    
+            setMessages(messagesWithMedia);
         } catch (err) {
             console.error("Error retrieving messages:", err);
         }
@@ -170,9 +193,6 @@ const Finally = () => {
         }
     }
     
-    const fetchImages = async () => {
-
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -238,10 +258,10 @@ const Finally = () => {
                             <>
                                 <div className='chatBoxTop' ref={chatBoxTopRef}>
                                     {messages.map((m) => (
-                                        <Messages key={m._id} message={m} own={m.from === theUser} burn={m.burnAfterRead} onDelete={() => handleDeleteMessage(m._id)} />
+                                        <Messages key={m._id} message={m} own={m.from === theUser} burn={m.burnAfterRead} mediaLinks={m.imageURLs} onDelete={() => handleDeleteMessage(m._id)} />
                                     ))}
                                 </div>
-                                <div class="imagesAndBottom">
+                                <div className="imagesAndBottom">
                                     <div className="imagePreviews">
                                         {imagePreviews.map((preview, index) => (
                                             <div key={index} className="imagePreview">
@@ -251,8 +271,8 @@ const Finally = () => {
                                     </div>
                                     <div className='chatBoxBottom'>
                                         <textarea className="chatMessageInput" placeholder='Send a new message...' onChange={(e) => setNewMessage(e.target.value)} value={newMessage}></textarea>
-                                        <label for="fileInput" class="fileInputLabel">Add Attachments</label>
-                                        <input type="file" id="fileInput" multiple class="fileInput" onChange={handleFileChange}/>
+                                        <label htmlFor="fileInput" className="fileInputLabel">Add Attachments</label>
+                                        <input type="file" id="fileInput" multiple className="fileInput" onChange={handleFileChange}/>
 
                                         <div className='buttonAndBurn'>
                                             <button className='chatSubmitButton' onClick={handleSubmit}>Send</button>
