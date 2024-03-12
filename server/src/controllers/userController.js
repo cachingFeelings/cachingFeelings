@@ -41,6 +41,33 @@ export async function createUser(req, res) {
     }
 }
 
+export async function uploadImages(req, res){
+    try {
+        // Find the user by ID
+        // console.log(`The request body: ${req.body}`)
+        const userInfo = req.user
+        const pictureURL = req.body.pictures; 
+        const user = await User.findById({_id: userInfo._id});
+
+        if (!user) {
+            console.error(`User with ID ${userInfo._id} not found.`);
+            return;
+        }
+        // Add the pictureURL to the pictures array
+        user.pictures.push(...pictureURL);
+
+        // Save the updated user object to MongoDB
+        await user.save();
+
+        console.log(`Picture added successfully to user with ID ${userInfo._id}.`);
+        res.status(200).send();
+    } catch (error) {
+        console.error("Error adding picture to user:", error);
+        res.status(400).send({ message: error.message });
+    }
+
+}
+
 export async function getUserData(req, res){
     try{
         const userID = req.body._id;
@@ -335,4 +362,5 @@ export async function blockUser(req, res){
         res.status(400).send({ message: error.message });
     }
 }
+
 

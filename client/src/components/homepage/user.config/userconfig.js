@@ -4,6 +4,7 @@ import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBack
 import { Link } from "react-router-dom";
 import NavBar from '../fixedcomponents/NavBar';
 import Header from '../fixedcomponents/Header';
+import AdditionalImages from './AdditionalImages';
 
 const UserConfig = () => {
   const [password, setPassword] = useState('');
@@ -64,6 +65,7 @@ const UserConfig = () => {
       <NavBar />
       <div className="container">
         <TwinklingBackground/>
+        <AdditionalImages />
         <form className="settings-container" onSubmit={handleSubmit}>
           {/* <div className='new-password'>
             <label className="label" htmlFor="profilePic">Upload new profile picture:</label>
