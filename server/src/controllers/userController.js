@@ -268,9 +268,20 @@ export async function getLikes(req, res){
         
         const userIDs = Array.from(user.likes.keys());
 
-        const listUsers = await User.find({
+        const likedUsers = await User.find({
             '_id' : {$in: userIDs}   
-        }, '_id username interests')
+        }, '_id username interests likes')
+
+
+        const userID = user._id
+
+        console.log(`user ${userID} likes: ${likedUsers}`)
+
+        const listUsers = likedUsers.filter(likedUser => {
+            return likedUser.likes && likedUser.likes.has(user._id.toString());
+        });
+
+        console.log(`AFTER FILTER: ${likedUsers}`)
         
         res.status(201).send({ listUsers });
 
