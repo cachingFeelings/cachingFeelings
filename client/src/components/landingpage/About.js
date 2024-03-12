@@ -6,9 +6,9 @@ const About = () => {
 
     const { data, handleChange } = useSignUpContext();
 
-    let osOptions = ["Windows", "MacOS", "Linux", "Other"];
-    let langOptions = ["Python", "Javascript", "Java", "C++", "C#", "Go", "PHP", "Other"]; 
-    let CSOptions = ["Data Science", "AI", "ML", "SWE", "Graphics", "Networks", "Game Dev", "Web dev", "Other"];
+    let osOptions = ["Windows", "MacOS", "Linux"];
+    let langOptions = ["Python", "Javascript", "Java", "C++", "C#", "Go", "PHP"]; 
+    let CSOptions = ["Data Science", "AI", "ML", "SWE", "Graphics", "Networks", "Game Dev", "Web dev"];
     let nonCSOptions = ["travel", "music", "movies", "books", "sports", "fitness", "art", "gaming", "fashion"];
 
     const content = (
