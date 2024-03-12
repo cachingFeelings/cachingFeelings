@@ -13,9 +13,9 @@ const FormInputs = () => {
 
     const display = {
         0: <Basics />,
-        1: <Algorithm />,
-        2: <About />,
-        3: <ImageUploadComponent />
+        // 1: <Algorithm />,
+        1: <About />,
+        2: <ImageUploadComponent />
     }
 
     const content = (

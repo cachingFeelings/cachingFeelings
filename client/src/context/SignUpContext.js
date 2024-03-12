@@ -7,9 +7,9 @@ export const SignUpProvider = ({ children }) => {
 
     const title = {
         0: 'The Basics',
-        1: 'For the Algorithm',
-        2: 'Configuration File',
-        3: 'Images'
+        //1: 'For the Algorithm',
+        1: 'Configuration File',
+        2: 'Images'
     }
 
     const [page, setPage] = useState(0)
@@ -25,12 +25,14 @@ export const SignUpProvider = ({ children }) => {
         bio: "",
         interests: [],
         profilePhoto: "",
-        pictures: []
+        pictures: [],
+        profilePhoto: []
     })
 
     const handleChange = e => {
         const name = e.target.name
         const value = e.target.value === 'file'  ? e.target.files[0] : e.target.value;
+        console.log(`The data being sent to the frontend is: ${value[0].name} to key: ${name}`)
 
         setData(prevData => {
             if (Array.isArray(prevData[name])) {

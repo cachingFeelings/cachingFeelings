@@ -7,7 +7,7 @@ function ImageUploadComponent(){
     const [imagePreviews, setImagePreviews] = useState([]);
     const [uploadStatuses, setUploadStatuses] = useState({});
     
-    const { data, handleChange } = useSignUpContext()
+    const { handleChange } = useSignUpContext()
 
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
@@ -39,6 +39,13 @@ function ImageUploadComponent(){
                 body: JSON.stringify({files: fileInfo}),
             });
             const data = await response.json();
+            console.log(data); 
+            handleChange({
+                target: {
+                    name: 'pictures',
+                    value: data.files
+                }
+            })
 
             await Promise.all(data.files.map(async (file, index) => {
                 const { uploadURL, objectKey } = file;

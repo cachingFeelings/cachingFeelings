@@ -14,7 +14,7 @@ const Finally = () => {
     const [newMessage, setNewMessage] = useState("");
     const [burnAfter, setBurn] = useState(false);
     const chatBoxTopRef = useRef();
-    const pollingInterval = useRef(null);
+    //const pollingInterval = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
