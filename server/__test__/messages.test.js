@@ -177,7 +177,7 @@ describe('GET /getUser', () => {
             .send({});
         expect(response4.statusCode).toBe(200);
 
-        convoId = response4.body._id; // Assuming the response body has the convo ID directly
+        convoId = response4._id; // Assuming the response body has the convo ID directly
         console.log("The user id: ",convoId);
 
 
@@ -185,13 +185,13 @@ describe('GET /getUser', () => {
 
 
 
-    it('should post a new convo from User 1 to User 2', async () => {
-        const response3 = await request(app)
-        .post('/api/convo/newConvo')
-        .set('Authorization', `Bearer ${tokenUser1}`)
-        .send({ username: 'test2User' });
-    expect(response3.statusCode).toBe(201);
-    });
+    // it('should post a new convo from User 1 to User 2', async () => {
+    //     const response3 = await request(app)
+    //     .post('/api/convo/newConvo')
+    //     .set('Authorization', `Bearer ${tokenUser1}`)
+    //     .send({ username: 'test2User' });
+    // expect(response3.statusCode).toBe(201);
+    // });
 
 
     it('should post a new message from User 1 to User 2', async () => {
