@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/app.js';
 
+
 describe('POST /create_user', () => {
     it('should create a new user and return a token', async () => {
         const response = await request(app)
@@ -55,109 +56,53 @@ describe('GET /getUser', () => {
 
     token2 = respond.body.token;
     userID2 = respond.body.userObj._id;
-});
+        // Make sure users like each other to enable conversation
+        await request(app)
+            .post('/api/user/likeDislike')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ _id: userID2, like: true });
+        
+        await request(app)
+            .post('/api/user/likeDislike')
+            .set('Authorization', `Bearer ${token2}`)
+            .send({ _id: userID, like: true });
+    });
 
-it('user 1 should like user 2', async () => {
-    const response = await request(app)
-        .post('/api/user/likeDislike')
-        .set('Authorization', `Bearer ${token}`)
-        .send({
-            _id: userID2,
-            like: true
-        });
+    it('should allow user1 to create a new conversation with user2', async () => {
+        const response = await request(app)
+            .post('/api/convo/newConvo')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ username: 'test2User' }); // Assuming you need the username of the recipient to create a convo
 
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(201);
-    // Add any other expectations here. For example, checking the response body if necessary
-    // e.g., expect(response.body.message).toEqual("Liked successfully");
-});
+        expect(response.statusCode).toBe(201);
+    });
 
-it('user 2 should like user 1', async () => {
-    const response = await request(app)
-        .post('/api/user/likeDislike')
-        .set('Authorization', `Bearer ${token2}`)
-        .send({
-            _id: userID,
-            like: true
-        });
+    it('should allow user1 to get their conversations', async () => {
+        const response = await request(app)
+            .get('/api/convo/getConvos')
+            .set('Authorization', `Bearer ${token}`);
 
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(201);
-    // Add any other expectations here. For example, checking the response body if necessary
-    // e.g., expect(response.body.message).toEqual("Liked successfully");
-});
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual(expect.arrayContaining([
+            expect.objectContaining({
+                _id: expect.any(String),
+                username: 'test2User'
+            })
+        ]));
+    });
 
-it('user 2 should already like user 1, receive 400', async () => {
-    const response = await request(app)
-        .post('/api/user/likeDislike')
-        .set('Authorization', `Bearer ${token2}`)
-        .send({
-            _id: userID,
-            like: true
-        });
+    it('should not allow unauthorized access to getConvos', async () => {
+        const response = await request(app)
+            .get('/api/convo/getConvos');
 
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(400);
-    // Add any other expectations here. For example, checking the response body if necessary
-    // e.g., expect(response.body.message).toEqual("Liked successfully");
-});
+        expect(response.statusCode).toBe(401);
+    });
 
-it('user 2 should dislike user 1', async () => {
-    const response = await request(app)
-        .post('/api/user/likeDislike')
-        .set('Authorization', `Bearer ${token2}`)
-        .send({
-            _id: userID,
-            like: false
-        });
+    it('should not allow unauthorized access to newConvo', async () => {
+        const response = await request(app)
+            .post('/api/convo/newConvo')
+            .send({ username: 'test2User' });
 
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(201);
-    // Add any other expectations here. For example, checking the response body if necessary
-    // e.g., expect(response.body.message).toEqual("Liked successfully");
-});
-
-//=========================what do they mean default
-// it('like will be set to true by default if not included', async () => {
-//     const response = await request(app)
-//         .post('/api/user/likeDislike')
-//         .set('Authorization', `Bearer ${token2}`)
-//         .send({
-//             _id: userID
-//         });
-
-//     // Check if the response status code is 201 (Created) or other if your API behaves differently
-//     expect(response.statusCode).toBe(201);
-//     // Add any other expectations here. For example, checking the response body if necessary
-//     // e.g., expect(response.body.message).toEqual("Liked successfully");
-// });
-
-it(' receive error 400 - id not included', async () => {
-    const response = await request(app)
-        .post('/api/user/likeDislike')
-        .set('Authorization', `Bearer ${token2}`)
-        .send({
-            like: false
-        });
-
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(404);
-    // Add any other expectations here. For example, checking the response body if necessary
-    // e.g., expect(response.body.message).toEqual("Liked successfully");
-});
-
-it(' receive error 401 invalid or not included token', async () => {
-    const response = await request(app)
-        .post('/api/user/likeDislike')
-        .send({
-            _id: userID,
-            like: false
-        });
-
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
-    expect(response.statusCode).toBe(401);
-    // Add any other expectations here. For example, checking the response body if necessary
-    // e.g., expect(response.body.message).toEqual("Liked successfully");
-});
-
+        expect(response.statusCode).toBe(401);
+    });
 });

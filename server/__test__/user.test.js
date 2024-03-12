@@ -250,172 +250,163 @@ describe('GET /getMatches', () => {
 
 });
 
-// describe('POST /modifyUser', () => {
+describe('POST /modifyUser', () => {
 
-//     let token;
-//     let userID;
+    let token;
+    let userID;
 
-//     beforeAll(async () => {
-//         const response = await request(app)
-//         .post('/api/user/login') 
-//         .send({
-//             username: 'testUser',
-//             password: 'testPassword',
-//         });
-//         token = response.body.token;
-//         userID = response.body.userObj._id;
-//     });
+    beforeAll(async () => {
+        const response = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'testUser',
+            password: 'testPassword',
+        });
+        token = response.body.token;
+        userID = response.body.userObj._id;
+    });
 
-//     it('should return an error for wrong password', async () => {
+    it('should return an error for wrong password', async () => {
 
-//         const response = await request(app)
-//             .post('/api/user/modifyUser')
-//             .set('Authorization', `Bearer ${token}`)
-//             .send({ password: "testsword",
-//                     currentPassword: "tempPass", 
-//                     DOB: "2000-04-18"});
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ password: "testsword",
+                    currentPassword: "tempPass", 
+                    DOB: "2000-04-18"});
 
-//         expect(response.statusCode).toBe(401);
-//     });
-
-
-//     it('should return an error for leavign authentication', async () => {
-
-//         const response = await request(app)
-//             .post('/api/user/modifyUser')
-//             .send({ password: "testsword",
-//                     currentPassword: "tempPass", 
-//                     DOB: "2000-04-18"});
-
-//         expect(response.statusCode).toBe(401);
-//     });
+        expect(response.statusCode).toBe(401);
+    });
 
 
+    it('should return an error for leavign authentication', async () => {
 
-//     ///check why not needed
-//     it('password not needed', async () => {
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .send({ password: "testsword",
+                    currentPassword: "tempPass", 
+                    DOB: "2000-04-18"});
 
-//         const response = await request(app)
-//             .post('/api/user/modifyUser')
-//             .set('Authorization', `Bearer ${token}`)
-//             .send({ 
-//                     currentPassword: "tempPass", 
-//                     DOB: "2000-04-18"});
-
-//         expect(response.statusCode).toBe(201);
-//     });
+        expect(response.statusCode).toBe(401);
+    });
 
 
-//     it('should return an error for leaving out DOB', async () => {
 
-//         const response = await request(app)
-//             .post('/api/user/modifyUser')
-//             .set('Authorization', `Bearer ${token}`)
-//             .send({ password: "testPassword",
-//                     currentPassword: "tempPass", 
-//                 });
+    ///check why not needed
+    it('password not needed', async () => {
 
-//         expect(response.statusCode).toBe(401);
-//     });
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ 
+                    currentPassword: "tempPass", 
+                    DOB: "2000-04-18"});
 
-//     it('should return an error for leavign authentication', async () => {
-
-//         const response = await request(app)
-//             .post('/api/user/modifyUser')
-//             .send({ password: "testPassword",
-//                     currentPassword: "tempPass", 
-//                     DOB: "2000-04-18"});
-
-//         expect(response.statusCode).toBe(401);
-//     });
-
-//     it('should return correct', async () => {
-
-//         const response = await request(app)
-//             .post('/api/user/modifyUser')
-//             .set('Authorization', `Bearer ${token}`)
-//             .send({ password: "testPassword",
-//                     currentPassword: "tempPass", 
-//                     DOB: "2000-04-18"});
-
-//         expect(response.statusCode).toBe(401);
-//     });
-
-// });
-
-// describe('POST /likeDislike', () => {
+        expect(response.statusCode).toBe(201);
+    });
 
 
-// });
+    it('should return an error for leaving out DOB', async () => {
 
-// describe('GET /getLikes', () => {
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ password: "testPassword",
+                    currentPassword: "tempPass", 
+                });
+
+        expect(response.statusCode).toBe(401);
+    });
+
+    it('should return an error for leavign authentication', async () => {
+
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .send({ password: "testPassword",
+                    currentPassword: "tempPass", 
+                    DOB: "2000-04-18"});
+
+        expect(response.statusCode).toBe(401);
+    });
+
+    it('should return correct', async () => {
+
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ password: "testPassword",
+                    currentPassword: "tempPass", 
+                    DOB: "2000-04-18"});
+
+        expect(response.statusCode).toBe(401);
+    });
+
+});
+
+describe('GET /getCurrentUserId', () => {
+
+    let token;
+    let userID;
+
+    beforeAll(async () => {
+        const response = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'testUser',
+            password: 'testPassword',
+        });
+        token = response.body.token;
+        userID = response.body.userObj._id;
+    });
+
+    it('should return 201 and id', async () => {
+
+        const response = await request(app)
+            .get('/api/user/getCurrentUserId')
+            .set('Authorization', `Bearer ${token}`)
+            .send();
+
+        expect(response.statusCode).toBe(200);
+    });
+
+    it('should return 401 for missing or invalid token', async () => {
+
+        const response = await request(app)
+            .get('/api/user/getCurrentUserId')
+            .send();
+
+        expect(response.statusCode).toBe(401);
+    });
+});
+
+describe('GET /getFinally', () => {
+
+    let token;
+    let userID;
+
+    beforeAll(async () => {
+        const response = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'testUser',
+            password: 'testPassword',
+        });
+        token = response.body.token;
+        userID = response.body.userObj._id;
+    });
+
+    it('should return a 201 output', async () => {
+        const response = await request(app)
+            .get('/api/user/getFinally')
+            .set('Authorization', `Bearer ${token}`)
+
+        expect(response.statusCode).toBe(201);
+
+    });
 
 
-// });
+});
 
-// describe('GET /getCurrentUserId', () => {
-
-//     let token;
-//     let userID;
-
-//     beforeAll(async () => {
-//         const response = await request(app)
-//         .post('/api/user/login') 
-//         .send({
-//             username: 'testUser',
-//             password: 'testPassword',
-//         });
-//         token = response.body.token;
-//         userID = response.body.userObj._id;
-//     });
-
-//     it('should return 201 and id', async () => {
-
-//         const response = await request(app)
-//             .get('/api/user/getCurrentUserId')
-//             .set('Authorization', `Bearer ${token}`)
-//             .send();
-
-//         expect(response.statusCode).toBe(200);
-//     });
-
-//     it('should return 401 for missing or invalid token', async () => {
-
-//         const response = await request(app)
-//             .get('/api/user/getCurrentUserId')
-//             .send();
-
-//         expect(response.statusCode).toBe(401);
-//     });
-// });
-
-// describe('GET /getFinally', () => {
-
-//     let token;
-//     let userID;
-
-//     beforeAll(async () => {
-//         const response = await request(app)
-//         .post('/api/user/login') 
-//         .send({
-//             username: 'testUser',
-//             password: 'testPassword',
-//         });
-//         token = response.body.token;
-//         userID = response.body.userObj._id;
-//     });
-
-//     it('should return a 201 output', async () => {
-//         const response = await request(app)
-//             .get('/api/user/getFinally')
-//             .set('Authorization', `Bearer ${token}`)
-
-//         expect(response.statusCode).toBe(201);
-
-//     });
-
-
-// });
 
 // describe('PUT /blockUser', () => {
 //     it('should return a 201 output and block user', async () => {

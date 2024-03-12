@@ -41,7 +41,7 @@ describe('GET /getUser', () => {
         postId = respond.body._id;
     });
 
-    it('should return 201 and contents of new post', async () => {
+    it('should return 201 and send new posts', async () => {
 
         const response = await request(app)
             .post('/api/community/newPosts')
@@ -51,7 +51,7 @@ describe('GET /getUser', () => {
         expect(response.statusCode).toBe(201);
     });
 
-    it('should return 201 and contents of new post', async () => {
+    it('should return 201 and get posts', async () => {
 
         const response = await request(app)
             .get('/api/community/getPosts')
