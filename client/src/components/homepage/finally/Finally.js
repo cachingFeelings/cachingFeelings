@@ -113,7 +113,6 @@ const Finally = () => {
             }),
         })
             const data = await res.json();
-            console.log(`The submit response is: ${data}`)
             setMessages([...messages, data]);
             setNewMessage("")
         }
