@@ -15,6 +15,8 @@ const Finally = () => {
     const [burnAfter, setBurn] = useState(false);
     const chatBoxTopRef = useRef();
     const pollingInterval = useRef(null);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
 
     useEffect(() => {
         if (chatBoxTopRef.current) {
@@ -73,6 +75,10 @@ const Finally = () => {
                 }
             });
             const data = await res.json();
+
+            // const messagesWithMedia = await Promise.all(data.messageList.map(async (message) =>{
+            //     try{}
+            // }))
             setMessages(data.messageList);
         } catch (err) {
             console.error("Error retrieving messages:", err);
@@ -87,30 +93,6 @@ const Finally = () => {
         }
         return () => clearInterval(pollingInterval.current);
     }, [currChat]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const token = localStorage.getItem('token');
-            const res = await fetch("http://localhost:8080/api/message/postMessage", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token,
-                },
-                body: JSON.stringify({
-                    'body': newMessage,
-                    'convoID': currChat,
-                    'burnAfterRead': burnAfter,
-                }),
-            });
-            const data = await res.json();
-            setMessages([...messages, data]);
-            setNewMessage("");
-        } catch (err) {
-            console.error("Error submitting message:", err);
-        }
-    };
 
     const handleDeleteMessage = async (messageId) => {
         try {
@@ -131,11 +113,111 @@ const Finally = () => {
         }
     };
 
+    const handleFileChange = (event) => {
+        const files = Array.from(event.target.files);
+        setSelectedFiles(files);
+
+        const previews = files.map(file => ({
+            name: file.name,
+            url: URL.createObjectURL(file),
+        }));
+        setImagePreviews(previews);
+    }
+
+    const uploadFiles = async () => {
+        if (!selectedFiles.length) return;
+    
+        const fileInfo = selectedFiles.map(file => ({
+            name: file.name,
+            type: file.type,
+        }));
+    
+        try {
+            const response = await fetch("http://localhost:8080/api/images/generateUploadUrls", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({files: fileInfo}),
+            });
+    
+            const data = await response.json();
+    
+            const updatedFilesWithKeys = [...selectedFiles];
+    
+            await Promise.all(data.files.map(async (file, index) => {
+                const { uploadURL, objectKey } = file;
+    
+                await fetch(uploadURL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': selectedFiles[index].type,
+                    },
+                    body: selectedFiles[index],
+                });
+    
+                updatedFilesWithKeys[index] = {
+                    ...updatedFilesWithKeys[index],
+                    objectKey: objectKey,
+                };
+            }));
+    
+            setSelectedFiles(updatedFilesWithKeys); 
+            return updatedFilesWithKeys; 
+        } catch (error) {
+            console.error('Upload error:', error);
+            return [];
+        }
+    }
+    
+    const fetchImages = async () => {
+
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            
+            const token = localStorage.getItem('token');
+
+            const payload = {
+                body: newMessage,
+                convoID: currChat,
+                burnAfterRead: burnAfter,
+            };
+            const uploadedFiles = await uploadFiles();
+
+            const fileKeys = uploadedFiles.map(file => file.objectKey).filter(key => key !== undefined);
+
+            if(fileKeys.length > 0){
+                payload.mediaLink = fileKeys;
+            }
+            console.log(selectedFiles)
+            const res = await fetch("http://localhost:8080/api/message/postMessage", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify(payload),
+            });
+            const data = await res.json();
+            setMessages([...messages, data]);
+            setNewMessage("");
+            setImagePreviews([]);
+            setSelectedFiles([]);
+        } catch (err) {
+            console.error("Error submitting message:", err);
+        }
+    };
+
+
     return (
         <div>
             <Header />
             <NavBar />
-            <TwinklingBackground />
+            {/* <TwinklingBackground /> */}
+            <div className='tempDiv'>
             <div className='title' style={{ color: 'white', textAlign: 'center', padding: '10px' }}>Messages</div>
             <div className="finally" style={{ height: '100vh', display: 'flex', color: 'white' }}>
                 <div className="chatMenu">
@@ -159,16 +241,32 @@ const Finally = () => {
                                         <Messages key={m._id} message={m} own={m.from === theUser} burn={m.burnAfterRead} onDelete={() => handleDeleteMessage(m._id)} />
                                     ))}
                                 </div>
-                                <div className='chatBoxBottom'>
-                                    <textarea className="chatMessageInput" placeholder='Send a new message...' onChange={(e) => setNewMessage(e.target.value)} value={newMessage}></textarea>
-                                    <button className='chatSubmitButton' onClick={handleSubmit}>Send</button>
-                                    <label htmlFor="burnCheckbox">Burn after read</label>
-                                    <input
-                                        id="burnCheckbox"
-                                        type="checkbox"
-                                        checked={burnAfter}
-                                        onChange={(e) => setBurn(e.target.checked)}
-                                    />
+                                <div class="imagesAndBottom">
+                                    <div className="imagePreviews">
+                                        {imagePreviews.map((preview, index) => (
+                                            <div key={index} className="imagePreview">
+                                                <img src={preview.url} alt={preview.name} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className='chatBoxBottom'>
+                                        <textarea className="chatMessageInput" placeholder='Send a new message...' onChange={(e) => setNewMessage(e.target.value)} value={newMessage}></textarea>
+                                        <label for="fileInput" class="fileInputLabel">Add Attachments</label>
+                                        <input type="file" id="fileInput" multiple class="fileInput" onChange={handleFileChange}/>
+
+                                        <div className='buttonAndBurn'>
+                                            <button className='chatSubmitButton' onClick={handleSubmit}>Send</button>
+                                            <div>
+                                                <input
+                                                    id="burnCheckbox"
+                                                    type="checkbox"
+                                                    checked={burnAfter}
+                                                    onChange={(e) => setBurn(e.target.checked)}
+                                                />
+                                                <label htmlFor="burnCheckbox">Burn after read</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </>
                         ) : (
@@ -177,9 +275,13 @@ const Finally = () => {
                     </div>
                 </div>
             </div>
+            </div>
         </div>
     );
 }
 
 export default Finally;
 
+//TODO
+// Add handleFileChange
+// Add imagePreviews
