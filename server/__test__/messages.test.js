@@ -183,6 +183,17 @@ describe('GET /getUser', () => {
 
     });
 
+
+
+    it('should post a new convo from User 1 to User 2', async () => {
+        const response3 = await request(app)
+        .post('/api/convo/newConvo')
+        .set('Authorization', `Bearer ${tokenUser1}`)
+        .send({ username: 'test2User' });
+    expect(response3.statusCode).toBe(201);
+    });
+
+
     it('should post a new message from User 1 to User 2', async () => {
         const response = await request(app)
             .post('/api/message/postMessage')

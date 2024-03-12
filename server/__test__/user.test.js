@@ -271,11 +271,11 @@ describe('GET /getUser', () => {
 
     it('should return a list of matches', async () => {
         const response = await request(app)
-            .post('/api/user/getMatches')
+            .get('/api/user/getMatches')
             .set('Authorization', `Bearer ${token}`)
             .send({ });
 
-        expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(201);
 
     });
 
