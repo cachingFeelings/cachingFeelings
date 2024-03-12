@@ -48,7 +48,7 @@ const Basics = () => {
     }; 
 
     const handleBlur = (value) => {
-        if(value != ''){
+        if(value !== ''){
             setValid(USER_REGEX.test(user));
             checkDuplicate(); 
         }
@@ -58,7 +58,7 @@ const Basics = () => {
     }
 
     const handlePwdBlur = (value) => {
-        if(value != '') {
+        if(value !== '') {
             setValidPwd(PWD_REGEX.test(pwd)); 
         }
         else {
@@ -68,7 +68,7 @@ const Basics = () => {
 
     useEffect( () => {
         setMatchPwd(pwd === matchpwd); 
-    }, [matchpwd])
+    }, [pwd, matchpwd])
 
     const handleUserChange = (e) => {
         handleChange(e); 

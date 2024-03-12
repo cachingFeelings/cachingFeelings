@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useSignUpContext from "../../hooks/useSignUpContext"
+// import useSignUpContext from "../../hooks/useSignUpContext"
 import './LandingPage'
 
 function ImageUploadComponent(){ 
@@ -7,7 +7,7 @@ function ImageUploadComponent(){
     const [imagePreviews, setImagePreviews] = useState([]);
     const [uploadStatuses, setUploadStatuses] = useState({});
     
-    const { data, handleChange } = useSignUpContext()
+    // const { data, handleChange } = useSignUpContext()
 
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
@@ -42,6 +42,7 @@ function ImageUploadComponent(){
 
             await Promise.all(data.files.map(async (file, index) => {
                 const { uploadURL, objectKey } = file;
+                console.log(objectKey);
                 await fetch(uploadURL, {
                     method: 'PUT',
                     headers: {
