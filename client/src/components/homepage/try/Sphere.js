@@ -12,7 +12,7 @@ const Sphere = () => {
     const retrieveMatches = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch("http://localhost:8080/api/user/getMatches/", {
+        const res = await fetch("https://caching-feelings-server.onrender.com/api/user/getMatches/", {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
@@ -232,7 +232,7 @@ const Sphere = () => {
   
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/user/likeDislike", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/api/user/likeDislike", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -244,6 +244,7 @@ const Sphere = () => {
         }),
       })
       .then(res => res.json());
+      console.log(res);
     } catch (err) {
   }
     setIsModalOpen(false);
@@ -254,7 +255,7 @@ const Sphere = () => {
   
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/user/likeDislike", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/api/user/likeDislike", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -266,6 +267,7 @@ const Sphere = () => {
         }),
       })
       .then(res => res.json());
+      console.log(res);
     } catch (err) {
   }
   setIsModalOpen(false);

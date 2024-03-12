@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
 import './userconfig.css';
 import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBackground';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import NavBar from '../fixedcomponents/NavBar';
 import Header from '../fixedcomponents/Header';
 
 const UserConfig = () => {
   const [password, setPassword] = useState('');
   const [newpwd, setNewPwd] = useState('');
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic] = useState('');
   const [enableSubmit, setEnabled] = useState(false);
 
   const handlePasswordChange = (event) => {
     setNewPwd(event.target.value);
   };
 
-  const handleProfilePicChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setProfilePic(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
+  // const handleProfilePicChange = (event) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     setProfilePic(reader.result);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(`This is being sent to the backend: old pwd: ${password}, new pwd: ${newpwd}, new image: ${profilePic}`)
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/user/modifyUser", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/api/user/modifyUser", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -41,6 +41,7 @@ const UserConfig = () => {
           'profilePicture': profilePic
       }),
     });
+    console.log(res);
     } catch (err) {
 
     }

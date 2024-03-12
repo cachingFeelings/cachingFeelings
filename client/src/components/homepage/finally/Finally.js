@@ -14,7 +14,7 @@ const Finally = () => {
     const [newMessage, setNewMessage] = useState("");
     const [burnAfter, setBurn] = useState(false);
     const chatBoxTopRef = useRef();
-    const pollingInterval = useRef(null);
+    // const pollingInterval = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
@@ -28,7 +28,7 @@ const Finally = () => {
         const getUserID = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch(`http://localhost:8080/api/user/getCurrentUserId`, {
+                const res = await fetch(`https://caching-feelings-server.onrender.com/api/user/getCurrentUserId`, {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const Finally = () => {
         const retrieveConversations = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch("http://localhost:8080/api/convo/getConvos", {
+                const res = await fetch("https://caching-feelings-server.onrender.com/api/convo/getConvos", {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -64,10 +64,11 @@ const Finally = () => {
         retrieveConversations();
     }, []);
 
+    // eslint-disable-next-line 
     const retrieveMessages = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8080/api/message/batchGetMessages?convoID=${currChat}`, {
+            const res = await fetch(`https://caching-feelings-server.onrender.com/api/message/batchGetMessages?convoID=${currChat}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ const Finally = () => {
                 if (message.mediaLink && message.mediaLink.length > 0) {
                     const imageURLs = await Promise.all(message.mediaLink.map(async (mediaKey) => {
                         try {
-                            const mediaRes = await fetch(`http://localhost:8080/api/images/getImageURL`, {
+                            const mediaRes = await fetch(`https://caching-feelings-server.onrender.com/api/images/getImageURL`, {
                                 method: "POST",
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -111,16 +112,16 @@ const Finally = () => {
     useEffect(() => {
         if (currChat) {
             retrieveMessages();
-            clearInterval(pollingInterval.current);
-            pollingInterval.current = setInterval(retrieveMessages, 5000);
+            // clearInterval(pollingInterval.current);
+            // pollingInterval.current = setInterval(retrieveMessages, 5000);
         }
-        return () => clearInterval(pollingInterval.current);
-    }, [currChat]);
+        // return () => clearInterval(pollingInterval.current);
+    }, [currChat, retrieveMessages]);
 
     const handleDeleteMessage = async (messageId) => {
         try {
             const token = localStorage.getItem('token');
-            await fetch("http://localhost:8080/api/message/deleteMessage", {
+            await fetch("https://caching-feelings-server.onrender.com/api/message/deleteMessage", {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
@@ -156,7 +157,7 @@ const Finally = () => {
         }));
     
         try {
-            const response = await fetch("http://localhost:8080/api/images/generateUploadUrls", {
+            const response = await fetch("https://caching-feelings-server.onrender.com/api/images/generateUploadUrls", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -213,7 +214,7 @@ const Finally = () => {
                 payload.mediaLink = fileKeys;
             }
             console.log(selectedFiles)
-            const res = await fetch("http://localhost:8080/api/message/postMessage", {
+            const res = await fetch("https://caching-feelings-server.onrender.com/api/message/postMessage", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

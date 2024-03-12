@@ -45,7 +45,7 @@ export const SignUpProvider = ({ children }) => {
         }); 
     }; 
 
-    const { ...requiredInputs } = data
+    // const { ...requiredInputs } = data
     //will check to make sure none of the values in data are an empty string
     const canSubmit = page === Object.keys(title).length - 1//[...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1
 
