@@ -58,7 +58,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker-compose build
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
@@ -66,6 +65,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        run: docker-compose build
 
       - name: Push Docker image to Docker Hub
         run: docker-compose push
