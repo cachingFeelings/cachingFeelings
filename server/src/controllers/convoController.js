@@ -81,7 +81,6 @@ export async function createConvo(req, res){
     
         const user = await User.findOne({username: recipient});
         const recipientID = user._id
-        console.log(`The userID is ${userID} and the recipient ID is ${recipientID}`)
 
         //add error checking to make sure the recipient also likes the user
         
