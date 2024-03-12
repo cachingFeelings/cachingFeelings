@@ -40,10 +40,13 @@ export async function batchGetMessages(req, res){
 export async function getMessages(req, res){
     try{
         const userID = req.user._id;
+        console.log("User id: ", userID);
         const messageId = req.body.messageID;
         const message = await Message.findOne({ _id : messageId });
+        console.log(" log: ", message);
         
         const unauthorized = !message.to.equals(userID) && !message.to.equals(userID);
+        console.log("unauthroized: ", message.to);
         if(unauthorized){
             res.status(401).send("Accessing Unauthorized Resources");
         } else if (message.burnAfterRead && message.seen){
