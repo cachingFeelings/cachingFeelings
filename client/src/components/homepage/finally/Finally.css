@@ -24,12 +24,14 @@
 }
 .chatBoxTop {
     overflow-y: auto;
-    flex: 1; 
-    max-height: calc(100% - 60vh);
+    flex-grow: 1; 
+    height: 15%;
+    max-height: 60%;
 }
 .imagesAndBottom {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .imagePreviews {
@@ -182,7 +184,7 @@
 .mediaLink {
     display: flex;
     gap: 8px;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .mediaLinkPreview {
