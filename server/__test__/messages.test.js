@@ -130,7 +130,7 @@ describe('GET /getUser', () => {
     let userId2;
 
     beforeAll(async () => {
-        const response = await request(app)
+        const res = await request(app)
         .post('/api/user/login') 
         .send({
             username: 'test1User',
