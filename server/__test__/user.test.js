@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/app.js';
 
+
 describe('POST /create_user', () => {
     it('should create a new user and return a token', async () => {
         const response = await request(app)
@@ -72,6 +73,8 @@ describe('POST /create_user', () => {
     })
 });
 
+
+
 describe ('POST /login', () =>{
     it('should return a valid token and user data', async ()=>{
         const response = await request(app)
@@ -116,6 +119,8 @@ describe ('POST /login', () =>{
         expect(response.body.message).toEqual("Illegal arguments: undefined, string");
     })
 })
+
+
 
 describe('GET /getUser', () => {
     let token;
@@ -332,27 +337,6 @@ describe('GET /getUser', () => {
 
 });
 
-describe('POST /validate', () => {
-    it('should return 200 for a unique username', async () => {
-
-        const response = await request(app)
-            .post('/api/user/validate')
-            .send({username: 'unique' });
-
-        expect(response.statusCode).toBe(200);
-        expect(response.body.message).toEqual("Username is available");
-    });
-
-    it('should return 409 for a unique username', async () => {
-
-        const response = await request(app)
-            .post('/api/user/validate')
-            .send({username: 'testUser' });
-
-        expect(response.statusCode).toBe(409);
-        expect(response.body.message).toEqual("Already taken");
-    });
-}); 
 
 
 describe('POST /validate', () => {
@@ -380,6 +364,20 @@ describe('POST /validate', () => {
 
 describe('GET /getMatches', () => {
 
+    let token;
+    let userID;
+
+    beforeAll(async () => {
+        const response = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'testUser',
+            password: 'testPassword',
+        });
+        token = response.body.token;
+        userID = response.body.userObj._id;
+    });
+    
     it('should return a list of matches', async () => {
         const response = await request(app)
             .get('/api/user/getMatches')
@@ -393,6 +391,20 @@ describe('GET /getMatches', () => {
 });
 
 describe('POST /modifyUser', () => {
+
+    let token;
+    let userID;
+
+    beforeAll(async () => {
+        const response = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'testUser',
+            password: 'testPassword',
+        });
+        token = response.body.token;
+        userID = response.body.userObj._id;
+    });
 
     it('should return an error for wrong password', async () => {
 
@@ -495,6 +507,20 @@ describe('POST /modifyUser', () => {
 
 describe('GET /getCurrentUserId', () => {
 
+    let token;
+    let userID;
+
+    beforeAll(async () => {
+        const response = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'testUser',
+            password: 'testPassword',
+        });
+        token = response.body.token;
+        userID = response.body.userObj._id;
+    });
+
     it('should return 201 and id', async () => {
 
         const response = await request(app)
@@ -516,6 +542,21 @@ describe('GET /getCurrentUserId', () => {
 });
 
 describe('GET /getFinally', () => {
+
+    let token;
+    let userID;
+
+    beforeAll(async () => {
+        const response = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'testUser',
+            password: 'testPassword',
+        });
+        token = response.body.token;
+        userID = response.body.userObj._id;
+    });
+
     it('should return a 201 output', async () => {
         const response = await request(app)
             .get('/api/user/getFinally')
