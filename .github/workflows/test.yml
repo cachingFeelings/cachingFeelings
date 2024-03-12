@@ -44,7 +44,6 @@ jobs:
 
       - name: Setup .env File for Server
         run: |
-          mkdir -p ./server
           touch ./server/.env
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> ./server/.env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> ./server/.env
@@ -62,7 +61,6 @@ jobs:
 
       - name: Build Docker image
         run: docker-compose build
-        working-directory: .
         
       - name: Push Docker image to Docker Hub
         run: docker-compose push
