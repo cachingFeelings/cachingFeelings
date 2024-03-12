@@ -128,6 +128,7 @@ describe('GET /getUser', () => {
     let userId1;
     let tokenUser2;
     let userId2;
+    let convoId;
 
     beforeAll(async () => {
         const response = await request(app)
@@ -167,7 +168,7 @@ describe('GET /getUser', () => {
         response = await request(app)
             .post('/api/convo/newConvo')
             .set('Authorization', `Bearer ${tokenUser1}`)
-            .send({ username: 'test2Userr' });
+            .send({ username: 'test2User' });
         expect(response.statusCode).toBe(201);
         convoId = response.body._id; // Assuming the response body has the convo ID directly
     });
