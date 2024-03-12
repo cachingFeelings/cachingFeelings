@@ -1,6 +1,5 @@
 import React from 'react';
 import Basics from "./Basics"
-import Algorithm from "./Algorithm"
 import About from "./About"
 // import Images from "./Images"
 import ImageUploadComponent from './imageUploader';
