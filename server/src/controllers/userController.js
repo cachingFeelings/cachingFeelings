@@ -109,8 +109,6 @@ export async function validUsername(req, res) {
     }
 }
 
-// TODO
-// Make this function not create a convoID on convoStart
 export async function likeDislike(req,res){ 
     try{
         const targetUserID = req.body._id;
@@ -144,21 +142,15 @@ export async function likeDislike(req,res){
         }
         var matchCheck = false;
         if (like && targetUser.likes && targetUser.likes.has(user._id.toString())){
-            const convoInfo = {
-                messages : [],
-                users : [user._id, targetUserID]
-            }
-            const convo = new Convo(convoInfo);
-            await convo.save();
-            
+
             if(!user.matches){
                 user["matches"] = {}
             }
             if(!targetUser.matches){
                 targetUser["matches"] = {}
             }
-            user.matches.set(targetUserID, convo._id);
-            targetUser.matches.set(user._id, convo._id);
+            user.matches.set(targetUserID, "");
+            targetUser.matches.set(user._id, "");
             
             await targetUser.save();
             matchCheck = true;
@@ -255,15 +247,12 @@ export async function getInterestMatches(req, res){
     }
 }
 
-// TODO
-// Displaying Likes is redundant 
-// Make this fn display matches
 export async function getLikes(req, res){
     try{
         const user = req.user;
 
         if(!user.likes){
-            user["likes"] = {}
+            user["matches"] = {}
         }
         
         const userIDs = Array.from(user.likes.keys());
@@ -272,16 +261,9 @@ export async function getLikes(req, res){
             '_id' : {$in: userIDs}   
         }, '_id username interests likes')
 
-
-        const userID = user._id
-
-        console.log(`user ${userID} likes: ${likedUsers}`)
-
         const listUsers = likedUsers.filter(likedUser => {
             return likedUser.likes && likedUser.likes.has(user._id.toString());
         });
-
-        console.log(`AFTER FILTER: ${likedUsers}`)
         
         res.status(201).send({ listUsers });
 
@@ -303,17 +285,24 @@ export async function getCurrentUserId(req, res) {
     }
 }
 
-// TODO
-// Make this fn return matches with a convoID
-export async function getMatches(req, res){
+export async function getFinally(req, res){
     try{
         const user = req.user;
 
         if (!user.matches){
             user["matches"] = {}
         }
-        const mapUsers = user.matches;
-        res.status(201).send({ mapUsers });
+        const matches = user.matches;
+        
+        const filteredMapUsers = {};
+        
+        matches.forEach((convoID, userID) => {
+            if (convoID) { 
+                filteredMapUsers[userID] = convoID;
+            }
+        });
+        
+        res.status(201).send({ mapUsers: filteredMapUsers });
     } catch (error) {
         if (error.kind == 'ObjectId'){
             res.status(404).send({message: "Who you tryna contact? The wind?"});
@@ -322,3 +311,27 @@ export async function getMatches(req, res){
         }
     }
 }
+
+
+export async function blockUser(req, res){
+    try{
+        const userSender = await User.findOne({_id: req.user._id}); 
+        const userBeingBlocked = await User.findOne({ username : req.body.username });
+        if (!userBeingBlocked) {
+            return res.status(404).send({ message: "User to block not found" });
+        }
+
+        await Convo.deleteOne({ users: { $all: [userSender._id, userBeingBlocked._id] } });
+    
+        const usertoblockIDString = userBeingBlocked._id.toString();
+
+        userSender.likes.delete(usertoblockIDString);
+
+        await userSender.save();
+
+        res.status(201).send({ message: "User blocked successfully" });
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+}
+

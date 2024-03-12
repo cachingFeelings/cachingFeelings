@@ -48,10 +48,10 @@ const Catch = () => {
         <div>
           <Header />
           <NavBar />
-          <h1 style={{color: "white", textAlign: 'center'}}>Your likes</h1>
+          <h1 style={{color: "white", textAlign: 'center'}}>Your Catches</h1>
         <div>
             <TwinklingBackground />
-            {likes !== null ? <UsersContainer usersArray={likes} /> : <p style={{color: "white", textAlign:'center'}}>No likes yet...</p>}
+            {likes !== null ? <UsersContainer usersArray={likes} /> : <p style={{color: "white", textAlign:'center'}}>No catches yet...</p>}
         </div>
         </div>
     );

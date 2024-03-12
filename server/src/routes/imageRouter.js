@@ -4,6 +4,6 @@ import { generateUploadURLs, getImageURL } from '../controllers/imageController.
 const router = express.Router();
 
 router.post('/generateUploadUrls', generateUploadURLs);
-router.get('/getImageURL', getImageURL);
+router.post('/getImageURL', getImageURL);
 
 export default router;
