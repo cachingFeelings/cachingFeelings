@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "build": "echo \"Error: no build script specified\" && exit 1",
     "lint": "eslint src/",
+    "build": "babel src --out-dir dist --copy-files",
     "test": "NODE_ENV=test jest --coverage --detectOpenHandles --forceExit"
   },
   "repository": {
