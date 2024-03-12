@@ -18,6 +18,7 @@ const userSchema = new Schema({
     gender: String,
     interestedIn: [String],
     bio: String,
+    profilePhoto: String,
     interests: [String],
     resetAfter: Number
 })

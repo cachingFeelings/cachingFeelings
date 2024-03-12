@@ -1,6 +1,10 @@
 import Message from '../models/messageModel.js'
 import Convo from '../models/convoModel.js'
 
+
+// TODO
+// Update the function to return signedURL of attachments too
+// update front end too
 export async function batchGetMessages(req, res){
     try{
         // const userID = req.user._id;
@@ -17,6 +21,7 @@ export async function batchGetMessages(req, res){
         
         //REMOVE AFTER TESTING
         const unauthorized = false//messageList.some(message => !message.to.equals(userID) && !message.from.equals(userID));
+        
         
         if(unauthorized){
             res.status(401).send("Accessing Unauthorized Resources");
@@ -55,6 +60,8 @@ export async function getMessages(req, res){
     }
 }
 
+// TODO
+// Add send message functionality on front and back
 export async function postMessage(req, res){
     try{
         //ask about this
@@ -69,6 +76,8 @@ export async function postMessage(req, res){
         // }
         console.log(req.body.convoID); 
         const convo = await Convo.findOne({_id: req.body.convoID});
+        console.log(`The convo is: ${convo}`); 
+        console.log(`The req is: ${req.body}`)
 
         if(!convo){
             return res.status(404).send({message: "Convo Id Not Found"});
@@ -78,9 +87,9 @@ export async function postMessage(req, res){
         const messageInfo = {
             from: req.user._id,
             burnAfterRead: req.body.burnAfterRead ? req.body.burnAfterRead : false,
-            seen: req.body.seen? req.body.seen : false,
+            seen: false,
             timeStamp : new Date(),
-            convoID : thisConvoID
+            convoID : convo._id
         }
 
         if(req.body){
@@ -99,7 +108,7 @@ export async function postMessage(req, res){
 
         await convo.save();
 
-        res.status(201).send({ message });
+        res.status(201).send(message);
     } catch (error) {
         res.status(400).send({ message: error.message });
     }
@@ -123,6 +132,19 @@ export async function updateSeen(req, res){
             
             res.status(201).send({ message });
         }
+    }
+    catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+
+}
+
+export async function deleteMessage(req, res){
+    try{
+        const messageId = req.body._id;
+        await Message.deleteOne({ _id: messageId });
+
+        res.status(201).send("Delete successful");
     }
     catch (error) {
         res.status(400).send({ message: error.message });
