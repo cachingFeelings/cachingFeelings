@@ -151,26 +151,26 @@ describe('GET /getUser', () => {
     userId2 = response.body.userObj._id;
 
         // User 1 likes User 2
-        response = await request(app)
+        const response1 = await request(app)
             .post('/api/user/likeDislike')
             .set('Authorization', `Bearer ${tokenUser1}`)
             .send({ _id: userId2, like: true });
-        expect(response.statusCode).toBe(201);
+        expect(response1.statusCode).toBe(201);
 
         // User 2 likes User 1
-        response = await request(app)
+        const response2 = await request(app)
             .post('/api/user/likeDislike')
             .set('Authorization', `Bearer ${tokenUser2}`)
             .send({ _id: userId1, like: true });
-        expect(response.statusCode).toBe(201);
+        expect(response2.statusCode).toBe(201);
 
         // Create a new conversation between User 1 and User 2
-        response = await request(app)
+        const response3 = await request(app)
             .post('/api/convo/newConvo')
             .set('Authorization', `Bearer ${tokenUser1}`)
             .send({ username: 'test2User' });
-        expect(response.statusCode).toBe(201);
-        convoId = response.body._id; // Assuming the response body has the convo ID directly
+        expect(response3.statusCode).toBe(201);
+        convoId = response3.body._id; // Assuming the response body has the convo ID directly
     });
 
     it('should post a new message from User 1 to User 2', async () => {
