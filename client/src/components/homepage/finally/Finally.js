@@ -205,7 +205,7 @@ const Finally = () => {
                 convoID: currChat,
                 burnAfterRead: burnAfter,
             };
-            const uploadedFiles = await uploadFiles();
+            const uploadedFiles = selectedFiles.length > 0 ? await uploadFiles() : [];
 
             const fileKeys = uploadedFiles.map(file => file.objectKey).filter(key => key !== undefined);
 
