@@ -31,13 +31,13 @@ describe('GET /getUser', () => {
             password: 'testPassword',
         });
 
-        const respond = await request(app)
-            .post('/api/community/newPosts')
-            .set('Authorization', `Bearer ${token}`)
-            .send({"body":"Testing" });
-
         token = response.body.token;
         userID = response.body.userObj._id;
+
+        const respond = await request(app)
+        .post('/api/community/newPosts')
+        .set('Authorization', `Bearer ${token}`)
+        .send({"body":"Testing" });
         postId = respond.body._id;
     });
 
