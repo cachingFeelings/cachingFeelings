@@ -44,7 +44,7 @@ export async function getMessages(req, res){
         const message = await Message.findOne({ _id : messageId });
         console.log(" log: ", message);
         
-        const unauthorized = false;
+        const unauthorized = !message.to.equals(userID) && !message.to.equals(userID);
         console.log("unauthroized: ", message.to);
         if(unauthorized){
             res.status(401).send("Accessing Unauthorized Resources");

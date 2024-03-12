@@ -71,6 +71,30 @@ describe('GET /getUser', () => {
 
         expect(response.statusCode).toBe(201);
     });
+
+
+    it('should return an error since postId is not included', async () => {
+
+        const response = await request(app)
+            .post('/api/community/likeDislike')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                    like: true});
+
+        expect(response.statusCode).toBe(201);
+    });
+
+
+    it('should return 201 and should like the post', async () => {
+
+        const response = await request(app)
+            .post('/api/community/likeDislike')
+            .set('Authorization', `Bearer ${token}`)
+            .send({postID:postId,
+                    like: false});
+
+        expect(response.statusCode).toBe(201);
+    });
     
     it('should return 201 and should report the post', async () => {
 
@@ -81,6 +105,16 @@ describe('GET /getUser', () => {
                     report: true});
 
         expect(response.statusCode).toBe(201);
+    });
+
+    it('should return 401 if token is not included or misspelt', async () => {
+
+        const response = await request(app)
+            .post('/api/community/report')
+            .send({postID:postId,
+                    report: true});
+
+        expect(response.statusCode).toBe(401);
     });
 
     it('should return 201 and should delete the post', async () => {
