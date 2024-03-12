@@ -129,6 +129,7 @@ describe('GET /getUser', () => {
     let tokenUser2;
     let userId2;
     let convoId;
+    let messageId;
 
     beforeAll(async () => {
         const response = await request(app)
