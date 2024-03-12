@@ -147,8 +147,8 @@ describe('GET /getUser', () => {
             password: 'test2Password',
         });
 
-    tokenUser2 = response.body.token;
-    userId2 = response.body.userObj._id;
+    tokenUser2 = respond.body.token;
+    userId2 = respond.body.userObj._id;
 
         // User 1 likes User 2
         const response1 = await request(app)
