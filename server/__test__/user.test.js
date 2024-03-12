@@ -15,6 +15,9 @@ describe('POST /create_user', () => {
         expect(response.body).toHaveProperty('token');
     });
 
+
+    
+
     it('should return a 400 error for missing password', async () => {
         const response = await request(app)
             .post('/api/user/create_user') 
@@ -127,6 +130,16 @@ describe('GET /getUser', () => {
         });
         token = response.body.token;
         userID = response.body.userObj._id;
+
+
+        const response2 = await request(app)
+        .post('/api/user/create_user') 
+        .send({
+            data: {
+                username: 'test77User',
+                password: 'test77Password',
+            }
+        });
     });
 
     it('should return 201 and user data for a valid user id and token', async () => {
@@ -274,6 +287,27 @@ describe('GET /getUser', () => {
             .get('/api/user/getMatches')
             .set('Authorization', `Bearer ${token}`)
             .send({ });
+
+        expect(response.statusCode).toBe(201);
+
+    });
+
+
+    it('should return a 201 output', async () => {
+        const response = await request(app)
+            .get('/api/user/getFinally')
+            .set('Authorization', `Bearer ${token}`)
+
+        expect(response.statusCode).toBe(201);
+
+    });
+
+
+    it('should return a 201 output and block user', async () => {
+        const response = await request(app)
+            .put('/api/user/blockUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({username: 'test77User'})
 
         expect(response.statusCode).toBe(201);
 
