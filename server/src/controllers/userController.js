@@ -275,13 +275,10 @@ export async function getLikes(req, res){
 
         const userID = user._id
 
-        console.log(`user ${userID} likes: ${likedUsers}`)
-
         const listUsers = likedUsers.filter(likedUser => {
             return likedUser.likes && likedUser.likes.has(user._id.toString());
         });
 
-        console.log(`AFTER FILTER: ${likedUsers}`)
         
         res.status(201).send({ listUsers });
 
@@ -320,5 +317,22 @@ export async function getMatches(req, res){
         }else {
             res.status(400).send({ message: error.message });
         }
+    }
+}
+
+export async function blockUser(req, res){
+    try{
+        const currUser = req.user; 
+        const userToBlock = req.body.username; 
+        const user = await User.findOne({ username : userToBlock });
+        const usertoblockID = user._id
+
+        await Convo.deleteOne({ users: { $all: [currUser._id, usertoblockID] } });
+
+
+        await User.findByIdAndUpdate(currUser._id, { $unset: { [`likes.${usertoblockID}`]: 1 } });
+
+    } catch (error) {
+        res.status(400).send({ message: error.message });
     }
 }

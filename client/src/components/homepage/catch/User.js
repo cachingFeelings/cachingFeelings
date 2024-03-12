@@ -32,6 +32,32 @@ const User = ({ user }) => {
     navigate('/finally');
   };
 
+  const handleBlockClick = async () => {
+    // add api request latter when backend is done
+    // navigate('/finally', { state: { user } }); // if we want to send user information
+    // const location = useLocation(); // get user information in finally
+    // const { user } = location.state || {}; // no state passed empty state
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch("http://localhost:8080/api/user/blockUser", {
+          method: "PUT",
+
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token,
+          },
+          body: JSON.stringify({
+              'username': user.username
+          }),
+      })
+          const data = await res.json();
+          console.log(`The response is: ${data}`)
+      }
+      catch(err){
+          console.log(err)
+      }
+  };
+
   return (
     <div className="user-container">
       <div className="user-info">
@@ -40,6 +66,7 @@ const User = ({ user }) => {
       </div>
       <div className="chat-now">
         <button className="chat-now-button" onClick={handleChatNowClick}>Chat Now</button>
+        <button className="chat-now-button" onClick={handleBlockClick}>Block</button>
       </div>
     </div>
   );
