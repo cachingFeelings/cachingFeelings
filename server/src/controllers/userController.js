@@ -316,19 +316,24 @@ export async function getFinally(req, res){
     }
 }
 
+
 export async function blockUser(req, res){
     try{
         const currUser = req.user; 
         const userToBlock = req.body.username; 
         const user = await User.findOne({ username : userToBlock });
-        const usertoblockID = user._id
+        if (!user) {
+            return res.status(404).send({ message: "User to block not found" });
+        }
+        const usertoblockID = user._id;
 
         await Convo.deleteOne({ users: { $all: [currUser._id, usertoblockID] } });
 
-
         await User.findByIdAndUpdate(currUser._id, { $unset: { [`likes.${usertoblockID}`]: 1 } });
 
+        res.status(201).send({ message: "User blocked successfully" });
     } catch (error) {
         res.status(400).send({ message: error.message });
     }
 }
+

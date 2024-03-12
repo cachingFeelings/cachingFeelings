@@ -84,11 +84,30 @@
 }
 
 .chat-now {
-    margin-left: 5%;
-    margin-right: 0.3%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .chat-now-button {
+    min-width: 100px;
+    margin-right: 3px;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    color: black;
+    background-color: white;
+    border-radius: 7px;
+    border-style: ridge;
+    box-sizing: border-box;
+}
+
+.block-button {
+    min-width: 100px;
+    margin-left: 3px;
     padding: 10px;
     white-space: nowrap;
     overflow: hidden;
@@ -108,4 +127,27 @@
     padding: 20px;
     font-size: 25px;
     transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease, font-size 0.4s ease;
+}
+
+.block-button:hover {
+    box-shadow: 0 3px 10px #f56821;
+    background-color: rgba(207, 73, 58, 0.86);
+    color: white;
+    padding: 20px;
+    font-size: 25px;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease, font-size 0.4s ease;
+}
+
+@media (max-width: 768px) {
+    .chat-now-button,
+    .block-button {
+        padding: 5px;
+        min-width: 80px;
+    }
+
+    .chat-now-button:hover,
+    .block-button:hover {
+        padding: 10px;
+        font-size: 18px;
+    }
 }
