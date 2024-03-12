@@ -24,6 +24,7 @@ const Sphere = () => {
           id: user._id,
           username: user.username,
           interests: user.interests,
+          pictures: user.pictures
         }));
         setMatches(users);
       } catch (err) {
@@ -115,6 +116,7 @@ const Sphere = () => {
             id: intersects[0].object.userData.id,
             username: intersects[0].object.userData.username,
             interests: intersects[0].object.userData.interests,
+            pictures: intersects[0].object.userData.pictures
           };
           setSelectedUser(userData);
           setIsModalOpen(true);
