@@ -92,25 +92,62 @@
 import request from 'supertest';
 import app from '../src/app.js';
 
-describe('Complete Message Functionality Tests', () => {
-    let tokenUser1, tokenUser2, userId1, userId2, convoId, messageId;
+
+
+describe('POST /create_user', () => {
+    it('should create a new user and return a token', async () => {
+        const response = await request(app)
+            .post('/api/user/create_user') 
+            .send({
+                data: {
+                    username: 'test1User',
+                    password: 'test1Password',
+                }
+            });
+        expect(response.statusCode).toBe(201);
+        expect(response.body).toHaveProperty('token');
+    });
+
+    it('should create a new user and return a token', async () => {
+        const response = await request(app)
+            .post('/api/user/create_user') 
+            .send({
+                data: {
+                    username: 'test2User',
+                    password: 'test2Password',
+                }
+            });
+        expect(response.statusCode).toBe(201);
+        expect(response.body).toHaveProperty('token');
+    });
+});
+
+
+describe('GET /getUser', () => {
+    let tokenUser1;
+    let userId1;
+    let tokenUser2;
+    let userId2;
 
     beforeAll(async () => {
-        // Create User 1 and get token
-        let res = await request(app)
-            .post('/api/user/create_user')
-            .send({ data: { username: 'testUser1', password: 'testPassword1' } });
-        expect(res.statusCode).toBe(201);
-        tokenUser1 = res.body.token;
-        userId1 = res.body.userObj._id;
+        const response = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'test1User',
+            password: 'test1Password',
+        });
+        tokenUser1 = response.body.token;
+        userId1 = response.body.userObj._id;
 
-        // Create User 2 and get token
-        res = await request(app)
-            .post('/api/user/create_user')
-            .send({ data: { username: 'testUser2', password: 'testPassword2' } });
-        expect(res.statusCode).toBe(201);
-        tokenUser2 = res.body.token;
-        userId2 = res.body.userObj._id;
+        const respond = await request(app)
+        .post('/api/user/login') 
+        .send({
+            username: 'test2User',
+            password: 'test2Password',
+        });
+
+    tokenUser2 = respond.body.token;
+    userId2 = respond.body.userObj._id;
 
         // User 1 likes User 2
         res = await request(app)
@@ -130,7 +167,7 @@ describe('Complete Message Functionality Tests', () => {
         res = await request(app)
             .post('/api/convo/newConvo')
             .set('Authorization', `Bearer ${tokenUser1}`)
-            .send({ username: 'testUser2' });
+            .send({ username: 'test2Userr' });
         expect(res.statusCode).toBe(201);
         convoId = res.body._id; // Assuming the response body has the convo ID directly
     });
