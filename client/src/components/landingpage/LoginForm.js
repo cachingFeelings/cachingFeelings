@@ -15,7 +15,7 @@ const LoginForm = () => {
     e.preventDefault();
   
     try {
-        const res = await fetch("http://localhost:8080/api/user/login/", {
+        const res = await fetch("https://caching-feelings-server.onrender.com/api/user/login/", {
             method: "POST",
 
             headers: {
