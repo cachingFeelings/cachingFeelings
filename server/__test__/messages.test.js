@@ -176,7 +176,7 @@ describe('GET /getUser', () => {
             .set('Authorization', `Bearer ${tokenUser1}`)
         expect(response4.statusCode).toBe(200);
 
-        convoId = response4.body._id; // Assuming the response body has the convo ID directly
+        convoId = response4.body[0]._id; // Assuming the response body has the convo ID directly
         console.log("The user id: ",convoId);
 
 
