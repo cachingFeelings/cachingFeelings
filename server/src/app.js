@@ -19,7 +19,13 @@ const app = express()
 const appUrl = process.env.APP_URL
 const port = process.env.PORT || 8080
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://caching-feelings.vercel.app', // Allow only the frontend to communicate with the backend
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 app.get('/', (req, res) => {

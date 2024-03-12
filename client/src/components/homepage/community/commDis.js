@@ -60,7 +60,7 @@ const CommDis = () => {
     const fetchPosts = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/api/community/getPosts', {
+        const response = await fetch('https://caching-feelings-server.onrender.com/community/getPosts', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ const CommDis = () => {
     const token = localStorage.getItem('token');
     const fetchCurrentUserId = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/user/getCurrentUserId', {
+        const response = await fetch('https://caching-feelings-server.onrender.com/user/getCurrentUserId', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ const CommDis = () => {
   const handleLike = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/community/likeDislike', {
+      const response = await fetch('https://caching-feelings-server.onrender.com/community/likeDislike', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ const CommDis = () => {
   const handleDislike = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/community/likeDislike', {
+      const response = await fetch('https://caching-feelings-server.onrender.com/community/likeDislike', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ const CommDis = () => {
   const handleDelete = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/api/community/delete`, {
+      const response = await fetch(`https://caching-feelings-server.onrender.com/community/delete`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -191,7 +191,7 @@ const CommDis = () => {
   const handleReport = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/community/report', {
+      const response = await fetch('https://caching-feelings-server.onrender.com/community/report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -223,7 +223,7 @@ const CommDis = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/community/newPosts', {
+      const response = await fetch('https://caching-feelings-server.onrender.com/community/newPosts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

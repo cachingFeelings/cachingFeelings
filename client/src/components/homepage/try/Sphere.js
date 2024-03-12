@@ -12,7 +12,7 @@ const Sphere = () => {
     const retrieveMatches = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch("http://localhost:8080/api/user/getMatches/", {
+        const res = await fetch("https://caching-feelings-server.onrender.com/user/getMatches/", {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
@@ -232,7 +232,7 @@ const Sphere = () => {
   
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/user/likeDislike", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/user/likeDislike", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -254,7 +254,7 @@ const Sphere = () => {
   
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/user/likeDislike", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/user/likeDislike", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

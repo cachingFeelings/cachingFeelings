@@ -26,7 +26,7 @@ const Finally = () => {
         const getUserID = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch(`http://localhost:8080/api/user/getCurrentUserId`, {
+                const res = await fetch(`https://caching-feelings-server.onrender.com/user/getCurrentUserId`, {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ const Finally = () => {
         const retrieveConversations = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch("http://localhost:8080/api/convo/getConvos", {
+                const res = await fetch("https://caching-feelings-server.onrender.com/convo/getConvos", {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const Finally = () => {
     const retrieveMessages = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:8080/api/message/batchGetMessages?convoID=${currChat}`, {
+            const res = await fetch(`https://caching-feelings-server.onrender.com/message/batchGetMessages?convoID=${currChat}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const Finally = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch("http://localhost:8080/api/message/postMessage", {
+            const res = await fetch("https://caching-feelings-server.onrender.com/message/postMessage", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ const Finally = () => {
     const handleDeleteMessage = async (messageId) => {
         try {
             const token = localStorage.getItem('token');
-            await fetch("http://localhost:8080/api/message/deleteMessage", {
+            await fetch("https://caching-feelings-server.onrender.com/message/deleteMessage", {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',

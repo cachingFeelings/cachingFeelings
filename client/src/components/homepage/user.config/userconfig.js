@@ -29,7 +29,7 @@ const UserConfig = () => {
     console.log(`This is being sent to the backend: old pwd: ${password}, new pwd: ${newpwd}, new image: ${profilePic}`)
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/user/modifyUser", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/user/modifyUser", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

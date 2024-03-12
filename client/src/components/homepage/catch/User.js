@@ -9,7 +9,7 @@ const User = ({ user }) => {
   const handleChatNowClick = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/convo/newConvo", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/convo/newConvo", {
           method: "POST",
           headers: {
               'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const User = ({ user }) => {
   const handleBlockClick = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/user/blockUser", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/user/blockUser", {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',

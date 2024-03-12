@@ -25,7 +25,7 @@ const Basics = () => {
     const checkDuplicate = async () => {
         console.log("Checking duplicate")
         try {
-            const res = await fetch("http://localhost:8080/api/user/validate/", {
+            const res = await fetch("https://caching-feelings-server.onrender.com/user/validate/", {
                 method: "POST",
     
                 headers: {
