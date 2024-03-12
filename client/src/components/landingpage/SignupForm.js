@@ -38,7 +38,7 @@ const SignupForm = () => {
     e.preventDefault() //remove later
     
     try {
-      const res = await fetch("http://localhost:8080/api/user/create_user", {
+      const res = await fetch("https://caching-feelings-server.onrender.com/api/user/create_user", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ const SignupForm = () => {
           alert("Error signup up, please double check your input");
         } else {
           try {
-            const res2 = await fetch("http://localhost:8080/api/user/login", {
+            const res2 = await fetch("https://caching-feelings-server.onrender.com/api/user/login", {
               method: "POST",
               headers: {
                 'Content-Type': 'application/json'
