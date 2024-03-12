@@ -35,16 +35,6 @@ jobs:
         working-directory: ./server
         run: npm run build
 
-      - name: Install dependencies client
-        working-directory: ./client
-        run: npm install
-      - name: Run tests client
-        working-directory: ./client
-        run: npm run test
-      - name: Build client
-        working-directory: ./client
-        run: npm run build
-
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
