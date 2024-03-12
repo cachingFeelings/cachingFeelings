@@ -31,7 +31,7 @@ function ImageUploadComponent(){
         ));
 
         try {
-            const response = await fetch("https://caching-feelings-server.onrender.com/api/images/generateUploadUrls", {
+            const response = await fetch("http://localhost:8080/api/images/generateUploadUrls", {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',

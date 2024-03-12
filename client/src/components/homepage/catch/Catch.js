@@ -14,7 +14,7 @@ const Catch = () => {
         const retrieveMatches = async () => {
           try {
             const token = localStorage.getItem('token');
-            const res = await fetch("https://caching-feelings-server.onrender.com/api/user/getLikes/", {
+            const res = await fetch("http://localhost:8080/api/user/getLikes/", {
               method: "GET",
               headers: {
                 'Content-Type': 'application/json',
