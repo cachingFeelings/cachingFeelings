@@ -7,7 +7,6 @@ export const SignUpProvider = ({ children }) => {
 
     const title = {
         0: 'The Basics',
-        //1: 'For the Algorithm',
         1: 'Configuration File',
         2: 'Images'
     }
@@ -73,11 +72,11 @@ export const SignUpProvider = ({ children }) => {
         (page === Object.keys(title).length - 1)
         || (page === 0 && !canNextPage1)
         || (page === 1 && !canNextPage2)
-        || (page === 2 && !canNextPage3)
+        || (page === 2)
 
     const prevHide = page === 0 && "remove-button"
 
-    const nextHide = page === Object.keys(title).length - 1 && "remove-button"
+    const nextHide = page === Object.keys(title).length - 1 //&& "remove-button"
 
     const submitHide = page !== Object.keys(title).length - 1 //&& "remove-button"
 
