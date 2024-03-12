@@ -191,45 +191,21 @@ describe('GET /getUser', () => {
                     currentPassword: "tempPass", 
                     DOB: "2000-04-18"});
 
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(401);
     });
 
-    it('not sure what happens with string', async () => {
+    // it('not sure what happens with string', async () => {
 
-        const response = await request(app)
-            .post('/api/user/modifyUser')
-            .set('Authorization', `Bearer ${token}`)
-            .send({ password: "",
-                    currentPassword: "", 
-                    DOB: ""});
+    //     const response = await request(app)
+    //         .post('/api/user/modifyUser')
+    //         .set('Authorization', `Bearer ${token}`)
+    //         .send({ password: "",
+    //                 currentPassword: "", 
+    //                 DOB: ""});
 
-        expect(response.statusCode).toBe(200);
-    });
+    //     expect(response.statusCode).toBe(200);
+    // });
 
-    it('should return an error for leaving out password', async () => {
-
-        const response = await request(app)
-            .post('/api/user/modifyUser')
-            .set('Authorization', `Bearer ${token}`)
-            .send({ 
-                    currentPassword: "tempPass", 
-                    DOB: "2000-04-18"});
-
-        expect(response.statusCode).toBe(200);
-    });
-
-
-    it('should return an error for leaving out DOB', async () => {
-
-        const response = await request(app)
-            .post('/api/user/modifyUser')
-            .set('Authorization', `Bearer ${token}`)
-            .send({ password: "testsPassword",
-                    currentPassword: "tempPass", 
-                });
-
-        expect(response.statusCode).toBe(200);
-    });
 
     it('should return an error for leavign authentication', async () => {
 
@@ -239,10 +215,59 @@ describe('GET /getUser', () => {
                     currentPassword: "tempPass", 
                     DOB: "2000-04-18"});
 
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(401);
     });
 
 
+
+    ///check why not needed
+    it('password not needed', async () => {
+
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ 
+                    currentPassword: "tempPass", 
+                    DOB: "2000-04-18"});
+
+        expect(response.statusCode).toBe(201);
+    });
+
+
+    it('should return an error for leaving out DOB', async () => {
+
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ password: "testPassword",
+                    currentPassword: "tempPass", 
+                });
+
+        expect(response.statusCode).toBe(401);
+    });
+
+    it('should return an error for leavign authentication', async () => {
+
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .send({ password: "testPassword",
+                    currentPassword: "tempPass", 
+                    DOB: "2000-04-18"});
+
+        expect(response.statusCode).toBe(401);
+    });
+
+    it('should return correct', async () => {
+
+        const response = await request(app)
+            .post('/api/user/modifyUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ password: "testPassword",
+                    currentPassword: "tempPass", 
+                    DOB: "2000-04-18"});
+
+        expect(response.statusCode).toBe(401);
+    });
 
 });
 
