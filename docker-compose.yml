@@ -18,8 +18,6 @@ services:
       - ./server:/app
     environment:
       - NODE_ENV=development
-    env_file:
-      - ./server/.env
 
   client:
     image: allnewareas/caching-feelings-client:latest
