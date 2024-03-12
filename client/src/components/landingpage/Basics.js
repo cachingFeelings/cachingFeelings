@@ -8,8 +8,8 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 const USER_REGEX = /^[A-Za-z0-9]{4,20}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-const serverURL = process.env.SERVER_URL;
-const serverPort = process.env.SERVER_PORT;
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 const Basics = () => {
 
@@ -28,7 +28,7 @@ const Basics = () => {
     const checkDuplicate = async () => {
         console.log("Checking duplicate")
         try {
-            const res = await fetch(`http://${serverURL}:${serverPort}/api/user/validate/`, {
+            const res = await fetch(`${serverURL}:${serverPort}/api/user/validate/`, {
                 method: "POST",
     
                 headers: {

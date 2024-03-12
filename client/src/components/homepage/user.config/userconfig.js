@@ -5,8 +5,8 @@ import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBack
 import NavBar from '../fixedcomponents/NavBar';
 import Header from '../fixedcomponents/Header';
 
-const serverURL = process.env.SERVER_URL;
-const serverPort = process.env.SERVER_PORT;
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 const UserConfig = () => {
   const [password, setPassword] = useState('');
@@ -32,7 +32,7 @@ const UserConfig = () => {
     console.log(`This is being sent to the backend: old pwd: ${password}, new pwd: ${newpwd}, new image: ${profilePic}`)
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://${serverURL}:${serverPort}/api/user/modifyUser`, {
+      const res = await fetch(`${serverURL}:${serverPort}/api/user/modifyUser`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

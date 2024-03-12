@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import TwinklingBackground from './TwinkleBackground/TwinkleBackground';
 
-const serverURL = process.env.SERVER_URL;
-const serverPort = process.env.SERVER_PORT;
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 const LoginForm = () => {
 
@@ -18,7 +18,7 @@ const LoginForm = () => {
     e.preventDefault();
   
     try {
-        const res = await fetch(`http://${serverURL}:${serverPort}/api/user/login/`, {
+        const res = await fetch(`${serverURL}:${serverPort}/api/user/login/`, {
             method: "POST",
 
             headers: {

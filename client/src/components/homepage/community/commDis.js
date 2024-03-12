@@ -4,8 +4,8 @@ import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBack
 import NavBar from '../fixedcomponents/NavBar';
 import Header from '../fixedcomponents/Header';
 
-const serverURL = process.env.SERVER_URL;
-const serverPort = process.env.SERVER_PORT;
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 const PostRectangle = ({ _id, author, body, likes, dislikes, timeStamp, reportedBy, hide, 
                          currentUserId, onLike, onDislike, onDelete, onReport}) => {
@@ -63,7 +63,7 @@ const CommDis = () => {
     const fetchPosts = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://${serverURL}:${serverPort}/api/community/getPosts`, {
+        const response = await fetch(`${serverURL}:${serverPort}/api/community/getPosts`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ const CommDis = () => {
     const token = localStorage.getItem('token');
     const fetchCurrentUserId = async () => {
       try {
-        const response = await fetch(`http://${serverURL}:${serverPort}/api/user/getCurrentUserId`, {
+        const response = await fetch(`${serverURL}:${serverPort}/api/user/getCurrentUserId`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ const CommDis = () => {
   const handleLike = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://${serverURL}:${serverPort}/api/community/likeDislike`, {
+      const response = await fetch(`${serverURL}:${serverPort}/api/community/likeDislike`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ const CommDis = () => {
   const handleDislike = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://${serverURL}:${serverPort}/api/community/likeDislike`, {
+      const response = await fetch(`${serverURL}:${serverPort}/api/community/likeDislike`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ const CommDis = () => {
   const handleDelete = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://${serverURL}:${serverPort}/api/community/delete`, {
+      const response = await fetch(`${serverURL}:${serverPort}/api/community/delete`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -194,7 +194,7 @@ const CommDis = () => {
   const handleReport = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://${serverURL}:${serverPort}/api/community/report`, {
+      const response = await fetch(`${serverURL}:${serverPort}/api/community/report`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -226,7 +226,7 @@ const CommDis = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://${serverURL}:${serverPort}/api/community/newPosts`, {
+      const response = await fetch(`${serverURL}:${serverPort}/api/community/newPosts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

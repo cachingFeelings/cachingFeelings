@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 import UsersContainer from './UsersContainer';
 import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBackground';
 
-const serverURL = process.env.SERVER_URL;
-const serverPort = process.env.SERVER_PORT;
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 const Catch = () => {
 
@@ -17,7 +17,7 @@ const Catch = () => {
         const retrieveMatches = async () => {
           try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://${serverURL}:${serverPort}/api/user/getLikes/`, {
+            const res = await fetch(`${serverURL}:${serverPort}/api/user/getLikes/`, {
               method: "GET",
               headers: {
                 'Content-Type': 'application/json',
