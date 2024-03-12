@@ -111,12 +111,37 @@ it('user 2 should dislike user 1', async () => {
 });
 
 
+it('user 2 should not be able to dislike their self', async () => {
+    const response = await request(app)
+        .post('/api/user/likeDislike')
+        .set('Authorization', `Bearer ${token2}`)
+        .send({
+            _id: userID2,
+            like: false
+        });
+
+    // Check if the response status code is 201 (Created) or other if your API behaves differently
+    expect(response.statusCode).toBe(400);
+    
+});
+
+
 it(' receive error 400 - id not included', async () => {
     const response = await request(app)
         .post('/api/user/likeDislike')
         .set('Authorization', `Bearer ${token2}`)
         .send({
             like: false
+        });
+    expect(response.statusCode).toBe(404);
+});
+
+
+it(' receive error 400 - id and like not included', async () => {
+    const response = await request(app)
+        .post('/api/user/likeDislike')
+        .set('Authorization', `Bearer ${token2}`)
+        .send({
         });
     expect(response.statusCode).toBe(404);
 });

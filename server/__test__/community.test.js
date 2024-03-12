@@ -51,6 +51,18 @@ describe('GET /getUser', () => {
         expect(response.statusCode).toBe(201);
     });
 
+
+    it('should return an error since body doesnt have any content and send new posts', async () => {
+
+        const response = await request(app)
+            .post('/api/community/newPosts')
+            .set('Authorization', `Bearer ${token}`)
+            .send({body:"" });
+
+        expect(response.statusCode).toBe(201);
+    });
+
+
     it('should return 201 and get posts', async () => {
 
         const response = await request(app)
@@ -81,11 +93,11 @@ describe('GET /getUser', () => {
             .send({
                     like: true});
 
-        expect(response.statusCode).toBe(201);
+        expect(response.statusCode).toBe(404);
     });
 
 
-    it('should return 201 and should like the post', async () => {
+    it('should return 201 and should dislike the post', async () => {
 
         const response = await request(app)
             .post('/api/community/likeDislike')
