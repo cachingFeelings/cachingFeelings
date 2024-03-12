@@ -255,19 +255,15 @@ export async function getLikes(req, res){
             user["matches"] = {}
         }
         
-        const userIDs = Array.from(user.matches.keys());
+        const userIDs = Array.from(user.likes.keys());
 
         const likedUsers = await User.find({
             '_id' : {$in: userIDs}   
         }, '_id username interests likes')
 
-
-        const userID = user._id
-
         const listUsers = likedUsers.filter(likedUser => {
             return likedUser.likes && likedUser.likes.has(user._id.toString());
         });
-
         
         res.status(201).send({ listUsers });
 
@@ -319,17 +315,19 @@ export async function getFinally(req, res){
 
 export async function blockUser(req, res){
     try{
-        const currUser = req.user; 
-        const userToBlock = req.body.username; 
-        const user = await User.findOne({ username : userToBlock });
-        if (!user) {
+        const userSender = await User.findOne({_id: req.user._id}); 
+        const userBeingBlocked = await User.findOne({ username : req.body.username });
+        if (!userBeingBlocked) {
             return res.status(404).send({ message: "User to block not found" });
         }
-        const usertoblockID = user._id;
 
-        await Convo.deleteOne({ users: { $all: [currUser._id, usertoblockID] } });
+        await Convo.deleteOne({ users: { $all: [userSender._id, userBeingBlocked._id] } });
+    
+        const usertoblockIDString = userBeingBlocked._id.toString();
 
-        await User.findByIdAndUpdate(currUser._id, { $unset: { [`likes.${usertoblockID}`]: 1 } });
+        userSender.likes.delete(usertoblockIDString);
+
+        await userSender.save();
 
         res.status(201).send({ message: "User blocked successfully" });
     } catch (error) {
