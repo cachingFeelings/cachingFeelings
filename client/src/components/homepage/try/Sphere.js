@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import PopupWin from './PopupWin';
 
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
+
 const Sphere = () => {
   const [matches, setMatches] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,7 +15,7 @@ const Sphere = () => {
     const retrieveMatches = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch("https://caching-feelings-server.onrender.com/api/user/getMatches/", {
+        const res = await fetch(`${serverURL}:${serverPort}/api/user/getMatches/`, {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
@@ -232,7 +235,7 @@ const Sphere = () => {
   
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("https://caching-feelings-server.onrender.com/api/user/likeDislike", {
+      const res = await fetch(`${serverURL}:${serverPort}/api/user/likeDislike`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -255,7 +258,7 @@ const Sphere = () => {
   
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("https://caching-feelings-server.onrender.com/api/user/likeDislike", {
+      const res = await fetch(`${serverURL}:${serverPort}/api/user/likeDislike`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

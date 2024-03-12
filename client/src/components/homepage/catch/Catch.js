@@ -5,6 +5,9 @@ import { useState, useEffect } from 'react';
 import UsersContainer from './UsersContainer';
 import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBackground';
 
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
+
 const Catch = () => {
 
     const [likes, setLikes ] = useState(null); 
@@ -14,7 +17,7 @@ const Catch = () => {
         const retrieveMatches = async () => {
           try {
             const token = localStorage.getItem('token');
-            const res = await fetch("https://caching-feelings-server.onrender.com/api/user/getLikes/", {
+            const res = await fetch(`${serverURL}:${serverPort}/api/user/getLikes/`, {
               method: "GET",
               headers: {
                 'Content-Type': 'application/json',
