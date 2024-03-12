@@ -269,6 +269,16 @@ describe('GET /getUser', () => {
         expect(response.statusCode).toBe(401);
     });
 
+    it('should return a list of matches', async () => {
+        const response = await request(app)
+            .post('/api/user/getMatches')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ });
+
+        expect(response.statusCode).toBe(401);
+
+    });
+
 });
 
 describe('POST /validate', () => {

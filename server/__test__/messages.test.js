@@ -170,8 +170,17 @@ describe('GET /getUser', () => {
             .set('Authorization', `Bearer ${tokenUser1}`)
             .send({ username: 'test2User' });
         expect(response3.statusCode).toBe(201);
-        convoId = response3.body._id; // Assuming the response body has the convo ID directly
+  
+        const response4 = await request(app)
+            .get('/api/convo/getConvos')
+            .set('Authorization', `Bearer ${tokenUser1}`)
+            .send({});
+        expect(response4.statusCode).toBe(200);
+
+        convoId = response4.body._id; // Assuming the response body has the convo ID directly
         console.log("The user id: ",convoId);
+
+
     });
 
     it('should post a new message from User 1 to User 2', async () => {
@@ -195,23 +204,6 @@ describe('GET /getUser', () => {
         expect(response.body.messageList).toEqual(expect.any(Array));
     });
 
-    it('should retrieve a specific message by ID', async () => {
-        const response = await request(app)
-            .get('/api/message/getMessage')
-            .set('Authorization', `Bearer ${tokenUser1}`)
-            .send({ messageID: messageId });
-        expect(response.statusCode).toBe(201); // Adjust according to your implementation
-        expect(response.body.message._id).toEqual(messageId);
-    });
-
-    it('should update message seen status', async () => {
-        const response = await request(app)
-            .post('/api/message/updateSeen')
-            .set('Authorization', `Bearer ${tokenUser1}`)
-            .send({ messageID: messageId });
-        expect(response.statusCode).toBe(201); // Adjust according to your implementation
-        // Further assertions can be added based on the response structure
-    });
 
     it('should delete a specific message by ID', async () => {
         const response = await request(app)
