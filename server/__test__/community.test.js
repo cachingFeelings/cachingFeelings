@@ -1,6 +1,23 @@
 import request from 'supertest';
 import app from '../src/app.js';
 
+
+describe('POST /create_user', () => {
+    it('should create a new user and return a token', async () => {
+        const response = await request(app)
+            .post('/api/user/create_user') 
+            .send({
+                data: {
+                    username: 'testUser',
+                    password: 'testPassword',
+                }
+            });
+        expect(response.statusCode).toBe(201);
+        expect(response.body).toHaveProperty('token');
+    });
+});
+
+
 describe('GET /getUser', () => {
     let token;
     let userID;
