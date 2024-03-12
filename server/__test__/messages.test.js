@@ -193,6 +193,17 @@ describe('GET /getUser', () => {
     // });
 
 
+
+    it('should allow user1 to get their conversations', async () => {
+        const response = await request(app)
+            .get('/api/convo/getConvos')
+            .set('Authorization', `Bearer ${tokenUser1}`);
+
+        expect(response.statusCode).toBe(200);
+    });
+
+
+
     it('should post a new message from User 1 to User 2', async () => {
         const response = await request(app)
             .post('/api/message/postMessage')
