@@ -236,8 +236,8 @@ const Finally = () => {
         <div>
             <Header />
             <NavBar />
-            {/* <TwinklingBackground /> */}
-            <div className='tempDiv'>
+            <TwinklingBackground />
+            {/* <div className='tempDiv'> */}
             <div className='title' style={{ color: 'white', textAlign: 'center', padding: '10px' }}>Messages</div>
             <div className="finally" style={{ height: '100vh', display: 'flex', color: 'white' }}>
                 <div className="chatMenu">
@@ -294,7 +294,7 @@ const Finally = () => {
                         )}
                     </div>
                 </div>
-            </div>
+            {/* </div> */}
             </div>
         </div>
     );
