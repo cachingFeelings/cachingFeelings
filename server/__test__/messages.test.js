@@ -171,6 +171,7 @@ describe('GET /getUser', () => {
             .send({ username: 'test2User' });
         expect(response3.statusCode).toBe(201);
         convoId = response3.body._id; // Assuming the response body has the convo ID directly
+        console.log("The user id: ",convoId);
     });
 
     it('should post a new message from User 1 to User 2', async () => {
