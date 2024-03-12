@@ -136,8 +136,8 @@ describe('GET /getUser', () => {
             username: 'test1User',
             password: 'test1Password',
         });
-        tokenUser1 = response.body.token;
-        userId1 = response.body.userObj._id;
+        tokenUser1 = res.body.token;
+        userId1 = res.body.userObj._id;
 
         const respond = await request(app)
         .post('/api/user/login') 
@@ -146,8 +146,8 @@ describe('GET /getUser', () => {
             password: 'test2Password',
         });
 
-    tokenUser2 = respond.body.token;
-    userId2 = respond.body.userObj._id;
+    tokenUser2 = res.body.token;
+    userId2 = res.body.userObj._id;
 
         // User 1 likes User 2
         res = await request(app)
