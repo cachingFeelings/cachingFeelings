@@ -91,7 +91,7 @@
 import request from 'supertest';
 import app from '../src/app.js'
 
-describe('GET /getUser', () => {
+describe('mESSAGES', () => {
     let tokenUser1;
     let userId1;
     let tokenUser2;
@@ -185,17 +185,6 @@ describe('SET UP CONVO', () => {
     });
 
 
-
-    // it('should post a new convo from User 1 to User 2', async () => {
-    //     const response3 = await request(app)
-    //     .post('/api/convo/newConvo')
-    //     .set('Authorization', `Bearer ${tokenUser1}`)
-    //     .send({ username: 'test2User' });
-    // expect(response3.statusCode).toBe(201);
-    // });
-
-
-
     it('should allow user1 to get their conversations', async () => {
         const response = await request(app)
             .get('/api/convo/getConvos')
@@ -203,39 +192,6 @@ describe('SET UP CONVO', () => {
 
         expect(response.statusCode).toBe(200);
     });
-
-
-
-    // it('should post a new message from User 1 to User 2', async () => {
-    //     const response = await request(app)
-    //         .post('/api/message/postMessage')
-    //         .set('Authorization', `Bearer ${tokenUser1}`)
-    //         .send({
-    //             body: "Hello from user1 to user2",
-    //             convoID: convoId,
-    //             // Assuming optional fields like mediaLink and burnAfterRead
-    //         });
-    //     expect(response.statusCode).toBe(201);
-    //     messageId = response.body._id; // Store messageId for later use
-    // });
-
-    // it('should get batch of messages for a conversation', async () => {
-    //     const response = await request(app)
-    //         .get(`/api/message/batchGetMessages?convoID=${convoId}`)
-    //         .set('Authorization', `Bearer ${tokenUser1}`);
-    //     expect(response.statusCode).toBe(201); // Adjust according to your implementation
-    //     expect(response.body.messageList).toEqual(expect.any(Array));
-    // });
-
-
-    // it('should delete a specific message by ID', async () => {
-    //     const response = await request(app)
-    //         .delete('/api/message/deleteMessage')
-    //         .set('Authorization', `Bearer ${tokenUser1}`)
-    //         .send({ _id: messageId });
-    //     expect(response.statusCode).toBe(201); // Adjust according to your implementation
-    //     // Further assertions can be added to confirm deletion
-    // });
 });
 
 

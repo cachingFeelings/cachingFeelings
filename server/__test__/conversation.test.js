@@ -30,12 +30,14 @@ describe('POST /create_user', () => {
     });
 });
 
-
-describe('GET /getUser', () => {
+describe('CONVO', () => {
     let token;
     let userID;
     let token2;
     let userID2;
+
+describe('GET /getUser', () => {
+
 
     beforeAll(async () => {
         const response = await request(app)
@@ -68,15 +70,13 @@ describe('GET /getUser', () => {
             .send({ _id: userID, like: true });
     });
 
-    it('should allow user1 to create a new conversation with user2', async () => {
-        const response = await request(app)
-            .post('/api/convo/newConvo')
-            .set('Authorization', `Bearer ${token}`)
-            .send({ username: 'test2User' }); // Assuming you need the username of the recipient to create a convo
 
-        expect(response.statusCode).toBe(201);
-    });
+});
 
+
+
+
+describe('GET /getConvos', () => {
     it('should allow user1 to get their conversations', async () => {
         const response = await request(app)
             .get('/api/convo/getConvos')
@@ -98,6 +98,20 @@ describe('GET /getUser', () => {
         expect(response.statusCode).toBe(401);
     });
 
+});
+
+
+describe('POST /newConvo', () => {
+
+    it('should allow user1 to create a new conversation with user2', async () => {
+        const response = await request(app)
+            .post('/api/convo/newConvo')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ username: 'test2User' }); // Assuming you need the username of the recipient to create a convo
+
+        expect(response.statusCode).toBe(201);
+    });
+
     it('should not allow unauthorized access to newConvo', async () => {
         const response = await request(app)
             .post('/api/convo/newConvo')
@@ -105,4 +119,6 @@ describe('GET /getUser', () => {
 
         expect(response.statusCode).toBe(401);
     });
+});
+
 });
