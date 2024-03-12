@@ -87,7 +87,7 @@ it('user 2 should like user 1', async () => {
     // e.g., expect(response.body.message).toEqual("Liked successfully");
 });
 
-it('user 2 should already likes user 1, receive 400', async () => {
+it('user 2 should already like user 1, receive 400', async () => {
     const response = await request(app)
         .post('/api/user/likeDislike')
         .set('Authorization', `Bearer ${token2}`)
@@ -132,7 +132,7 @@ it('user 2 should dislike user 1', async () => {
 //     // e.g., expect(response.body.message).toEqual("Liked successfully");
 // });
 
-it(' receive error 400 id not included', async () => {
+it(' receive error 400 - id not included', async () => {
     const response = await request(app)
         .post('/api/user/likeDislike')
         .set('Authorization', `Bearer ${token2}`)

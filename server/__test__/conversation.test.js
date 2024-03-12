@@ -86,7 +86,7 @@ describe('GET /getUser', () => {
         expect(response.body).toEqual(expect.arrayContaining([
             expect.objectContaining({
                 _id: expect.any(String),
-                username: 'Test2User'
+                username: 'test2User'
             })
         ]));
     });
@@ -101,7 +101,7 @@ describe('GET /getUser', () => {
     it('should not allow unauthorized access to newConvo', async () => {
         const response = await request(app)
             .post('/api/convo/newConvo')
-            .send({ username: 'Test2User' });
+            .send({ username: 'test2User' });
 
         expect(response.statusCode).toBe(401);
     });
