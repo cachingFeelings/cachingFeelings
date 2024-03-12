@@ -14,7 +14,7 @@ const Finally = () => {
     const [newMessage, setNewMessage] = useState("");
     const [burnAfter, setBurn] = useState(false);
     const chatBoxTopRef = useRef();
-    const pollingInterval = useRef(null);
+    // const pollingInterval = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
@@ -64,6 +64,7 @@ const Finally = () => {
         retrieveConversations();
     }, []);
 
+    // eslint-disable-next-line 
     const retrieveMessages = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -111,11 +112,11 @@ const Finally = () => {
     useEffect(() => {
         if (currChat) {
             retrieveMessages();
-            clearInterval(pollingInterval.current);
-            pollingInterval.current = setInterval(retrieveMessages, 5000);
+            // clearInterval(pollingInterval.current);
+            // pollingInterval.current = setInterval(retrieveMessages, 5000);
         }
-        return () => clearInterval(pollingInterval.current);
-    }, [currChat]);
+        // return () => clearInterval(pollingInterval.current);
+    }, [currChat, retrieveMessages]);
 
     const handleDeleteMessage = async (messageId) => {
         try {

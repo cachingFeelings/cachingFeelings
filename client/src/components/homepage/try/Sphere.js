@@ -244,6 +244,7 @@ const Sphere = () => {
         }),
       })
       .then(res => res.json());
+      console.log(res);
     } catch (err) {
   }
     setIsModalOpen(false);
@@ -266,6 +267,7 @@ const Sphere = () => {
         }),
       })
       .then(res => res.json());
+      console.log(res);
     } catch (err) {
   }
   setIsModalOpen(false);

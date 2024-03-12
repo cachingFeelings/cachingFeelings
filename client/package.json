@@ -47,9 +47,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
-    "@babel/plugin-proposal-private-property-in-object": "^7.x" ,
     "msw": "^2.2.1"
   },
   "jest": {
