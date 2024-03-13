@@ -148,4 +148,16 @@ it(' receive error 401 invalid or not included token', async () => {
     expect(response.statusCode).toBe(401);
 });
 
+    it('should return a 201 output and block user', async () => {
+        const response = await request(app)
+            .put('/api/user/blockUser')
+            .set('Authorization', `Bearer ${token}`)
+            .send({username: 'test2User'})
+
+        //console.log("Report: ", response)
+
+        expect(response.statusCode).toBe(201);
+
+    });
+
 });
