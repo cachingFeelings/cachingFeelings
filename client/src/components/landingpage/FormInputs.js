@@ -1,6 +1,5 @@
 import React from 'react';
 import Basics from "./Basics"
-import Algorithm from "./Algorithm"
 import About from "./About"
 // import Images from "./Images"
 import ImageUploadComponent from './imageUploader';
@@ -13,9 +12,8 @@ const FormInputs = () => {
 
     const display = {
         0: <Basics />,
-        1: <Algorithm />,
-        2: <About />,
-        3: <ImageUploadComponent />
+        1: <About />,
+        2: <ImageUploadComponent />
     }
 
     const content = (

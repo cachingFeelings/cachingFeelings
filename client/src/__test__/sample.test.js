@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import User from '../components/homepage/catch/User';
 import UsersContainer from '../components/homepage/catch/UsersContainer';
 import About from '../components/landingpage/About';
-import Algorithm from '../components/landingpage/Algorithm';
 import PopupWin from '../components/homepage/try/PopupWin';
 import UserConfig from '../components/homepage/user.config/userconfig';
 import SignUpContext from '../context/SignUpContext';
@@ -105,21 +104,6 @@ describe('UserConfig Component', () => {
 
 });
 
-
-describe('Algorithm Component', () => {
-  test('renders select options correctly', () => {
-    render(
-      <SignUpProvider>
-        <Algorithm />
-      </SignUpProvider>
-    );
-    
-    expect(screen.getByLabelText(/Who would you like to be shown?/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Who do you want to date?/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/What gender do you identify as?/i)).toBeInTheDocument();
-  });
-
-});
 
 describe('Basics Component', () => {
   test('renders inputs and validates username correctly', async () => {

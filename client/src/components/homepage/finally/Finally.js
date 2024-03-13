@@ -17,7 +17,7 @@ const Finally = () => {
     const [newMessage, setNewMessage] = useState("");
     const [burnAfter, setBurn] = useState(false);
     const chatBoxTopRef = useRef();
-    // const pollingInterval = useRef(null);
+    //const pollingInterval = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
@@ -105,7 +105,6 @@ const Finally = () => {
                 }
                 return message;
             }));
-    
             setMessages(messagesWithMedia);
         } catch (err) {
             console.error("Error retrieving messages:", err);
@@ -115,10 +114,10 @@ const Finally = () => {
     useEffect(() => {
         if (currChat) {
             retrieveMessages();
-            // clearInterval(pollingInterval.current);
-            // pollingInterval.current = setInterval(retrieveMessages, 5000);
+            //clearInterval(pollingInterval.current);
+            //pollingInterval.current = setInterval(retrieveMessages, 5000);
         }
-        // return () => clearInterval(pollingInterval.current);
+        //return () => clearInterval(pollingInterval.current);
     }, [currChat, retrieveMessages]);
 
     const handleDeleteMessage = async (messageId) => {

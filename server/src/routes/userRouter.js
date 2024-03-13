@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, login, validUsername, getFinally, getUserData, modifyUser, likeDislike, getLikes, getCurrentUserId, getInterestMatches, blockUser } from '../controllers/userController.js'
+import { createUser, login, validUsername, getFinally, getUserData, modifyUser, likeDislike, getLikes, getCurrentUserId, getInterestMatches, blockUser, uploadImages } from '../controllers/userController.js'
 import { decodeJWT } from '../config/auth.js'
 
 const router = express.Router();
@@ -17,6 +17,7 @@ router.get('/getLikes',decodeJWT, getLikes)
 router.get('/getCurrentUserId', decodeJWT, getCurrentUserId)
 router.get('/getFinally', decodeJWT, getFinally)
 router.put('/blockUser', decodeJWT, blockUser); 
+router.post('/uploadImages', decodeJWT, uploadImages)
 
 
 export default router;

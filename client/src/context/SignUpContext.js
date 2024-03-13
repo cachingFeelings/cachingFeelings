@@ -7,9 +7,8 @@ export const SignUpProvider = ({ children }) => {
 
     const title = {
         0: 'The Basics',
-        1: 'For the Algorithm',
-        2: 'Configuration File',
-        3: 'Images'
+        1: 'Configuration File',
+        2: 'Images'
     }
 
     const [page, setPage] = useState(0)
@@ -33,7 +32,11 @@ export const SignUpProvider = ({ children }) => {
         const value = e.target.value === 'file'  ? e.target.files[0] : e.target.value;
 
         setData(prevData => {
-            if (Array.isArray(prevData[name])) {
+            if (name === 'pictures'){
+                console.log(`The data being sent to the frontend is: ${value[0]} to key: ${name}`)
+                return {...prevData, [name]: value}; 
+            }
+            else if (Array.isArray(prevData[name])) {
                 if (prevData[name].includes(value)) {
                     return { ...prevData, [name]: prevData[name].filter(item => item !== value) };
                 } else {
@@ -59,8 +62,6 @@ export const SignUpProvider = ({ children }) => {
         // .map(key => data[key])
         // .every(Boolean)
 
-    const canNextPage3 = true //Object.keys(data)
-
 
     const disablePrev = page === -1
 
@@ -68,11 +69,11 @@ export const SignUpProvider = ({ children }) => {
         (page === Object.keys(title).length - 1)
         || (page === 0 && !canNextPage1)
         || (page === 1 && !canNextPage2)
-        || (page === 2 && !canNextPage3)
+        || (page === 2)
 
     const prevHide = page === 0 && "remove-button"
 
-    const nextHide = page === Object.keys(title).length - 1 && "remove-button"
+    const nextHide = page === Object.keys(title).length - 1 //&& "remove-button"
 
     const submitHide = page !== Object.keys(title).length - 1 //&& "remove-button"
 

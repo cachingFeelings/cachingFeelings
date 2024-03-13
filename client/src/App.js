@@ -12,7 +12,6 @@ import CommDis from './components/homepage/community/commDis';
 
 function App() {
   const navigate = useNavigate();
-
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token && !['/', '/login', '/signup'].includes(window.location.pathname)) {
