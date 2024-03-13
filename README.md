@@ -97,7 +97,7 @@ This app will provide a safe space for them to put themselves out there and meet
 > User passwords will not be stored in the database and the app will use secure authentication token provided by JSON Web Token
 
 ### Architecture Design
-![img](Documents/Architecture.png)
+![img](https://github.com/cachingFeelings/cachingFeelings/blob/develop/Documents/Architecture.png?raw=true)
 
 ## Collaboration Tools
 

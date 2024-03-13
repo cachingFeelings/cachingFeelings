@@ -54,10 +54,9 @@ export async function testDate(req, res){
         }
     }
     
-    const date = new Date(); // Your date here
+    const date = new Date(); 
     try {
         const timeStamp = new Date('2024-03-09');
-        // const readable = timeStamp.toLocaleDateString();
         const readable = formatDate(timeStamp)
         res.status(200).send(
             {
@@ -133,7 +132,6 @@ export async function reportPosts(req, res) {
             return res.status(404).send({ message: "Post not found." });
         }
 
-        console.log(postToReport.author._id.toString());
         if (postToReport.author._id.toString() === userID) {
             return res.status(403).send({ message: "You cannot report your own post." });
         }

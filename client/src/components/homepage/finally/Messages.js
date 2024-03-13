@@ -1,6 +1,4 @@
 import './Finally.css'
-// import {format} from "timeago.js"
-// import React, { useState } from 'react';
 
 function formatDate(date) {
     const dateObj = new Date(date);
@@ -27,7 +25,6 @@ export default function Messages({ message, own, burn, mediaLinks, onDelete }) {
     const showMessageHandler = () => {
         alert('' + message.body);
         if (!own && burn) {
-            // Hide the message
             onDelete(message._id);
         }
     };

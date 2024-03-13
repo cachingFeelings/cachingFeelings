@@ -7,9 +7,7 @@ const {compare} = bcpkg;
 
 export async function createUser(req, res) {
     try {
-        // Make sure we have the minimum requirements
         if (!req.body.data.username || !req.body.data.password) {
-            console.log("didn't provide username and password")
             return res.status(400).send({ message: "Username and password are required." });
         }
 
@@ -18,18 +16,15 @@ export async function createUser(req, res) {
             password: req.body.data.password,
         }
 
-        const optionalFields = ['DOB', 'showUsersLookingFor', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
+        const optionalFields = ['DOB', 'showUsersLookingFor', 'pictures', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
         optionalFields.forEach(field => {
             if (req.body.data[field]) userInfo[field] = req.body.data[field];
         });
 
-        // Create new User Object
         const user = new User(userInfo);
 
-        // Save to DB
         await user.save();
 
-        // Generate a JWT for the user
         const token = sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         const userObj = user.toObject();
@@ -39,6 +34,29 @@ export async function createUser(req, res) {
     } catch (error) {
         res.status(400).send({ message: error.message });
     }
+}
+
+export async function uploadImages(req, res){
+    try {
+        const userInfo = req.user
+        const pictureURL = req.body.pictures; 
+        const user = await User.findById({_id: userInfo._id});
+
+        if (!user) {
+            console.error(`User with ID ${userInfo._id} not found.`);
+            return;
+        }
+
+        user.pictures.push(...pictureURL);
+
+        await user.save();
+
+        res.status(200).send();
+    } catch (error) {
+        console.error("Error adding picture to user:", error);
+        res.status(400).send({ message: error.message });
+    }
+
 }
 
 export async function getUserData(req, res){
@@ -73,13 +91,11 @@ export async function login(req, res){
             return res.status(404).send({message: "You don't exist...yet."})
         }
         
-        // Compare input pass with stored pass hash
         const passGood = await compare(password, user.password);
         if (!passGood){
             return res.status(401).send({message: "That ain't gonna work here chief"})
         }
         
-        // Generate a JWT for the user
         const token = sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         const userObj = user.toObject();
@@ -96,7 +112,6 @@ export async function validUsername(req, res) {
         const { username } = req.body; 
 
         const user = await User.findOne({username});
-        console.log(`The username: ${username} was found: ${user}`)
         if (user){
             return res.status(409).send({message: "Already taken"})
         }
@@ -229,6 +244,7 @@ export async function getInterestMatches(req, res){
                 $project: {
                     username: 1,
                     interests: 1,
+                    pictures: 1,
                     commonInterestsCount: { $size: { $setIntersection: ["$interests", userInterests] } },
             }},
             {
@@ -334,4 +350,5 @@ export async function blockUser(req, res){
         res.status(400).send({ message: error.message });
     }
 }
+
 

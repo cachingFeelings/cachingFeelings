@@ -27,6 +27,7 @@ const Sphere = () => {
           id: user._id,
           username: user.username,
           interests: user.interests,
+          pictures: user.pictures
         }));
         setMatches(users);
       } catch (err) {
@@ -108,16 +109,13 @@ const Sphere = () => {
         mouse.y = -((event.clientY - renderer.domElement.offsetTop) / renderer.domElement.clientHeight) * 2 + 1;
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(group.children, true);
-        
-        // const rayDirection = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera).sub(camera.position).normalize();
-        // const arrowHelper = new THREE.ArrowHelper(rayDirection, camera.position, 100, 0xff0000);
-        // scene.add(arrowHelper);
   
         if (intersects.length > 0) {
           const userData = {
             id: intersects[0].object.userData.id,
             username: intersects[0].object.userData.username,
             interests: intersects[0].object.userData.interests,
+            pictures: intersects[0].object.userData.pictures
           };
           setSelectedUser(userData);
           setIsModalOpen(true);
@@ -216,8 +214,7 @@ const Sphere = () => {
       renderer.dispose();
     };
 
-  // eslint-disable-next-line
-  }, [matches]);
+  }, [matches, isModalOpen]);
 
   function generateSpriteCanvas(text) {
     const canvas = document.createElement('canvas');
@@ -231,7 +228,6 @@ const Sphere = () => {
   }
 
   const handleModalClose = async () => {
-    console.log("Diliked", selectedUser['id']);
   
     try {
       const token = localStorage.getItem('token');
@@ -254,7 +250,6 @@ const Sphere = () => {
   };
 
   const handleLike = async () => { 
-    console.log("Liked", selectedUser['id']);
   
     try {
       const token = localStorage.getItem('token');

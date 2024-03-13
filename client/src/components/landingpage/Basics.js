@@ -26,7 +26,6 @@ const Basics = () => {
 
 
     const checkDuplicate = async () => {
-        console.log("Checking duplicate")
         try {
             const res = await fetch(`${serverURL}:${serverPort}/api/user/validate/`, {
                 method: "POST",
@@ -133,16 +132,6 @@ const Basics = () => {
                 <FontAwesomeIcon icon={faInfoCircle} style={{marginRight:"2px"}}/>
                 Passwords do not match.
             </p>
-            <input
-                className="basic-input"
-                type="text"
-                id="postalCode"
-                name="postalCode"
-                placeholder="Postal Code"
-                pattern="([A-Z])[\w\s.]{1,}"
-                value={data.postalCode}
-                onChange={handleChange}
-            />
             <label className="basic-label" htmlFor="birthday">Birthday</label>
             <input
                 className="basic-input"
