@@ -24,8 +24,7 @@ export const SignUpProvider = ({ children }) => {
         bio: "",
         interests: [],
         profilePhoto: "",
-        pictures: [],
-        profilePhoto: []
+        pictures: []
     })
 
     const handleChange = e => {
@@ -62,8 +61,6 @@ export const SignUpProvider = ({ children }) => {
         // .slice(5, 8)
         // .map(key => data[key])
         // .every(Boolean)
-
-    const canNextPage3 = true //Object.keys(data)
 
 
     const disablePrev = page === -1

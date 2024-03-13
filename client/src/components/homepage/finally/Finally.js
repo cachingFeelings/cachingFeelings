@@ -118,7 +118,7 @@ const Finally = () => {
             //pollingInterval.current = setInterval(retrieveMessages, 5000);
         }
         //return () => clearInterval(pollingInterval.current);
-    }, [currChat]);
+    }, [currChat, retrieveMessages]);
 
     const handleDeleteMessage = async (messageId) => {
         try {
