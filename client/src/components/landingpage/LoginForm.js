@@ -1,8 +1,11 @@
 import React from 'react';
 import './LandingPage.css'; 
 import { useNavigate } from 'react-router-dom'
-import { useRef, useState, useEffect } from 'react'
+import { useState } from 'react'
 import TwinklingBackground from './TwinkleBackground/TwinkleBackground';
+
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 const LoginForm = () => {
 
@@ -15,7 +18,7 @@ const LoginForm = () => {
     e.preventDefault();
   
     try {
-        const res = await fetch("http://localhost:8080/api/user/login/", {
+        const res = await fetch(`${serverURL}:${serverPort}/api/user/login/`, {
             method: "POST",
 
             headers: {

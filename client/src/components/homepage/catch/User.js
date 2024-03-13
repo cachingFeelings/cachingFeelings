@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Catch.css';
 
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
+
 const User = ({ user }) => {
   const navigate = useNavigate();
   const [actionCompleted, setActionCompleted] = useState(false);
@@ -9,7 +12,7 @@ const User = ({ user }) => {
   const handleChatNowClick = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/convo/newConvo", {
+      const res = await fetch(`${serverURL}:${serverPort}/api/convo/newConvo`, {
           method: "POST",
           headers: {
               'Content-Type': 'application/json',
@@ -31,7 +34,7 @@ const User = ({ user }) => {
   const handleBlockClick = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch("http://localhost:8080/api/user/blockUser", {
+      const res = await fetch(`${serverURL}:${serverPort}/api/user/blockUser`, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',
