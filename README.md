@@ -69,11 +69,9 @@ This app will provide a safe space for them to put themselves out there and meet
 #### Feature 1: Account Creation
 > - As a user, I want to sign up, so that I can have my own account
 > - As a user, I want to be able to update profile information, so that I can show latest information to others
-> - As a user, I want to be able to edit my photos, so that I can show best profile photo to others
 > - As a user, I want to be able to change password, so that I can use new password to login
-> - As a user, I want to be able to delete profile, so that others will be no longer to see my profile
 > - As a user, I want to be able to share my interests and preferences, so that other people can see them
-> - As a user, I want to be able to add photos to my profile, so that I can show my favorite photo to others
+> - As a user, I want to be able to update photos to my profile, so that I can show my favorite photo to others
 > - As a user, I want to be able to login, so that I can access the account that I created
 
 #### Feature 2: Student (Soul) Matching
