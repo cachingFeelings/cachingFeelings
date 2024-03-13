@@ -48,7 +48,6 @@ function ImageUploadComponent(){
 
             await Promise.all(data.files.map(async (file, index) => {
                 const { uploadURL, objectKey } = file;
-                console.log(objectKey);
                 await fetch(uploadURL, {
                     method: 'PUT',
                     headers: {
@@ -63,7 +62,6 @@ function ImageUploadComponent(){
                 };
 
                 const fileKeys = updatedFilesWithKeys.map(file => file.objectKey).filter(key => key !== undefined);
-                console.log(`The filekeys are: ${fileKeys}`); 
 
                 handleChange({
                     target: {

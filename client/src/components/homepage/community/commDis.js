@@ -263,7 +263,6 @@ const CommDis = () => {
     }
   }
   
-  console.log(isConnected && posts !== undefined);
   return (
     <div className={communityPageClass}>
       <div className="fixed-header">

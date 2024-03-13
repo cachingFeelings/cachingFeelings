@@ -8,7 +8,6 @@ const {compare} = bcpkg;
 export async function createUser(req, res) {
     try {
         if (!req.body.data.username || !req.body.data.password) {
-            console.log("didn't provide username and password")
             return res.status(400).send({ message: "Username and password are required." });
         }
 

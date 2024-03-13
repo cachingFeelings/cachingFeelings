@@ -8,7 +8,6 @@ const PopupWin = ({ isOpen, onClose, userData, onLike }) => {
 
   useEffect(() => {
     const fetchImageURLs = async () => {
-      console.log(`The user data is ${userData}`); 
       if (userData && userData.pictures && userData.pictures.length > 0) {
         try {
           const imageURLs = await Promise.all(userData.pictures.map(async (mediaKey) => {

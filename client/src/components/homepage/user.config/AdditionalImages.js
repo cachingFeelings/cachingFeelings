@@ -79,14 +79,12 @@ function AdditionalImages(){
                 pictures: []
             };
             const uploadedFiles = selectedFiles.length > 0 ? await uploadFiles() : [];
-            console.log()
             if(uploadedFiles){
                 const fileKeys = uploadedFiles.map(file => file.objectKey).filter(key => key !== undefined);
     
                 if(fileKeys.length > 0){
                     payload.pictures = fileKeys;
                 }
-                console.log(selectedFiles)
     
                 const res = await fetch("http://localhost:8080/api/user/uploadImages", {
                     method: "POST",

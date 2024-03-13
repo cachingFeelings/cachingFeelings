@@ -207,7 +207,6 @@ const Finally = () => {
             if(fileKeys.length > 0){
                 payload.mediaLink = fileKeys;
             }
-            console.log(selectedFiles)
             const res = await fetch(`${serverURL}:${serverPort}/api/message/postMessage`, {
                 method: "POST",
                 headers: {

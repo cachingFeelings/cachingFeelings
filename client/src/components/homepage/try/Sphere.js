@@ -228,7 +228,6 @@ const Sphere = () => {
   }
 
   const handleModalClose = async () => {
-    console.log("Diliked", selectedUser['id']);
   
     try {
       const token = localStorage.getItem('token');
@@ -251,7 +250,6 @@ const Sphere = () => {
   };
 
   const handleLike = async () => { 
-    console.log("Liked", selectedUser['id']);
   
     try {
       const token = localStorage.getItem('token');

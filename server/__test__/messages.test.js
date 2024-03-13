@@ -89,7 +89,6 @@ describe('SET UP CONVO', () => {
         expect(response4.statusCode).toBe(200);
 
         convoId = response4.body[0]._id; 
-        console.log("The user id: ",convoId);
 
 
     });

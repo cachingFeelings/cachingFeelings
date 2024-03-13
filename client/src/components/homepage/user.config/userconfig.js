@@ -20,7 +20,6 @@ const UserConfig = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`This is being sent to the backend: old pwd: ${password}, new pwd: ${newpwd}, new image: ${profilePic}`)
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`${serverURL}:${serverPort}/api/user/modifyUser`, {
@@ -44,7 +43,6 @@ const UserConfig = () => {
   const handleConfirm = (e) => {
     const value = e.target.value;
     if(newpwd === value){
-      console.log("Passwords are the same")
       setEnabled(true); 
     }
   }

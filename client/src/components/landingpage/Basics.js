@@ -26,7 +26,6 @@ const Basics = () => {
 
 
     const checkDuplicate = async () => {
-        console.log("Checking duplicate")
         try {
             const res = await fetch(`${serverURL}:${serverPort}/api/user/validate/`, {
                 method: "POST",

@@ -132,7 +132,6 @@ export async function reportPosts(req, res) {
             return res.status(404).send({ message: "Post not found." });
         }
 
-        console.log(postToReport.author._id.toString());
         if (postToReport.author._id.toString() === userID) {
             return res.status(403).send({ message: "You cannot report your own post." });
         }

@@ -33,7 +33,6 @@ export const SignUpProvider = ({ children }) => {
 
         setData(prevData => {
             if (name === 'pictures'){
-                console.log(`The data being sent to the frontend is: ${value[0]} to key: ${name}`)
                 return {...prevData, [name]: value}; 
             }
             else if (Array.isArray(prevData[name])) {
