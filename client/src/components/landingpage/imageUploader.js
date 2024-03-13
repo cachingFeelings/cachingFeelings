@@ -82,10 +82,9 @@ function ImageUploadComponent(){
     }
 
     const content = (
-        <div>
+        <div style={{textAlign:"center"}}>
             <input type="file" multiple onChange={handleFileChange} />
-            <button onClick={handleUploadClick}>Upload Images</button>
-            <div>
+            <div style={{display:"flex", justifyContent:"center"}}>
                 {imagePreviews.map((preview, index) => (
                     <div key={index}>
                         <img src={preview.url} alt={preview.name} style={{ width: 100, height: 100 }} />
@@ -93,6 +92,7 @@ function ImageUploadComponent(){
                     </div>
                 ))}
             </div>
+            <button onClick={handleUploadClick}>Upload Images</button>
         </div>
 
     );
