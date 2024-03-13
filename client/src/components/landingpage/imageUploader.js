@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import useSignUpContext from "../../hooks/useSignUpContext"
+import useSignUpContext from "../../hooks/useSignUpContext"
 import './LandingPage'
 
 const serverURL = process.env.REACT_APP_SERVER_URL;
