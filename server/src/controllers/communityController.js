@@ -54,10 +54,9 @@ export async function testDate(req, res){
         }
     }
     
-    const date = new Date(); // Your date here
+    const date = new Date(); 
     try {
         const timeStamp = new Date('2024-03-09');
-        // const readable = timeStamp.toLocaleDateString();
         const readable = formatDate(timeStamp)
         res.status(200).send(
             {

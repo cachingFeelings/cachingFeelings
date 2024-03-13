@@ -8,7 +8,6 @@ router.post('/create_user', createUser);
 router.post('/validate', validUsername); 
 router.post('/login', login)
 
-// Use the decodeJWT middleware 
 router.get('/getMatches', decodeJWT, getInterestMatches)
 router.get('/getUser', decodeJWT, getUserData)
 router.post('/modifyUser', decodeJWT, modifyUser)

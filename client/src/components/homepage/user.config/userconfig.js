@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './userconfig.css';
 import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBackground';
-// import { Link } from "react-router-dom";
 import NavBar from '../fixedcomponents/NavBar';
 import Header from '../fixedcomponents/Header';
 import AdditionalImages from './AdditionalImages';
@@ -18,15 +17,6 @@ const UserConfig = () => {
   const handlePasswordChange = (event) => {
     setNewPwd(event.target.value);
   };
-
-  // const handleProfilePicChange = (event) => {
-  //   const file = event.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     setProfilePic(reader.result);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,11 +61,6 @@ const UserConfig = () => {
         <TwinklingBackground/>
         <AdditionalImages />
         <form className="settings-container" onSubmit={handleSubmit}>
-          {/* <div className='new-password'>
-            <label className="label" htmlFor="profilePic">Upload new profile picture:</label>
-            <input style={{maxWidth:"110px"}} type="file" id="profilePic" onChange={handleProfilePicChange} />
-            {profilePic && <img src={profilePic} alt="Profile" className="profile-picture" />}
-  </div> */}
           <div className='new-password'>
             <label className="label" htmlFor="username">Modify Password: </label>
             <input className="input-field" type="password" id="password" placeholder='New Password' onChange={handlePasswordChange} />

@@ -36,7 +36,7 @@ const SignupForm = () => {
   const handleNext = () => setPage(prev => prev + 1)
 
   const handleSignUp = async (e) => {
-    e.preventDefault() //remove later
+    e.preventDefault()
     
     try {
       const res = await fetch(`${serverURL}:${serverPort}/api/user/create_user`, {

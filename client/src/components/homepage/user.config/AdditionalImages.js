@@ -55,9 +55,6 @@ function AdditionalImages(){
                     objectKey: objectKey,
                 };
 
-                // const fileKeys = updatedFilesWithKeys.map(file => file.objectKey).filter(key => key !== undefined);
-                // console.log(`The filekeys are: ${fileKeys}`); 
-
                 setUploadStatuses(prev => ({ ...prev, [file.name]: 'Uploaded'}));
             }))
             return updatedFilesWithKeys; 
@@ -97,7 +94,7 @@ function AdditionalImages(){
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token,
                     },
-                    body: JSON.stringify(payload), // Use payload object directly
+                    body: JSON.stringify(payload),
                 });
                 const data = await res.json();
                 console.log(data); 

@@ -65,8 +65,6 @@ it('user 1 should like user 2', async () => {
             _id: userID2,
             like: true
         });
-
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
     expect(response.statusCode).toBe(201);
 });
 
@@ -78,8 +76,6 @@ it('user 2 should like user 1', async () => {
             _id: userID,
             like: true
         });
-
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
     expect(response.statusCode).toBe(201);
 });
 
@@ -92,7 +88,6 @@ it('user 2 should already like user 1, receive 400', async () => {
             like: true
         });
 
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
     expect(response.statusCode).toBe(400);
 });
 
@@ -104,8 +99,6 @@ it('user 2 should dislike user 1', async () => {
             _id: userID,
             like: false
         });
-
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
     expect(response.statusCode).toBe(201);
     
 });
@@ -119,8 +112,6 @@ it('user 2 should not be able to dislike their self', async () => {
             _id: userID2,
             like: false
         });
-
-    // Check if the response status code is 201 (Created) or other if your API behaves differently
     expect(response.statusCode).toBe(201);
     
 });

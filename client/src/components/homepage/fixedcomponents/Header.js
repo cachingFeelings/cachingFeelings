@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 const Header = () => {
 
   const handleSignOut = () => {
-    // Remove the token from local storage
     localStorage.removeItem('token');
   };
 

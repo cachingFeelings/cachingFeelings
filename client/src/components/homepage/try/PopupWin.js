@@ -20,9 +20,9 @@ const PopupWin = ({ isOpen, onClose, userData, onLike }) => {
               body: JSON.stringify({ fileName: mediaKey })
             });
             const mediaData = await mediaRes.json();
-            return mediaData.url; // Assuming the API returns { url: '...' }
+            return mediaData.url; 
           }));
-          // Filter out any failed requests (null values)
+
           setImageURLs(imageURLs.filter(url => url !== null));
         } catch (error) {
           console.error("Error fetching media URLs:", error);

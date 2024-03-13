@@ -131,7 +131,7 @@ describe('POST /postMessage', () => {
                 convoID: convoId,
             });
         expect(response.statusCode).toBe(201);
-        messageId = response.body._id; // Store messageId for later use
+        messageId = response.body._id; 
     });
 });
 

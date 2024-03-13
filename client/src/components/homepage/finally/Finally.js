@@ -17,7 +17,6 @@ const Finally = () => {
     const [newMessage, setNewMessage] = useState("");
     const [burnAfter, setBurn] = useState(false);
     const chatBoxTopRef = useRef();
-    //const pollingInterval = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
@@ -66,59 +65,52 @@ const Finally = () => {
         };
         retrieveConversations();
     }, []);
-
-    // eslint-disable-next-line 
-    const retrieveMessages = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const res = await fetch(`${serverURL}:${serverPort}/api/message/batchGetMessages?convoID=${currChat}`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token,
-                }
-            });
-            const data = await res.json();
-            let messagesWithMedia = await Promise.all(data.messageList.map(async (message) => {
-                if (message.mediaLink && message.mediaLink.length > 0) {
-                    const imageURLs = await Promise.all(message.mediaLink.map(async (mediaKey) => {
-                        try {
-                            const mediaRes = await fetch(`${serverURL}:${serverPort}/api/images/getImageURL`, {
-                                method: "POST",
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ fileName: mediaKey })
-                            });
-                            const mediaData = await mediaRes.json();
-                            return mediaData.url; // Assuming the API returns { url: '...' }
-                        } catch (error) {
-                            console.error("Error fetching media URL:", error);
-                            return null;
-                        }
-                    }));
-                    // Filter out any failed requests (null values)
-                    message.imageURLs = imageURLs.filter(url => url !== null);
-                } else {
-                    // If no mediaList, store an empty array
-                    message.imageURLs = [];
-                }
-                return message;
-            }));
-            setMessages(messagesWithMedia);
-        } catch (err) {
-            console.error("Error retrieving messages:", err);
-        }
-    };
-
+    
     useEffect(() => {
-        if (currChat) {
-            retrieveMessages();
-            //clearInterval(pollingInterval.current);
-            //pollingInterval.current = setInterval(retrieveMessages, 5000);
-        }
-        //return () => clearInterval(pollingInterval.current);
-    }, [currChat, retrieveMessages]);
+        const retrieveMessages = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const res = await fetch(`${serverURL}:${serverPort}/api/message/batchGetMessages?convoID=${currChat}`, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token,
+                    }
+                });
+                const data = await res.json();
+                let messagesWithMedia = await Promise.all(data.messageList.map(async (message) => {
+                    if (message.mediaLink && message.mediaLink.length > 0) {
+                        const imageURLs = await Promise.all(message.mediaLink.map(async (mediaKey) => {
+                            try {
+                                const mediaRes = await fetch(`${serverURL}:${serverPort}/api/images/getImageURL`, {
+                                    method: "POST",
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ fileName: mediaKey })
+                                });
+                                const mediaData = await mediaRes.json();
+                                return mediaData.url; 
+                            } catch (error) {
+                                console.error("Error fetching media URL:", error);
+                                return null;
+                            }
+                        }));
+                
+                        message.imageURLs = imageURLs.filter(url => url !== null);
+                    } else {
+       
+                        message.imageURLs = [];
+                    }
+                    return message;
+                }));
+                setMessages(messagesWithMedia);
+            } catch (err) {
+                console.error("Error retrieving messages:", err);
+            }
+        };
+        retrieveMessages(); 
+    }, [currChat]); 
 
     const handleDeleteMessage = async (messageId) => {
         try {
@@ -240,7 +232,6 @@ const Finally = () => {
             <Header />
             <NavBar />
             <TwinklingBackground />
-            {/* <div className='tempDiv'> */}
             <div className='title' style={{ color: 'white', textAlign: 'center', padding: '10px' }}>Messages</div>
             <div className="finally" style={{ height: '100vh', display: 'flex', color: 'white' }}>
                 <div className="chatMenu">
@@ -297,14 +288,9 @@ const Finally = () => {
                         )}
                     </div>
                 </div>
-            {/* </div> */}
             </div>
         </div>
     );
 }
 
 export default Finally;
-
-//TODO
-// Add handleFileChange
-// Add imagePreviews
