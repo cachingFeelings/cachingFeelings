@@ -18,7 +18,7 @@ export async function createUser(req, res) {
             password: req.body.data.password,
         }
 
-        const optionalFields = ['DOB', 'showUsersLookingFor', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
+        const optionalFields = ['DOB', 'showUsersLookingFor', 'pictures', 'matchWith', 'gender', 'interestedIn', 'bio', 'interests'];
         optionalFields.forEach(field => {
             if (req.body.data[field]) userInfo[field] = req.body.data[field];
         });
@@ -39,6 +39,33 @@ export async function createUser(req, res) {
     } catch (error) {
         res.status(400).send({ message: error.message });
     }
+}
+
+export async function uploadImages(req, res){
+    try {
+        // Find the user by ID
+        // console.log(`The request body: ${req.body}`)
+        const userInfo = req.user
+        const pictureURL = req.body.pictures; 
+        const user = await User.findById({_id: userInfo._id});
+
+        if (!user) {
+            console.error(`User with ID ${userInfo._id} not found.`);
+            return;
+        }
+        // Add the pictureURL to the pictures array
+        user.pictures.push(...pictureURL);
+
+        // Save the updated user object to MongoDB
+        await user.save();
+
+        console.log(`Picture added successfully to user with ID ${userInfo._id}.`);
+        res.status(200).send();
+    } catch (error) {
+        console.error("Error adding picture to user:", error);
+        res.status(400).send({ message: error.message });
+    }
+
 }
 
 export async function getUserData(req, res){
@@ -229,6 +256,7 @@ export async function getInterestMatches(req, res){
                 $project: {
                     username: 1,
                     interests: 1,
+                    pictures: 1,
                     commonInterestsCount: { $size: { $setIntersection: ["$interests", userInterests] } },
             }},
             {
@@ -334,4 +362,5 @@ export async function blockUser(req, res){
         res.status(400).send({ message: error.message });
     }
 }
+
 

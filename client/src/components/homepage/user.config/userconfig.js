@@ -4,6 +4,7 @@ import TwinklingBackground from '../../landingpage/TwinkleBackground/TwinkleBack
 // import { Link } from "react-router-dom";
 import NavBar from '../fixedcomponents/NavBar';
 import Header from '../fixedcomponents/Header';
+import AdditionalImages from './AdditionalImages';
 
 const serverURL = process.env.REACT_APP_SERVER_URL;
 const serverPort = process.env.REACT_APP_SERVER_PORT;
@@ -68,6 +69,7 @@ const UserConfig = () => {
       <NavBar />
       <div className="container">
         <TwinklingBackground/>
+        <AdditionalImages />
         <form className="settings-container" onSubmit={handleSubmit}>
           {/* <div className='new-password'>
             <label className="label" htmlFor="profilePic">Upload new profile picture:</label>

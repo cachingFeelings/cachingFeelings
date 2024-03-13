@@ -1,6 +1,6 @@
 import './Finally.css'
 // import {format} from "timeago.js"
-// import React, { useState } from 'react';
+//import React, { useState } from 'react';
 
 function formatDate(date) {
     const dateObj = new Date(date);

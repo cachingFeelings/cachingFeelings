@@ -9,6 +9,7 @@ const serverURL = process.env.REACT_APP_SERVER_URL;
 const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 const SignupForm = () => {
+  const navigate = useNavigate();
 
   const {
     page,
@@ -33,8 +34,6 @@ const SignupForm = () => {
   }
 
   const handleNext = () => setPage(prev => prev + 1)
-
-  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault() //remove later
@@ -99,7 +98,7 @@ const SignupForm = () => {
         </form>
       <div style={{marginTop: "20px", display: "flex", justifyContent: "space-between"}}className="button-container">
               <button type="button" className={`form-button ${prevHide} `} onClick={handlePrev} disabled={disablePrev}>Prev</button>
-              <button type="button" className={`form-button ${nextHide}`} onClick={handleNext} disabled={disableNext}>Next</button>
+              <button type="button" className={`form-button ${nextHide ? `offscreen` : ''}`} onClick={handleNext} disabled={disableNext}>Next</button>
       </div>
         <button 
               style={{marginTop: "20px"}}

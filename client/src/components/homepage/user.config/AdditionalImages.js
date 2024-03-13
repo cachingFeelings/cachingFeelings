@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import useSignUpContext from "../../hooks/useSignUpContext"
-import './LandingPage'
+import './userconfig'
 
-const serverURL = process.env.REACT_APP_SERVER_URL;
-const serverPort = process.env.REACT_APP_SERVER_PORT;
-
-function ImageUploadComponent(){ 
+function AdditionalImages(){ 
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [uploadStatuses, setUploadStatuses] = useState({});
-    
-    const { handleChange } = useSignUpContext()
 
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
@@ -34,7 +28,7 @@ function ImageUploadComponent(){
         ));
 
         try {
-            const response = await fetch(`${serverURL}:${serverPort}/api/images/generateUploadUrls`, {
+            const response = await fetch("http://localhost:8080/api/images/generateUploadUrls", {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -48,7 +42,6 @@ function ImageUploadComponent(){
 
             await Promise.all(data.files.map(async (file, index) => {
                 const { uploadURL, objectKey } = file;
-                console.log(objectKey);
                 await fetch(uploadURL, {
                     method: 'PUT',
                     headers: {
@@ -62,18 +55,12 @@ function ImageUploadComponent(){
                     objectKey: objectKey,
                 };
 
-                const fileKeys = updatedFilesWithKeys.map(file => file.objectKey).filter(key => key !== undefined);
-                console.log(`The filekeys are: ${fileKeys}`); 
-
-                handleChange({
-                    target: {
-                        name: 'pictures',
-                        value: fileKeys
-                    }
-                })
+                // const fileKeys = updatedFilesWithKeys.map(file => file.objectKey).filter(key => key !== undefined);
+                // console.log(`The filekeys are: ${fileKeys}`); 
 
                 setUploadStatuses(prev => ({ ...prev, [file.name]: 'Uploaded'}));
             }))
+            return updatedFilesWithKeys; 
 
         } catch (error){
             console.error('Upload error:', error);
@@ -85,10 +72,48 @@ function ImageUploadComponent(){
         uploadFiles();
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            
+            const token = localStorage.getItem('token');
+    
+            const payload = {
+                pictures: []
+            };
+            const uploadedFiles = selectedFiles.length > 0 ? await uploadFiles() : [];
+            console.log()
+            if(uploadedFiles){
+                const fileKeys = uploadedFiles.map(file => file.objectKey).filter(key => key !== undefined);
+    
+                if(fileKeys.length > 0){
+                    payload.pictures = fileKeys;
+                }
+                console.log(selectedFiles)
+    
+                const res = await fetch("http://localhost:8080/api/user/uploadImages", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token,
+                    },
+                    body: JSON.stringify(payload), // Use payload object directly
+                });
+                const data = await res.json();
+                console.log(data); 
+                setImagePreviews([]);
+                setSelectedFiles([]);
+        }
+        } catch (err) {
+            console.error("Error submitting message:", err);
+        }
+    };
+
     const content = (
-        <div style={{textAlign:"center"}}>
+        <div>
             <input type="file" multiple onChange={handleFileChange} />
-            <div style={{display:"flex", justifyContent:"center"}}>
+            <button onClick={handleUploadClick}>Upload Images</button>
+            <div>
                 {imagePreviews.map((preview, index) => (
                     <div key={index}>
                         <img src={preview.url} alt={preview.name} style={{ width: 100, height: 100 }} />
@@ -96,11 +121,11 @@ function ImageUploadComponent(){
                     </div>
                 ))}
             </div>
-            <button onClick={handleUploadClick}>Upload Images</button>
+            <button onClick={handleSubmit}>Save new images</button>
         </div>
 
     );
     return content;
 }
 
-export default ImageUploadComponent;
+export default AdditionalImages;
