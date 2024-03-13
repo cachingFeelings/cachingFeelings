@@ -128,11 +128,11 @@ animation: border-color-change 4s infinite;
 
 .span {
   padding: 5px 10px;
-  background-color: transparent; /* Button background color */
-  color: #fff; /* Button text color */
-  border: 1px solid white; /* Remove button border */
-  border-radius: 5px; /* Add some border radius for rounded corners */
-  cursor: pointer; /* Change cursor to pointer on hover */
+  background-color: transparent; 
+  color: #fff; 
+  border: 1px solid white; 
+  border-radius: 5px; 
+  cursor: pointer; 
   margin-right: 10px; 
 }
 
@@ -144,41 +144,3 @@ animation: border-color-change 4s infinite;
 textarea {
   width: 100%; 
 }
-
-
-
-
-/*Code below is the intro animation*/
-
-/* .homepage-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.logo-container {
-  position: absolute;
-  top: 50%;
-  left: -100%;
-  transform: translateY(-50%);
-  transition: left 2s ease-out;
-}
-
-.login-form {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  opacity: 0;
-  transition: top 2s ease-out, opacity 2s ease-out;
-}
-
-.revealed {
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 1;
-  top: 50%;
-} */

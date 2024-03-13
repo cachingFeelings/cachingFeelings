@@ -407,19 +407,3 @@ describe('GET /getFinally', () => {
 
 });
 
-
-// describe('PUT /blockUser', () => {
-//     it('should return a 201 output and block user', async () => {
-//         const response = await request(app)
-//             .put('/api/user/blockUser')
-//             .set('Authorization', `Bearer ${token}`)
-//             .send({username: 'test55User'})
-
-//         //console.log("Report: ", response)
-
-//         expect(response.statusCode).toBe(201);
-
-//     });
-
-// });
-

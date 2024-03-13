@@ -89,7 +89,6 @@ describe('SET UP CONVO', () => {
         expect(response4.statusCode).toBe(200);
 
         convoId = response4.body[0]._id; 
-        console.log("The user id: ",convoId);
 
 
     });
@@ -131,7 +130,7 @@ describe('POST /postMessage', () => {
                 convoID: convoId,
             });
         expect(response.statusCode).toBe(201);
-        messageId = response.body._id; // Store messageId for later use
+        messageId = response.body._id; 
     });
 });
 

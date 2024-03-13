@@ -34,7 +34,6 @@ export async function generateUploadURLs(req, res){
     )
 
     const successfulUploads = response.filter((file) => !file.error);
-    console.log(successfulUploads);
     res.status(200).json({files: successfulUploads});
 }
 

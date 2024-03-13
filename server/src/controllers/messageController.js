@@ -1,32 +1,17 @@
 import Message from '../models/messageModel.js'
 import Convo from '../models/convoModel.js'
 
-
-// TODO
-// Update the function to return signedURL of attachments too
-// update front end too
 export async function batchGetMessages(req, res){
     try{
-        // const userID = req.user._id;
-
-        // const messageIdList = req.body.messageIDs;
         const messageList = await Message.find({
-            convoID : req.query.convoID, //{ $in: messageIdList }, 
+            convoID : req.query.convoID,  
             $or: [ 
                 { burnAfterRead: { $ne: true } }, 
                 { seen: { $ne: true } }
             ]
         }).sort({ timeStamp: 1 });
         
-        //REMOVE AFTER TESTING
-        const unauthorized = false//messageList.some(message => !message.to.equals(userID) && !message.from.equals(userID));
-        
-        
-        if(unauthorized){
-            res.status(401).send("Accessing Unauthorized Resources");
-        } else {
-            res.status(201).send({ messageList });
-        }
+        res.status(201).send({ messageList });
     } catch (error) {
         if (error.kind == 'ObjectId' || error.name === 'CastError'){
             res.status(404).send({message: "Invalid Message IDs provided"});
@@ -39,13 +24,11 @@ export async function batchGetMessages(req, res){
 export async function getMessages(req, res){
     try{
         const userID = req.user._id;
-        console.log("User id: ", userID);
         const messageId = req.body.messageID;
         const message = await Message.findOne({ _id : messageId });
-        console.log(" log: ", message);
         
         const unauthorized = !message.to.equals(userID) && !message.to.equals(userID);
-        console.log("unauthroized: ", message.to);
+        
         if(unauthorized){
             res.status(401).send("Accessing Unauthorized Resources");
         } else if (message.burnAfterRead && message.seen){
@@ -69,18 +52,11 @@ export async function postMessage(req, res){
             throw new Error("Message cannot be empty - at least need a body and a ")
         }
 
-        //No longer need this?
-        // const thisConvoID = req.user.matches.get(req.body.to);
-        // if (!thisConvoID){
-        //     throw new Error("You have to match with the user first");
-        // }
-
         const convo = await Convo.findOne({_id: req.body.convoID});
 
         if(!convo){
             return res.status(404).send({message: "Convo Id Not Found"});
         }
-
 
         const messageInfo = {
             from: req.user._id,

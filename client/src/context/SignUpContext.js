@@ -33,7 +33,6 @@ export const SignUpProvider = ({ children }) => {
 
         setData(prevData => {
             if (name === 'pictures'){
-                console.log(`The data being sent to the frontend is: ${value[0]} to key: ${name}`)
                 return {...prevData, [name]: value}; 
             }
             else if (Array.isArray(prevData[name])) {
@@ -48,20 +47,11 @@ export const SignUpProvider = ({ children }) => {
         }); 
     }; 
 
-    // const { ...requiredInputs } = data
-    //will check to make sure none of the values in data are an empty string
-    const canSubmit = page === Object.keys(title).length - 1//[...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1
+    const canSubmit = page === Object.keys(title).length - 1
 
-    const canNextPage1 = true // Object.keys(data)
-        // .slice(0, 5)
-        // .map(key => data[key])
-        // .every(Boolean)
+    const canNextPage1 = true 
 
-    const canNextPage2 = true //Object.keys(data)
-        // .slice(5, 8)
-        // .map(key => data[key])
-        // .every(Boolean)
-
+    const canNextPage2 = true 
 
     const disablePrev = page === -1
 
@@ -73,9 +63,9 @@ export const SignUpProvider = ({ children }) => {
 
     const prevHide = page === 0 && "remove-button"
 
-    const nextHide = page === Object.keys(title).length - 1 //&& "remove-button"
+    const nextHide = page === Object.keys(title).length - 1 
 
-    const submitHide = page !== Object.keys(title).length - 1 //&& "remove-button"
+    const submitHide = page !== Object.keys(title).length - 1 
 
     return (
         <SignUpContext.Provider value={{ title, page, setPage, data, setData, canSubmit, handleChange, disablePrev, disableNext, prevHide, nextHide, submitHide }}>

@@ -1,7 +1,6 @@
 import React from 'react';
 import Basics from "./Basics"
 import About from "./About"
-// import Images from "./Images"
 import ImageUploadComponent from './imageUploader';
 import useSignUpContext from "../../hooks/useSignUpContext"
 import './LandingPage'
