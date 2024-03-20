@@ -16,7 +16,7 @@ function Container() {
           <Link to="/login" className="link-button">Login</Link>
           <Link to="/signup" className="link-button">Sign Up</Link>
         </div>
-        <h2>Your soulmate is waiting...</h2>
+        <h2>Your soulmate is waiting test test...</h2>
       </div>
     </div>
   );
