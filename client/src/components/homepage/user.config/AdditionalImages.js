@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import './userconfig'
+import './userconfig.css'
+
+const serverURL = process.env.REACT_APP_SERVER_URL;
+const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 function AdditionalImages(){ 
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [uploadStatuses, setUploadStatuses] = useState({});
+    const [uploaded, setUploaded] = useState(false);
 
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
@@ -28,7 +33,7 @@ function AdditionalImages(){
         ));
 
         try {
-            const response = await fetch("http://localhost:8080/api/images/generateUploadUrls", {
+            const response = await fetch(`${serverURL}:${serverPort}/api/images/generateUploadUrls`, {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -67,6 +72,7 @@ function AdditionalImages(){
     function handleUploadClick(event){
         event.preventDefault();
         uploadFiles();
+        setUploaded(true);
     }
 
     const handleSubmit = async (e) => {
@@ -78,7 +84,9 @@ function AdditionalImages(){
             const payload = {
                 pictures: []
             };
+
             const uploadedFiles = selectedFiles.length > 0 ? await uploadFiles() : [];
+
             if(uploadedFiles){
                 const fileKeys = uploadedFiles.map(file => file.objectKey).filter(key => key !== undefined);
     
@@ -86,7 +94,7 @@ function AdditionalImages(){
                     payload.pictures = fileKeys;
                 }
     
-                const res = await fetch("http://localhost:8080/api/user/uploadImages", {
+                const res = await fetch(`${serverURL}:${serverPort}/api/user/uploadImages`, {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
@@ -94,31 +102,35 @@ function AdditionalImages(){
                     },
                     body: JSON.stringify(payload),
                 });
-                const data = await res.json();
-                console.log(data); 
-                setImagePreviews([]);
-                setSelectedFiles([]);
-        }
+
+                if (res.ok) {
+                    alert("Profile picture updated successfully!");
+                } else {
+                    alert("Failed to update your profile picture :(");
+                }
+            }
         } catch (err) {
             console.error("Error submitting message:", err);
+            alert("Something went wrong :(");
         }
     };
 
     const content = (
-        <div>
+        <div className='settings-picture-container'>
             <input type="file" multiple onChange={handleFileChange} />
-            <button onClick={handleUploadClick}>Upload Images</button>
-            <div>
+            <p style={{color:"white"}}>After choose new picture, click on upload first, then click on save</p>
+
+            <div className='settings-preview-container'>
                 {imagePreviews.map((preview, index) => (
-                    <div key={index}>
-                        <img src={preview.url} alt={preview.name} style={{ width: 100, height: 100 }} />
-                        <p>{uploadStatuses[preview.name] || 'Pending'}</p>
+                    
+                    <div className='profile-picture-container' key={index}>
+                        <button className='upload-image-button' onClick={handleUploadClick}>{uploadStatuses[preview.name] || 'Upload Image'}</button>
+                        <img className='profile-picture' src={preview.url} alt={preview.name} />
                     </div>
                 ))}
             </div>
-            <button onClick={handleSubmit}>Save new images</button>
+            <button className='save-new-image-button' style={{display: uploaded ? 'inline-block' : 'none'}} onClick={handleSubmit}>Update Profile Picture</button>
         </div>
-
     );
     return content;
 }
