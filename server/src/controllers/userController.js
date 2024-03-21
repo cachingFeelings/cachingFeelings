@@ -47,7 +47,7 @@ export async function uploadImages(req, res){
             return;
         }
 
-        user.pictures.push(...pictureURL);
+        user.pictures = pictureURL;
 
         await user.save();
 
