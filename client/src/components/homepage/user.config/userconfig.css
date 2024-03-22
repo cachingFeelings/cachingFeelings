@@ -138,5 +138,32 @@ input[type="config-password"] {
     width: 100%;
 }
 
+.current-media-link {
+    display: flex;
+    align-items: center;
+}
+
+.current-media-preview {
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+}
+
+.current-profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    margin-top: 16%;
+    margin-bottom: 5%;
+    margin-right: 4%;
+}
+
+.current-user-name {
+    color: white;
+    margin-top: 16%;
+    margin-left: 4%;
+}
+
+
 
   
