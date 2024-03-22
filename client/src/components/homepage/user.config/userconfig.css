@@ -1,10 +1,58 @@
 .config-page {
-    display: flex;
+    display: grid;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-height: 100vh;
-    overflow: auto;
+    height: 80vh;
+    overflow: scroll;
+}
+
+@media (min-width: 0px) and (max-width: 768px) and (max-height: 380px) {
+    .config-page {
+        height: 35vh;
+    }
+}
+
+@media (min-width: 0px) and (max-width: 768px) and (min-height: 381px) and (max-height: 500px) {
+    .config-page {
+        height: 50vh;
+    }
+}
+
+@media (min-width: 0px) and (max-width: 768px) and (min-height: 501px) and (max-height: 600px) {
+    .config-page {
+        height: 60vh;
+    }
+}
+
+@media (min-width: 0px) and (max-width: 768px) and (min-height: 601px) and (max-height: 700px) {
+    .config-page {
+        height: 70vh;
+    }
+}
+
+@media (min-width: 0px) and (max-width: 768px) and (min-height: 701px) {
+    .config-page {
+        height: 75vh;
+    }
+}
+
+@media (min-width: 769px) and (max-height: 500px) {
+    .config-page {
+        height: 60vh;
+    }
+}
+
+@media (min-width: 769px) and (min-height: 501px) and (max-height: 630px) {
+    .config-page {
+        height: 70vh;
+    }
+}
+
+@media (min-width: 769px) and (min-height: 631px) {
+    .config-page {
+        height: 80vh;
+    }
 }
 
 .twinkling-background {
@@ -92,16 +140,6 @@ input[type="file"] {
     width: 91.5%;
 }
 
-input[type="config-password"] {
-    color: black;
-    cursor: pointer;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    margin-top: 0.5%;
-    width: 500px;
-}
-
 .profile-picture-container {
     width: 100px;
     height: 110px;
@@ -123,6 +161,13 @@ input[type="config-password"] {
     width: 463px;
     margin-top: 5%;
     margin-bottom: 10%;
+}
+
+.settings-password-container {
+    display: grid;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .label {
@@ -154,7 +199,7 @@ input[type="config-password"] {
     height: 100px;
     border-radius: 100%;
     margin-top: 16%;
-    margin-bottom: 5%;
+    margin-bottom: 4%;
     margin-right: 4%;
 }
 
