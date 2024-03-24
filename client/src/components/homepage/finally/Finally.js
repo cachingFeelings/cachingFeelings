@@ -248,7 +248,7 @@ const Finally = () => {
             "Hi! What’s a song that you have on repeat these days?",
             "Hello! Are you an animal lover? Do you have pets?",
             "Hi! Your profile picture is amazing. Where was it taken?",
-            "Hello! I see you're into [hobby]. Got any tips for a beginner?",
+            "Hello! I see you're into coding. Got any tips for a beginner?",
             "Hi there! Came across your profile and thought you seem interesting. What’s your favorite way to spend a weekend?",
             "Hi! Your taste in music is awesome. Who's your favorite artist right now?",
             "Hello! I’m always looking to meet new people. What’s something exciting you’ve done recently?",
@@ -278,7 +278,9 @@ const Finally = () => {
             "Hey! Do you have a favorite quote or saying that inspires you?",
             "Hi there! What’s a simple pleasure that makes your day better?"
         ];
-        alert("hello");
+
+        const index = Math.floor(Math.random() * 50);
+        alert(iceBreakerLib[index]);
     };
 
     return (
