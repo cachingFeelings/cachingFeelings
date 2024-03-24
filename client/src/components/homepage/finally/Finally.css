@@ -115,12 +115,12 @@
     bottom: 0;
     padding: 10px;
     gap: 32px;
+    overflow-y: scroll;
 }
 
 .chatMenuWrapper,
 .chatBoxWrapper {
     padding: 10px;
-
 }
 
 .conversation {
