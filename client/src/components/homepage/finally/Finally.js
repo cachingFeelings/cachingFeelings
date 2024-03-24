@@ -278,7 +278,7 @@ const Finally = () => {
             "Hey! Do you have a favorite quote or saying that inspires you?",
             "Hi there! What’s a simple pleasure that makes your day better?"
         ];
-        alrt("hello");
+        alert("hello");
     };
 
     return (
