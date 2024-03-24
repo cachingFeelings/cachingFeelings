@@ -20,8 +20,6 @@ const Finally = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
-    const iceBreakerMessages = ["Hi there!", "How's it going?", "What's up?"];
-
     useEffect(() => {
         if (chatBoxTopRef.current) {
             chatBoxTopRef.current.scrollTop = chatBoxTopRef.current.scrollHeight;
