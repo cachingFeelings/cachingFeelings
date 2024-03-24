@@ -225,7 +225,7 @@ const Finally = () => {
         }
     };
 
-    const sendRandomIceBreaker = async () => {
+    const sendRandomIceBreaker = async (e) => {
         const iceBreakerLib = [
             "Hi there! How's your day going?",
             "Hey! I noticed we share an interest in computer science. Have you been involved in it long?",
@@ -280,7 +280,41 @@ const Finally = () => {
         ];
 
         const index = Math.floor(Math.random() * 50);
-        alert(iceBreakerLib[index]);
+        const newIcebreakerMsg = iceBreakerLib[index];
+
+        e.preventDefault();
+
+        try {
+            const token = localStorage.getItem('token');
+
+            const payload = {
+                body: newIcebreakerMsg,
+                convoID: currChat,
+                burnAfterRead: burnAfter,
+            };
+            const uploadedFiles = selectedFiles.length > 0 ? await uploadFiles() : [];
+
+            const fileKeys = uploadedFiles.map(file => file.objectKey).filter(key => key !== undefined);
+
+            if (fileKeys.length > 0) {
+                payload.mediaLink = fileKeys;
+            }
+            const res = await fetch(`${serverURL}:${serverPort}/api/message/postMessage`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify(payload),
+            });
+            const data = await res.json();
+            setMessages([...messages, data]);
+            setNewMessage("");
+            setImagePreviews([]);
+            setSelectedFiles([]);
+        } catch (err) {
+            console.error("Error submitting message:", err);
+        }
     };
 
     return (
@@ -325,7 +359,6 @@ const Finally = () => {
                                         <input type="file" id="fileInput" multiple className="fileInput" onChange={handleFileChange} />
                                         <div className='buttonAndBurn'>
                                             <button className='chatSubmitButton' onClick={handleSubmit}>Send</button>
-                                            {/* here */}
                                             <button className="iceBreakerMainButton" onClick={sendRandomIceBreaker}>Ice Breaker</button>
                                             <div>
                                                 <input
