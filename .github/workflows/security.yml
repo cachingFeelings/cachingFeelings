@@ -1,4 +1,4 @@
-name: Static Analysis Scan
+name: static analysis Scan
 
 on:
   push:
