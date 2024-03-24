@@ -109,6 +109,12 @@ const Finally = () => {
             }
         };
     
+        // Execute once immediately upon mounting or when currChat changes
+        if (currChat) {
+            retrieveMessages();
+        }
+    
+        // Then set up the interval for subsequent executions
         const intervalId = setInterval(() => {
             if (currChat) {
                 retrieveMessages();
