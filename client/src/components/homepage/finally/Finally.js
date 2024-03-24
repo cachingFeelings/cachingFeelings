@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Header from '../fixedcomponents/Header'; 
+import Header from '../fixedcomponents/Header';
 import NavBar from '../fixedcomponents/NavBar';
 import './Finally.css';
 import Avatar from 'react-avatar';
@@ -10,15 +10,17 @@ const serverURL = process.env.REACT_APP_SERVER_URL;
 const serverPort = process.env.REACT_APP_SERVER_PORT;
 
 const Finally = () => {
-    const [theUser, setUserID] = useState(null); 
-    const [convos, setConvos] = useState([]); 
-    const [currChat, setCurrChat] = useState(null); 
-    const [messages, setMessages] = useState([]); 
+    const [theUser, setUserID] = useState(null);
+    const [convos, setConvos] = useState([]);
+    const [currChat, setCurrChat] = useState(null);
+    const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [burnAfter, setBurn] = useState(false);
     const chatBoxTopRef = useRef();
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
+
+    const iceBreakerMessages = ["Hi there!", "How's it going?", "What's up?"];
 
     useEffect(() => {
         if (chatBoxTopRef.current) {
@@ -65,7 +67,7 @@ const Finally = () => {
         };
         retrieveConversations();
     }, []);
-    
+
     useEffect(() => {
         const retrieveMessages = async () => {
             try {
@@ -90,16 +92,16 @@ const Finally = () => {
                                     body: JSON.stringify({ fileName: mediaKey })
                                 });
                                 const mediaData = await mediaRes.json();
-                                return mediaData.url; 
+                                return mediaData.url;
                             } catch (error) {
                                 console.error("Error fetching media URL:", error);
                                 return null;
                             }
                         }));
-                
+
                         message.imageURLs = imageURLs.filter(url => url !== null);
                     } else {
-       
+
                         message.imageURLs = [];
                     }
                     return message;
@@ -109,8 +111,8 @@ const Finally = () => {
                 console.error("Error retrieving messages:", err);
             }
         };
-        retrieveMessages(); 
-    }, [currChat]); 
+        retrieveMessages();
+    }, [currChat]);
 
     const handleDeleteMessage = async (messageId) => {
         try {
@@ -144,28 +146,28 @@ const Finally = () => {
 
     const uploadFiles = async () => {
         if (!selectedFiles.length) return;
-    
+
         const fileInfo = selectedFiles.map(file => ({
             name: file.name,
             type: file.type,
         }));
-    
+
         try {
             const response = await fetch(`${serverURL}:${serverPort}/api/images/generateUploadUrls`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({files: fileInfo}),
+                body: JSON.stringify({ files: fileInfo }),
             });
-    
+
             const data = await response.json();
-    
+
             const updatedFilesWithKeys = [...selectedFiles];
-    
+
             await Promise.all(data.files.map(async (file, index) => {
                 const { uploadURL, objectKey } = file;
-    
+
                 await fetch(uploadURL, {
                     method: 'PUT',
                     headers: {
@@ -173,26 +175,24 @@ const Finally = () => {
                     },
                     body: selectedFiles[index],
                 });
-    
+
                 updatedFilesWithKeys[index] = {
                     ...updatedFilesWithKeys[index],
                     objectKey: objectKey,
                 };
             }));
-    
-            setSelectedFiles(updatedFilesWithKeys); 
-            return updatedFilesWithKeys; 
+
+            setSelectedFiles(updatedFilesWithKeys);
+            return updatedFilesWithKeys;
         } catch (error) {
             console.error('Upload error:', error);
             return [];
         }
     }
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            
             const token = localStorage.getItem('token');
 
             const payload = {
@@ -204,7 +204,7 @@ const Finally = () => {
 
             const fileKeys = uploadedFiles.map(file => file.objectKey).filter(key => key !== undefined);
 
-            if(fileKeys.length > 0){
+            if (fileKeys.length > 0) {
                 payload.mediaLink = fileKeys;
             }
             const res = await fetch(`${serverURL}:${serverPort}/api/message/postMessage`, {
@@ -225,6 +225,14 @@ const Finally = () => {
         }
     };
 
+    const sendRandomIceBreaker = async () => {
+        if (!currChat) {
+            alert('Please select a conversation first!');
+            return;
+        }
+        const randomMessage = iceBreakerMessages[Math.floor(Math.random() * iceBreakerMessages.length)];
+        await handleSubmit(randomMessage); // Corrected line
+    };
 
     return (
         <div>
@@ -265,10 +273,11 @@ const Finally = () => {
                                     <div className='chatBoxBottom'>
                                         <textarea className="chatMessageInput" placeholder='Send a new message...' onChange={(e) => setNewMessage(e.target.value)} value={newMessage}></textarea>
                                         <label htmlFor="fileInput" className="fileInputLabel">Add Attachments</label>
-                                        <input type="file" id="fileInput" multiple className="fileInput" onChange={handleFileChange}/>
-
+                                        <input type="file" id="fileInput" multiple className="fileInput" onChange={handleFileChange} />
                                         <div className='buttonAndBurn'>
                                             <button className='chatSubmitButton' onClick={handleSubmit}>Send</button>
+                                            {/* here */}
+                                            <button className="iceBreakerMainButton" onClick={sendRandomIceBreaker}>Ice Breaker</button>
                                             <div>
                                                 <input
                                                     id="burnCheckbox"
@@ -280,6 +289,13 @@ const Finally = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    {/* <div className="iceBreakers">
+                                        {iceBreakerMessages.map((msg, index) => (
+                                            <button key={index} onClick={() => sendRandomIceBreaker(msg)} className="iceBreakerButton">
+                                                {msg}
+                                            </button>
+                                        ))}
+                                    </div> */}
                                 </div>
                             </>
                         ) : (
