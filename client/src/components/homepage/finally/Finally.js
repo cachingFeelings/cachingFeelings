@@ -96,10 +96,9 @@ const Finally = () => {
                                 return null;
                             }
                         }));
-
+    
                         message.imageURLs = imageURLs.filter(url => url !== null);
                     } else {
-
                         message.imageURLs = [];
                     }
                     return message;
@@ -109,8 +108,17 @@ const Finally = () => {
                 console.error("Error retrieving messages:", err);
             }
         };
-        retrieveMessages();
-    }, [currChat]);
+    
+        const intervalId = setInterval(() => {
+            if (currChat) {
+                retrieveMessages();
+            }
+        }, 5000); // Fetch new messages every 5 seconds
+    
+        // Clean up the interval on component unmount or when currChat changes
+        return () => clearInterval(intervalId);
+    }, [currChat]); // Dependency array, ensures the interval is reset if currChat changes
+    
 
     const handleDeleteMessage = async (messageId) => {
         try {
