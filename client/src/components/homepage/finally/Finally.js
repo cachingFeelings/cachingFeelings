@@ -226,12 +226,59 @@ const Finally = () => {
     };
 
     const sendRandomIceBreaker = async () => {
-        if (!currChat) {
-            alert('Please select a conversation first!');
-            return;
-        }
-        const randomMessage = iceBreakerMessages[Math.floor(Math.random() * iceBreakerMessages.length)];
-        await handleSubmit(randomMessage); // Corrected line
+        const iceBreakerLib = [
+            "Hi there! How's your day going?",
+            "Hey! I noticed we share an interest in computer science. Have you been involved in it long?",
+            "Hello! Came across your profile and you seem really cool. What do you like to do for fun?",
+            "Hi! How do you usually spend your weekends?",
+            "Hey there! Are you working on any personal projects right now?",
+            "Hi! I’m always looking for book/music/movie recommendations. Got any favorites?",
+            "Hey! What's something you're passionate about?",
+            "Hello! Have you traveled anywhere interesting recently?",
+            "Hi there! What's the best thing that happened to you this week?",
+            "Hey! What’s a hobby you’ve always wanted to pick up but never did?",
+            "Hi! Do you have a favorite go-to coffee shop or restaurant in town?",
+            "Hey! If you could learn one new skill instantly, what would it be?",
+            "Hello! Seen any good movies or shows lately?",
+            "Hi there! Are you a morning person or a night owl?",
+            "Hey! I’m curious, what’s your idea of a perfect day?",
+            "Hello! What’s the most interesting fact you know?",
+            "Hi! Do you enjoy cooking? What’s your signature dish?",
+            "Hey there! Are you into sports? What’s your favorite to watch or play?",
+            "Hi! What’s a song that you have on repeat these days?",
+            "Hello! Are you an animal lover? Do you have pets?",
+            "Hi! Your profile picture is amazing. Where was it taken?",
+            "Hello! I see you're into [hobby]. Got any tips for a beginner?",
+            "Hi there! Came across your profile and thought you seem interesting. What’s your favorite way to spend a weekend?",
+            "Hi! Your taste in music is awesome. Who's your favorite artist right now?",
+            "Hello! I’m always looking to meet new people. What’s something exciting you’ve done recently?",
+            "Hey! I’m curious, what’s one movie or book that changed your life?",
+            "Hi! If you could wake up tomorrow having gained one quality or ability, what would it be?",
+            "Hello! Do you have a go-to fun fact about yourself?",
+            "Hey there! What’s a hobby or activity you’ve been wanting to try but haven’t yet?",
+            "Hi! Is there a cause or issue you’re really passionate about?",
+            "Hello! What’s the most spontaneous thing you’ve ever done?",
+            "Hey! What’s something you’re proud of but never have an excuse to talk about?",
+            "Hi! If you could live anywhere in the world for a year, where would it be?",
+            "Hello! I’m looking to expand my horizons. What’s one thing you think everyone should try at least once?",
+            "Hey! What’s a simple thing that makes you smile?",
+            "Hi there! What’s something you’re looking forward to in the near future?",
+            "Hello! What’s your favorite way to unwind after a busy day?",
+            "Hey! I’m always curious about what drives people. What’s your biggest motivation?",
+            "Hi! Came across your profile and was intrigued. What’s a passion of yours?",
+            "Hello! Just diving in, but what's a movie you could watch over and over?",
+            "Hey there! I’m always looking for book recommendations. Got any favorites?",
+            "Hi! I'm curious, what’s something that made you smile today?",
+            "Hey! I love discovering new music. What song do you have on repeat right now?",
+            "Hello! If you could teleport anywhere this weekend, where would you go?",
+            "Hi! I’m on a mission to try new cuisines. What’s your favorite food?",
+            "Hey! In the spirit of getting to know each other, what's a hobby you're really into?",
+            "Hello! Quick question to start us off: beach or mountains?",
+            "Hey there! What’s one thing you wish people knew about you?",
+            "Hey! Do you have a favorite quote or saying that inspires you?",
+            "Hi there! What’s a simple pleasure that makes your day better?"
+        ];
+        alrt("hello");
     };
 
     return (
@@ -289,13 +336,9 @@ const Finally = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {/* <div className="iceBreakers">
-                                        {iceBreakerMessages.map((msg, index) => (
-                                            <button key={index} onClick={() => sendRandomIceBreaker(msg)} className="iceBreakerButton">
-                                                {msg}
-                                            </button>
-                                        ))}
-                                    </div> */}
+                                    <div id="buttonContainer">
+
+                                    </div>
                                 </div>
                             </>
                         ) : (
