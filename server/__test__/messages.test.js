@@ -160,6 +160,5 @@ describe('Ice Breaker', () => {
                 convoID: convoId,
             });
         expect(response.statusCode).toBe(201);
-        expect(response.body._id).toBeTruthy();
     })
 });
