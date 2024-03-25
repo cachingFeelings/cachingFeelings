@@ -146,19 +146,18 @@ describe('MESSAGES', () => {
         });
     });
 
-});
+    describe('Ice Breaker Button', () => {
+        it('should send a specific ice breaker message', async () => {
+            const iceBreakerMessage = "Hey! What's something you're passionate about?";
 
-describe('Ice Breaker', () => {
-    it('should send a specific ice breaker messsage', async () => {
-        const iceBreakerMessage = "Hey! What's something you're passionate about?";
-
-        const response = await request(app)
-            .post('/api/message/postMessage')
-            .set('Authorization', `Bearer ${tokenUser1}`)
-            .send({
-                body: iceBreakerMessage,
-                convoID: convoId,
-            });
-        expect(response.statusCode).toBe(201);
-    })
+            const response = await request(app)
+                .post('/api/message/postMessage')
+                .set('Authorization', `Bearer ${tokenUser1}`)
+                .send({
+                    body: iceBreakerMessage,
+                    convoID: convoId,
+                });
+            expect(response.statusCode).toBe(201);
+        });
+    });
 });
