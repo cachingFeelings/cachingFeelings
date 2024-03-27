@@ -62,13 +62,13 @@ This app will provide a safe space for them to put themselves out there and meet
 > * Student (Soul) Matching: users will be able to find matches
 > * Interact with Matches: users will be able to interact with matches
 > * Community Discovery: users will be able to view all profiles on the app
+> * Ice breaker: users will be able to start conversation with randomly chosen sentence 
 > * Non-functional Secure Authentication: user passwords will not be stored in the database
 
 ### User stories for each feature
 
 #### Feature 1: Account Creation
 > - As a user, I want to sign up, so that I can have my own account
-> - As a user, I want to be able to update profile information, so that I can show latest information to others
 > - As a user, I want to be able to edit my photos, so that I can show best profile photo to others
 > - As a user, I want to be able to change password, so that I can use new password to login
 > - As a user, I want to be able to delete profile, so that others will be no longer to see my profile
@@ -93,7 +93,10 @@ This app will provide a safe space for them to put themselves out there and meet
 > - As a user, I want to post my own thoughts to community, so that everyone can see my thoughts
 > - As a user, I want to like and dislike thoughts, so that I can express my attitude to that thought
 > - As a user, I want to delete my own thought, so that others will not see that thought
-> - As a user, I want to report inappropriate or offensive content in the community, so that the community can stay in peace and love
+> - As a user, I want to report inappropriate or offensive content in my community, so that my community can stay in peace and love
+
+### Feature 5: Ice Breaker
+> - As a user, I want to send a random message to the person I am currently messaging, so that I can start a smoother conversation
 
 #### Non Functional Feature: Secure Authentication
 > User passwords will not be stored in the database and the app will use secure authentication token provided by JSON Web Token
